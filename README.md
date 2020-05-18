@@ -1,2 +1,4 @@
-# SBDI4R
-R package to search and access data made available through the Swedish biodiversity data infrastructure SBDI
+# r-functionality
+R functionality for SBDI data portal
+
+Here we compile R code (functions, potential package) to be used with the SBDI.
