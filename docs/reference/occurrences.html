@@ -270,32 +270,7 @@ The columns of the dataframe will depend on the requested fields</p>
     <div class='dont-index'><p><code><a href='sbdi_config.html'>sbdi_reasons</a></code> for download reasons; <code><a href='sbdi_config.html'>sbdi_config</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"data_resource_uid:dr5"</span>, <span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='st'>"testing"</span>, <span class='kw'>fields</span><span class='kw'>=</span><span class='st'>"all"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Accipiter"</span>,<span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"decimalLongitude"</span>,<span class='st'>"decimalLatitude"</span>,
-  <span class='st'>"vernacularName"</span>,<span class='st'>"taxonRank"</span>,<span class='st'>"rights"</span>),<span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
- <span class='co'>## download records in polygon, with no quality assertion information</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Accipiter"</span>,<span class='kw'>wkt</span><span class='kw'>=</span><span class='st'>"POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"</span>,
-<span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>qa</span><span class='kw'>=</span><span class='st'>"none"</span>,<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='no'>T</span>)
-
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"taxon_name:\"Accipiter gentilis\""</span>,
-<span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"decimalLatitude"</span>,<span class='st'>"decimalLongitude"</span>,<span class='st'>"recordedBy"</span>),
-<span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>y</span>)
-<span class='co'># equivalent direct webservice call [see this by setting sbdi_config(verbose=TRUE)]:</span>
-<span class='co'># https://records.bioatlas.se/ws/occurrences/index/download?q=taxon_name%</span>
-<span class='co'># 3A%22Sialis%20lutaria%22&amp;fields=latitude%2Clongitude%2Cbasis_of_record&amp;</span>
-<span class='co'># reasonTypeId=10&amp;sourceTypeId=2001&amp;esc=%5C&amp;sep=%09&amp;file=data</span>
-
-<span class='no'>x</span><span class='kw'>&lt;-</span><span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:\"Sialis\""</span>,
-               <span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"decimalLatitude"</span>,<span class='st'>"decimalLongitude"</span>,<span class='st'>"recordedBy"</span>),
-               <span class='kw'>qa</span><span class='kw'>=</span><span class='st'>"none"</span>,<span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
-<span class='co'># equivalent direct webservice call [see this by setting sbdi_config(verbose=TRUE)]:</span>
-<span class='co'># https://records.bioatlas.se/ws/occurrences/index/download?reasonTypeId=10&amp;q=*:*&amp;</span>
-<span class='co'># fq=genus:Vulpes&amp;lat=51.5074&amp;lon=0.1278&amp;radius=10.0&amp;qa=none&amp;fields=latitude,longitude&amp;</span>
-<span class='co'># reasonTypeId=10&amp;sourceTypeId=2001 </span>
-}</div></pre>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
