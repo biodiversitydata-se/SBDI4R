@@ -2,8 +2,8 @@ Package: SBDI4R
 Type: Package
 Title: Swedish Biodiversity Data Infrastructure Data and Resources in R
 Version: 0.0.0.9000
-URL: https://github.com/bioatlas/r-functionality/
-BugReports: https://github.com/bioatlas/r-functionality/issues
+URL: https://github.com/bioatlas/SBDI4R/
+BugReports: https://github.com/bioatlas/SBDI4R/issues
 Authors@R: c(person("Debora","Arlt", email="debora.arlt@slu.se", role=c("aut","cre")),
 	   person("Alejandro","Ruete",role="aut"),
 	   person("Anton","Hammarström",role="aut"),
