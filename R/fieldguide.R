@@ -1,4 +1,6 @@
-#' Generate a PDF field guide using the ALA's field guide generator
+#' Generate a PDF field guide using the SBDI's field guide generator
+#' 
+#' Not yet implemented
 #'
 #' @references \url{http://fieldguide.bioatlas.se/}
 #' @param guids character: vector of GUIDs 

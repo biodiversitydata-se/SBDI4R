@@ -88,37 +88,41 @@
 #' @examples
 #' \dontrun{
 #' 
-#' x <- occurrences(taxon="data_resource_uid:dr5", download_reason_id="testing", fields="all")
-#' x <- occurrences(taxon="genus:Accipiter",fields=c("decimalLongitude","decimalLatitude",
-#'   "vernacularName","taxonRank","rights"),download_reason_id=10)
-#'  ## download records in polygon, with no quality assertion information
-#' x <- occurrences(taxon="genus:Accipiter",wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))", 
-#' download_reason_id=10, qa="none",verbose = T)
+#' x <- occurrences(taxon="genus:Accipiter", 
+#'                  fields=c("species","longitude","latitude","common_name","rank","rights"), 
+#'                  download_reason_id=10)
+#'  
+#' ## download records in polygon, with no quality assertion information
+#' mellan_sve <- "POLYGON((16.551 60.760,18.836 59.801,17.606 58.860,16.199 58.540,
+#'                        12.244 58.494,12.772 61.523,16.551 60.760))"
+#' x <- occurrences(taxon="genus:Accipiter",
+#'                  wkt=mellan_sve, 
+#'                  download_reason_id=10, 
+#'                  qa="none", verbose = TRUE)
 #' 
-#' y <- occurrences(taxon="taxon_name:\"Accipiter gentilis\"",
-#' fields=c("decimalLatitude","decimalLongitude","recordedBy"),
-#' download_reason_id=10)
+#' y <- occurrences(taxon="taxon_name:%22Accipiter gentilis%22",
+#'                  wkt=mellan_sve, 
+#'                  fields=c("latitude","longitude", "family", "collector", "rights"),
+#'                  download_reason_id=10)
 #' str(y)
-#' # equivalent direct webservice call [see this by setting sbdi_config(verbose=TRUE)]:
-#' # https://records.bioatlas.se/ws/occurrences?q=taxon_name=Accipiter&reasonTypeId=10
-#' 
-#' # https://records.bioatlas.se/ws/occurrences/index/download?q=taxon_name%
-#' # 3A%22Sialis%20lutaria%22&fields=latitude%2Clongitude%2Cbasis_of_record&
-#' # reasonTypeId=10&sourceTypeId=2001&esc=%5C&sep=%09&file=data
 #'
-#' x<-occurrences(taxon="genus:\"Sialis\"",
-#'                fields=c("decimalLatitude","decimalLongitude","recordedBy"),
-#'                qa="none",download_reason_id=10)
-#' # equivalent direct webservice call [see this by setting sbdi_config(verbose=TRUE)]:
-#' # https://records.bioatlas.se/ws/occurrences/index/download?reasonTypeId=10&q=*:*&
-#' # fq=genus:Vulpes&lat=51.5074&lon=0.1278&radius=10.0&qa=none&fields=latitude,longitude&
-#' # reasonTypeId=10&sourceTypeId=2001 
+#' ## other filtered searches
+#' 
+#' fq_str<-pick_filter("resource")
+#' 
+#' z <- occurrences(taxon="genus:Accipiter",
+#'                  fields=c("latitude","longitude","rigths"),
+#'                  wkt=mellan_sve, 
+#'                  fq=fq_str, # e.g. c( "institution_uid:in3", "cl10097:Uppsala"),
+#'                  #fq=c( "collection_uid:co3"), ## Artportalen data collection
+#'                  #fq=c( "data_resource_uid:dr5"), ## Artportalen data resource
+#'                  qa="none", download_reason_id=10)
+#'                  
+#' occurrence_plot(z)
+#'                
 #' }
 #' @importFrom assertthat assert_that is.flag is.string
 #' @export occurrences
-
-## TODO: more extensive testing, particularly of the csv-conversion process
-## TODO LATER: add params: lat, lon, radius (for specifying a search circle)
 
 occurrences <- function(taxon, wkt, fq, fields, extra, qa, 
                         email = sbdi_config()$email, 
@@ -340,17 +344,17 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
       if (status$status!="finished") {
         stop("unexpected response from server. ",
              getOption("ALA4R_server_config")$notify,
-             ". The server response was: ",status$status)
+             ". The server response was: ", status$status)
       } else {
         ## finally we have the URL to the data file itself
-        download_to_file(status$downloadUrl,outfile=thisfile,
-                         binary_file=TRUE,verbose=verbose)
+        download_to_file(status$downloadUrl, outfile=thisfile,
+                         binary_file=TRUE, verbose=verbose)
       }
     }
   } else {
     ## we are using the existing cached file
     if (verbose) message(sprintf("Using cached file %s for %s",
-                                 thisfile,this_url))
+                                 thisfile, this_url))
   }
   ## these downloads can potentially be large, so we want to download
   ## directly to file and then read the file
@@ -373,7 +377,7 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
                                     file into %s",tempsubdir))
         }
         dir.create(tempsubdir)
-        unzip(thisfile,files=c("data.csv"),junkpaths=TRUE,
+        unzip(thisfile, files=c("data.csv"), junkpaths=TRUE,
               exdir=tempsubdir)
         ## first check if file is empty
         if (file.info(file.path(tempsubdir,"data.csv"))$size>1) {
@@ -381,7 +385,8 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
                                  data.table=FALSE,
                                  stringsAsFactors=FALSE, header=TRUE,
                                  verbose=verbose, sep="\t",
-                                 na.strings="NA", logical01=FALSE)
+                                 na.strings="NA", logical01=FALSE, 
+                                 encoding = sbdi_config()$text_encoding)
           names(x) <- make.names(names(x))
           if (!empty(x)) {
             ## convert column data types
@@ -417,8 +422,9 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
     }
     if (!read_ok) {
       
-      x <- read.table(unz(thisfile,filename="data.csv"),header=TRUE,
-                      comment.char="",as.is=TRUE)
+      x <- read.table(unz(thisfile, filename="data.csv"), header=TRUE,
+                      comment.char="", as.is=TRUE, 
+                      encoding = sbdi_config()$text_encoding)
       if (!empty(x)) {
         ## convert column data types
         ## read.table handles quoted numerics but not quoted logicals
@@ -457,8 +463,9 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
       found_citation <- FALSE
       try({
         suppressWarnings(xc <- read.table(unz(thisfile,"citation.csv"),
-                                          header=TRUE,comment.char="",
-                                          as.is=TRUE))
+                                          header=TRUE, comment.char="",
+                                          as.is=TRUE, 
+                                          encoding = sbdi_config()$text_encoding))
         found_citation <- TRUE},
         silent=TRUE)
       if (!found_citation) {
@@ -467,7 +474,8 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
         try({
           suppressWarnings(xc <- scan(unz(thisfile,"README.html"),
                                       what="character",sep="$",
-                                      quiet=TRUE))
+                                      quiet=TRUE, 
+                                      encoding = sbdi_config()$text_encoding))
           xc <- data.frame(citation=paste(xc,collapse=""))
           found_citation <- TRUE},
           silent=TRUE)

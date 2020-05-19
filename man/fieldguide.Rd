@@ -2,7 +2,7 @@
 % Please edit documentation in R/fieldguide.R
 \name{fieldguide}
 \alias{fieldguide}
-\title{Generate a PDF field guide using the ALA's field guide generator}
+\title{Generate a PDF field guide using the SBDI's field guide generator}
 \usage{
 fieldguide(
   guids,
@@ -24,7 +24,7 @@ fieldguide(
 filename
 }
 \description{
-Generate a PDF field guide using the ALA's field guide generator
+Not yet implemented
 }
 \examples{
 \dontrun{

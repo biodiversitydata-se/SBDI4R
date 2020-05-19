@@ -119,31 +119,37 @@ Retrieve SBDI occurrence data via the "occurrence download" web service. At leas
 \examples{
 \dontrun{
 
-x <- occurrences(taxon="data_resource_uid:dr5", download_reason_id="testing", fields="all")
-x <- occurrences(taxon="genus:Accipiter",fields=c("decimalLongitude","decimalLatitude",
-  "vernacularName","taxonRank","rights"),download_reason_id=10)
- ## download records in polygon, with no quality assertion information
-x <- occurrences(taxon="genus:Accipiter",wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))", 
-download_reason_id=10, qa="none",verbose = T)
+x <- occurrences(taxon="genus:Accipiter", 
+                 fields=c("species","longitude","latitude","common_name","rank","rights"), 
+                 download_reason_id=10)
+ 
+## download records in polygon, with no quality assertion information
+mellan_sve <- "POLYGON((16.551 60.760,18.836 59.801,17.606 58.860,16.199 58.540,12.244 58.494,12.772 61.523,16.551 60.760))"
+x <- occurrences(taxon="genus:Accipiter",
+                 wkt=mellan_sve, 
+                 download_reason_id=10, 
+                 qa="none", verbose = TRUE)
 
-y <- occurrences(taxon="taxon_name:\"Accipiter gentilis\"",
-fields=c("decimalLatitude","decimalLongitude","recordedBy"),
-download_reason_id=10)
+y <- occurrences(taxon="taxon_name:\%22Accipiter gentilis\%22",
+                 wkt=mellan_sve, 
+                 fields=c("latitude","longitude", "family", "collector", "rights"),
+                 download_reason_id=10)
 str(y)
-# equivalent direct webservice call [see this by setting sbdi_config(verbose=TRUE)]:
-# https://records.bioatlas.se/ws/occurrences?q=taxon_name=Accipiter&reasonTypeId=10
 
-# https://records.bioatlas.se/ws/occurrences/index/download?q=taxon_name\%
-# 3A\%22Sialis\%20lutaria\%22&fields=latitude\%2Clongitude\%2Cbasis_of_record&
-# reasonTypeId=10&sourceTypeId=2001&esc=\%5C&sep=\%09&file=data
+## other filtered searches
 
-x<-occurrences(taxon="genus:\"Sialis\"",
-               fields=c("decimalLatitude","decimalLongitude","recordedBy"),
-               qa="none",download_reason_id=10)
-# equivalent direct webservice call [see this by setting sbdi_config(verbose=TRUE)]:
-# https://records.bioatlas.se/ws/occurrences/index/download?reasonTypeId=10&q=*:*&
-# fq=genus:Vulpes&lat=51.5074&lon=0.1278&radius=10.0&qa=none&fields=latitude,longitude&
-# reasonTypeId=10&sourceTypeId=2001 
+fq_str<-pick_filter("resource")
+
+z <- occurrences(taxon="genus:Accipiter",
+                 fields=c("latitude","longitude","rigths"),
+                 wkt=mellan_sve, 
+                 fq=fq_str, # e.g. c( "institution_uid:in3", "cl10097:Uppsala"),
+                 #fq=c( "collection_uid:co3"), ## Artportalen data collection
+                 #fq=c( "data_resource_uid:dr5"), ## Artportalen data resource
+                 qa="none", download_reason_id=10)
+                 
+occurrence_plot(z)
+               
 }
 }
 \references{
