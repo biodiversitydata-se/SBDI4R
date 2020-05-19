@@ -4,11 +4,13 @@
 #' @references \url{https://api.bioatlas.se/}
 #' @seealso \code{sbdi_config} for cache settings, particularly the cache directory
 #'  
-#' @param url string: the URL
+#' @param url string: the URL e.g. \link{https://spatial.bioatlas.se/}
 #' @return string: the file path and name
 #' 
 #' @examples
+#' \dontrun{
 #' sbdi_cache_filename("https://spatial.bioatlas.se/")
+#' }
 #' 
 #' @export sbdi_cache_filename
 sbdi_cache_filename <- function(url){

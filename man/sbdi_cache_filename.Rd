@@ -8,7 +8,7 @@ may not actually exist, this function just provides the mapping from URL to file
 sbdi_cache_filename(url)
 }
 \arguments{
-\item{url}{string: the URL}
+\item{url}{string: the URL e.g. \link{https://spatial.bioatlas.se/}}
 }
 \value{
 string: the file path and name
@@ -18,7 +18,9 @@ Returns the name of the cache file associated with the given URL. Note that this
 may not actually exist, this function just provides the mapping from URL to filename
 }
 \examples{
+\dontrun{
 sbdi_cache_filename("https://spatial.bioatlas.se/")
+}
 
 }
 \references{
