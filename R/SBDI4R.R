@@ -11,6 +11,7 @@
 #' @docType package
 #' @references \url{https://api.bioatlas.se/}
 #' @import assertthat digest httr jsonlite plyr RCurl sp
+#' @importFrom jsonlite fromJSON
 #' @importFrom stringr regex str_c str_detect str_extract str_locate str_match str_match_all
 #' @importFrom stringr str_replace str_replace_all str_split str_trim
 #' @importFrom wellknown lint

@@ -1,4 +1,4 @@
-#' Fetch information about an image, given its image ID
+#' [Deprecated] Fetch information about an image, given its image ID
 #'
 #' Note that there is currently no web service that provides image information, 
 #' and so we are scraping results from pages of the form https://images.bioatlas.se/image/details?imageId=id. 
@@ -27,11 +27,6 @@ download images. Please use images() instead of image_info()",
   }
   
   # suppressWarnings(ALA4R::image_info(id, verbose))
-  suppressWarnings(ALA4R::images(id, verbose))
+  suppressWarnings(images(id, verbose))
   
 }
-
-#' @export
-#' @rdname images
-images <- image_info
-

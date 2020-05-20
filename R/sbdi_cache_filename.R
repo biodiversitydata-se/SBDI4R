@@ -4,7 +4,7 @@
 #' @references \url{https://api.bioatlas.se/}
 #' @seealso \code{sbdi_config} for cache settings, particularly the cache directory
 #'  
-#' @param url string: the URL e.g. \link{https://spatial.bioatlas.se/}
+#' @param url string: the URL e.g. \url{https://spatial.bioatlas.se/}
 #' @return string: the file path and name
 #' 
 #' @examples

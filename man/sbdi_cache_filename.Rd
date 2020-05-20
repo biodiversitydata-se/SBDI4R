@@ -8,7 +8,7 @@ may not actually exist, this function just provides the mapping from URL to file
 sbdi_cache_filename(url)
 }
 \arguments{
-\item{url}{string: the URL e.g. \link{https://spatial.bioatlas.se/}}
+\item{url}{string: the URL e.g. \url{https://spatial.bioatlas.se/}}
 }
 \value{
 string: the file path and name

@@ -1,0 +1,21 @@
+---
+title: "Introduction to SBDI4R"
+author: "Alejandro Ruete and Debora Arlt"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: TRUE
+vignette: >
+  %\VignetteIndexEntry{Introduction to BIRDS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+## Installing 'BIRDS'
+VIGNETTE under construction

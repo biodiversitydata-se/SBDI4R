@@ -2,7 +2,7 @@
 % Please edit documentation in R/image_info.R
 \name{image_info}
 \alias{image_info}
-\title{Fetch information about an image, given its image ID}
+\title{[Deprecated] Fetch information about an image, given its image ID}
 \usage{
 image_info(id, verbose = sbdi_config()$verbose)
 }

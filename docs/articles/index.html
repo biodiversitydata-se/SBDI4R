@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fetch a taxon profile given a scientific name or LSID (GUID) — species_info • SBDI4R</title>
+<title>Articles • SBDI4R</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,7 @@
 
 
 
-<meta property="og:title" content="Fetch a taxon profile given a scientific name or LSID (GUID) — species_info" />
-<meta property="og:description" content="Fetch a taxon profile given a scientific name or LSID (GUID)" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Articles" />
 
 
 
@@ -56,7 +54,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -108,61 +106,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Fetch a taxon profile given a scientific name or LSID (GUID)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/bioatlas/SBDI4R/blob/master/R/species_info.R'><code>R/species_info.R</code></a></small>
-    <div class="hidden name"><code>species_info.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    <p>Fetch a taxon profile given a scientific name or LSID (GUID)</p>
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <ul>
+        <li><a href="SBDI4R.html">Introduction to SBDI4R</a></li>
+      </ul>
     </div>
-
-    <pre class="usage"><span class='fu'>species_info</span>(<span class='no'>scientificname</span>, <span class='no'>guid</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span>()$<span class='no'>verbose</span>)</pre>
-
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>scientificname</th>
-      <td><p>string: scientific name of the taxon of interest (species, genus, family etc)</p></td>
-    </tr>
-    <tr>
-      <th>guid</th>
-      <td><p>string: The Life Science Identifier of the taxon of interest</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>logical: show additional progress information? [default is set by sbdi_config()]</p></td>
-    </tr>
-    </table>
-
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A species profile in the form of a named list, each element of which is generally a data frame. An empty list is returned if no match is found for the supplied name or guid</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Associated SBDI web service: <a href='https://api.bioatlas.se/#ws80'>https://api.bioatlas.se/#ws80</a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='sbdi_config.html'>sbdi_config</a></code></p></div>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'>species_info</span>(<span class='st'>"Diatoma tenuis"</span>)
- <span class='fu'>species_info</span>(<span class='kw'>guid</span><span class='kw'>=</span><span class='st'>"NHMSYS0000080188"</span>)
- <span class='fu'>species_info</span>(<span class='st'>"Diatoma"</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
   </div>
 </div>
 

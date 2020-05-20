@@ -29,7 +29,7 @@ images <- function(id, download=FALSE, download_path,
   
 }
 
-
+#internal
 download_images <- function(data, media_dir, verbose=sbdi_config()$verbose, 
                             sounds = FALSE) {
   

@@ -49,7 +49,7 @@ pick_filter<-function(type = NULL){
   return(res)
 }
  
-#' auxiliary function for institutions
+# auxiliary function for institutions
 inst_questionarie<-function(){
   continue <- TRUE
   res <- c()
@@ -116,7 +116,7 @@ inst_questionarie<-function(){
   
 }
 
-#' auxiliary function for layers
+# auxiliary function for layers
 layer_questionarie<-function(){
   continue <- TRUE
   res <- c()
@@ -177,8 +177,8 @@ layer_questionarie<-function(){
 }
 
  
-#' auxiliary function
-#' @param msg the message to pass to the function  
+#auxiliary function
+#param msg the message to pass to the function  
   continue <- function(msg){
     print(msg)
     r <- readline()
