@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Swedish Biodiversity Data Infrastructure Data and Resources in R">
-<meta property="og:description" content="SBDI Bioatlas provides tools to enable users
-    of biodiversity information to find, access, combine and visualise data on
+<meta property="og:description" content="SBDI Bioatlas provides tools to enable users of biodiversity 
+    information to find, access, combine and visualise data on
     Sweden plants, animals and fungi; these have been made available from
     &lt;https://bioatlas.se/&gt;. SBDI4R provides a subset of the tools based on the 
     ALA4R package, and a few functions custom made for Sweden, which can be 
@@ -56,7 +56,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/bioatlas/r-functionality">
+  <a href="https://github.com/bioatlas/SBDI4R">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -77,26 +77,23 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#sbdi4r" class="anchor"></a>SBDI4R</h1></div>
 <p>R functionality for SBDI data portal</p>
-<p>Here we compile R code (functions, potential package) to be used with the SBDI.</p>
-<p>NOT YET UP TO DATE</p>
-<p>The National Biodiversity Network (NBN) Atlas provides tools to enable users of biodiversity information to find, access, combine and visualise data on UK and Ireland plants and animals; these have been made available from <a href="https://nbnatlas.org/" class="uri">https://nbnatlas.org/</a>. Here we provide a subset of the tools to be directly used within R.</p>
-<p>NBN4R enables the R community to directly access data and resources hosted by the NBN Atlas. Our goal is to enable outputs (e.g. observations of species) to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia (<a href="https://github.com/AtlasOfLivingAustralia/ALA4R">ALA4R</a>) package which provides similar services for the ALA. Both NBN and ALA share similar Application Protocol Interface (API) web services. NBN4R wraps ALA4R functions but redirects requests to NBN web servers.</p>
-<p>The use-examples based on ALA4R are presented at the <a href="http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/">2014 ALA Science Symposium</a> are available in the package vignette, via (in R): <code>vignette("NBN4R")</code>, and a draft modifed version using NBN data is below.</p>
-<div id="installing-nbn4r" class="section level2">
+<p>The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; these have been made available from <a href="https://bioatlas.se/">Biodiversity Atlas Sweden</a>. Here we provide a subset of the tools, and some extension tools (found previously in Analysportalen.se) to be directly used within R.</p>
+<p>SBDI4R enables the R community to directly access data and resources hosted by the Biodiversity Atlas Sweden. Our goal is to enable outputs (e.g. observations of species) to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia <a href="https://github.com/AtlasOfLivingAustralia/ALA4R">ALA4R</a> package which provides similar services for the ALA and. This package also builds upon a similar package <a href="https://github.com/fozy81/NBN4R">NBN4R</a> that wraps ALA4R functions but redirects requests to different web servers, in this case, SBDI servers. Both SBDI, NBN and ALA share similar Application Protocol Interface (API) web services.</p>
+<p>The use-examples based on ALA4R are presented at the <a href="http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/">2014 ALA Science Symposium</a> are available in the package vignette, via (in R): <code>vignette("SBDI4R")</code>, and a draft modifed version using NBN data is below.</p>
+<div id="installing-sbdi4r" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installing-nbn4r" class="anchor"></a>Installing NBN4R</h2>
+<a href="#installing-sbdi4r" class="anchor"></a>Installing SBDI4R</h2>
 <div id="windows" class="section level3">
 <h3 class="hasAnchor">
 <a href="#windows" class="anchor"></a>Windows</h3>
 <p>In R:</p>
 <p>Or the development version from GitHub:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(devtools)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">install_github</span>(<span class="st">"fozy81/NBN4R"</span>)</span></code></pre></div>
-<p>You may see a warning about the <code>Rtools</code> package: you don’t need to install this. You may also be asked about a location for the <code>R.cache</code> directory — choose whatever you prefer here, NBN4R does not use <code>R.cache</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"remotes"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(remotes)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">install_github</span>(<span class="st">"bioatlas/SBDI4R"</span>)</span></code></pre></div>
 <p>If you see an error about a missing package, you will need to install it manually, e.g.:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"stringr"</span>,<span class="st">"sp"</span>))</span></code></pre></div>
-<p>and then <code>install_github("fozy81/NBN4R")</code> again.</p>
+<p>and then <code>install_github("bioatlas/SBDI4R")</code> again.</p>
 <p>If you wish to use the <code>data.table</code> package for potentially faster loading of data matrices (optional), also do:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"data.table"</span>)</span></code></pre></div>
 </div>
@@ -108,100 +105,87 @@
 <p>or install <code>libcurl4-openssl-dev</code> via the Software Centre.</p>
 <p>Then, in R:</p>
 <p>Or the development version from GitHub:</p>
-<p><code>{r eval=FALSE} install.packages("devtools") library(devtools) install_github("fozy81/NBN4R")</code></p>
-<p>You may see a warning about the <code>Rtools</code> package: you don’t need to install this. You may also be asked about a location for the <code>R.cache</code> directory — choose whatever you prefer here, NBN4R does not use <code>R.cache</code>.</p>
+<p><code>{r eval=FALSE} install.packages("remotes") library(remotes) install_github("bioatlas/SBDI4R")</code></p>
 <p>If you see an error about a missing package, you will need to install it manually, e.g.:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"stringr"</span>,<span class="st">"sp"</span>))</span></code></pre></div>
-<p>and then try installing NBN4R again.</p>
+<p>and then try installing SBDI4R again.</p>
 <p>If you wish to use the <code>data.table</code> package for potentially faster loading of data matrices (optional), also do:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"data.table"</span>)</span></code></pre></div>
 </div>
 </div>
-<div id="using-nbn4r" class="section level2">
+<div id="using-sbdi4r" class="section level2">
 <h2 class="hasAnchor">
-<a href="#using-nbn4r" class="anchor"></a>Using NBN4R</h2>
-<p>The NBN4R package must be loaded for each new R session:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(NBN4R)</span></code></pre></div>
-<p>##Customizing NBN4R Various aspects of the NBN4R package can be customized.</p>
-<p>###Caching NBN4R can cache most results to local files. This means that if the same code is run multiple times, the second and subsequent iterations will be faster. This will also reduce load on the NBN servers. By default, this caching is session-based, meaning that the local files are stored in a temporary directory that is automatically deleted when the R session is ended. This behaviour can be altered so that caching is permanent, by setting the caching directory to a non-temporary location. For example, under Windows, use something like:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>(cache_directory &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"c:"</span>,<span class="st">"mydata"</span>,<span class="st">"nbn_cache"</span>)) <span class="co">## Windows</span></span></code></pre></div>
+<a href="#using-sbdi4r" class="anchor"></a>Using SBDI4R</h2>
+<p>The SBDI4R package must be loaded for each new R session:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># library(SBDI4R)</span></span></code></pre></div>
+<p>##Customizing SBDI4R Various aspects of the SBDI4R package can be customized.</p>
+<p>###Caching SBDI4R can cache most results to local files. This means that if the same code is run multiple times, the second and subsequent iterations will be faster. This will also reduce load on the NBN servers. By default, this caching is session-based, meaning that the local files are stored in a temporary directory that is automatically deleted when the R session is ended. This behaviour can be altered so that caching is permanent, by setting the caching directory to a non-temporary location. For example, under Windows, use something like:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"c:"</span>,<span class="st">"mydata"</span>,<span class="st">"sbdi_cache"</span>)) <span class="co">## Windows</span></span></code></pre></div>
 <p>or for Linux:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>(<span class="dt">cache_directory =</span> <span class="st">"~/mydata/nbn_cache"</span>) <span class="co">## Linux</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory =</span> <span class="st">"~/mydata/sbdi_cache"</span>) <span class="co">## Linux</span></span></code></pre></div>
 <p>Note that this directory must exist (you need to create it yourself).</p>
 <p>All results will be stored in that cache directory and will be used from one session to the next. They won’t be re-downloaded from the server unless the user specifically deletes those files or changes the caching setting to “refresh”.</p>
-<p>If you change the cache_directory to a permanent location, you may wish to add something like this to your .Rprofile file, so that it happens automatically each time the NBN4R package is loaded:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">setHook</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">packageEvent</a></span>(<span class="st">"NBN4R"</span>, <span class="st">"attach"</span>), </span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="cf">function</span>(...) <span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>(<span class="dt">cache_directory=</span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"~"</span>,<span class="st">"mydata"</span>,<span class="st">"nbn_cache"</span>)))</span></code></pre></div>
+<p>If you change the cache_directory to a permanent location, you may wish to add something like this to your .Rprofile file, so that it happens automatically each time the SBDI4R package is loaded:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">setHook</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">packageEvent</a></span>(<span class="st">"SBDI4R"</span>, <span class="st">"attach"</span>), </span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="cf">function</span>(...) <span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory=</span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"~"</span>,<span class="st">"mydata"</span>,<span class="st">"sbdi_cache"</span>)))</span></code></pre></div>
 <p>Caching can also be turned off entirely by:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>(<span class="dt">caching=</span><span class="st">"off"</span>)</span></code></pre></div>
-<p>or set to “refresh”, meaning that the cached results will re-downloaded from the NBN servers and the cache updated. (This will happen for as long as caching is set to “refresh” — so you may wish to switch back to normal “on” caching behaviour once you have updated your cache with the data you are working on).</p>
-<p>###User-agent string Each request to the NBN servers is accompanied by a “user-agent” string that identifies the software making the request. This is a standard behaviour used by web browsers as well. The user-agent identifies the user requests to the NBN, helping the NBN to adapt and enhance the services that it provides. By default, the NBN4R user-agent string is set to “NBN4R” plus the NBN4R version number (e.g. “NBN4R 1.0”).</p>
-<p><em>NO</em> personal identification information is sent. You can see all configuration settings, including the the user-agent string that is being used, with the command:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>()</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">caching=</span><span class="st">"off"</span>)</span></code></pre></div>
+<p>or set to “refresh”, meaning that the cached results will re-downloaded from the SBDI servers and the cache updated. (This will happen for as long as caching is set to “refresh” — so you may wish to switch back to normal “on” caching behaviour once you have updated your cache with the data you are working on).</p>
+<p>###User-agent string Each request to SBDI servers is accompanied by a “user-agent” string that identifies the software making the request. This is a standard behaviour used by web browsers as well. The user-agent identifies the user requests to SBDI, helping SBDI to adapt and enhance the services that it provides. By default, the SBDI4R user-agent string is set to “SBDI4R” plus the SBDI4R version number (e.g. “SBDI4R 1.0”).</p>
+<p>###E-mail address Each request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field, and unless specified in the package configuration, needs to be specified for each request using the function ‘occurrences()’. You can set this up by:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">email=</span><span class="st">"your.valid@emailaddress.com"</span>)</span></code></pre></div>
+<p><em>NO</em> other personal identification information is sent. You can see all configuration settings, including the the user-agent string that is being used, with the command:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>()</span></code></pre></div>
 <p>###Debugging If things aren’t working as expected, more detail (particularly about web requests and caching behaviour) can be obtained by setting the verbose configuration option:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>(<span class="dt">verbose=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">verbose=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 <div id="setting-the-download-reason" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setting-the-download-reason" class="anchor"></a>Setting the download reason</h3>
-<p>NBN requires that you provide a reason when downloading occurrence data (via the NBN4R <code><a href="reference/occurrences.html">occurrences()</a></code> function). You can provide this as a parameter directly to each call of <code><a href="reference/occurrences.html">occurrences()</a></code>, or you can set it once per session using:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>(<span class="dt">download_reason_id=</span>your_reason_id)</span></code></pre></div>
-<p>(See <code><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_reasons()</a></code> for valid download reasons)</p>
+<p>SBDI requires that you provide a reason when downloading occurrence data (via the SBDI4R <code><a href="reference/occurrences.html">occurrences()</a></code> function). You can provide this as a parameter directly to each call of <code><a href="reference/occurrences.html">occurrences()</a></code>, or you can set it once per session using:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">download_reason_id=</span>your_reason_id)</span></code></pre></div>
+<p>(See <code><a href="reference/sbdi_config.html">sbdi_reasons()</a></code> for valid download reasons)</p>
 </div>
 <div id="other-options" class="section level3">
 <h3 class="hasAnchor">
 <a href="#other-options" class="anchor"></a>Other options</h3>
 <p>If you make a request that returns an empty result set (e.g. an un-matched name), by default you will simply get an empty data structure returned to you without any special notification. If you would like to be warned about empty result sets, you can use:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="https://rdrr.io/pkg/NBN4R/man/nbn_config.html">nbn_config</a></span>(<span class="dt">warn_on_empty=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">warn_on_empty=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 <p>##Examples First, check that we have some additional packages that we’ll use in the examples, and install them if necessary.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>to_install &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"plyr"</span>,<span class="st">"jpeg"</span>,<span class="st">"phytools"</span>,<span class="st">"ape"</span>,<span class="st">"leaflet"</span>,<span class="st">"vegan"</span>,<span class="st">"mgcv"</span>,<span class="st">"geosphere"</span>,<span class="st">"maps"</span>,<span class="st">"mapdata"</span>,<span class="st">"maptools"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2"></a>to_install &lt;-<span class="st"> </span>to_install[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(to_install,requireNamespace,<span class="dt">quietly=</span><span class="ot">TRUE</span>)]</span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="cf">if</span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(to_install)<span class="op">&gt;</span><span class="dv">0</span>) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(to_install)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>to_install &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"plyr"</span>,<span class="st">"jpeg"</span>,<span class="st">"phytools"</span>,<span class="st">"ape"</span>,<span class="st">"leaflet"</span>,<span class="st">"vegan"</span>,<span class="st">"mgcv"</span>,<span class="st">"geosphere"</span>,<span class="st">"maps"</span>,<span class="st">"mapdata"</span>,<span class="st">"maptools"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2"></a>to_install &lt;-<span class="st"> </span>to_install[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(to_install, requireNamespace, <span class="dt">quietly=</span><span class="ot">TRUE</span>)]</span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(to_install) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(to_install)</span></code></pre></div>
 <p>We’ll use the <code>plyr</code> package throughout these examples, so load that now:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(plyr) </span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(plyr) </span></code></pre></div>
 <p>###Example 1: Name searching and taxonomic trees</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ape)</span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(phytools)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ape)</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(phytools)</span></code></pre></div>
 <p>We want to look at the taxonomic finches, but we don’t know what the correct scientific name is, so let’s search for it:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>sx &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_fulltext.html">search_fulltext</a></span>(<span class="st">"Finch"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2"></a>(sx<span class="op">$</span>data[,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>,<span class="st">"rank"</span>,<span class="st">"family"</span>)])</span></code></pre></div>
-<pre><code>                      name    rank       family
-1              Diuca diuca species  Emberizidae
-2         Sicalis flaveola species  Emberizidae
-3     Rhodopechys obsoleta species Fringillidae
-4     Carduelis citrinella species Fringillidae
-5     Carpodacus mexicanus species Fringillidae
-6  Paludipasser locustella species  Estrildidae
-7         Poephila guttata species  Estrildidae
-8    Bucanetes githagineus species Fringillidae
-9         Amadina fasciata species  Estrildidae
-10  Montifringilla nivalis species   Passeridae</code></pre>
-<p>And we can see that violets correspond to a number of families. We want to use Estrildidae. Now we can download the taxonomic data (note that the search is case-sensitive):</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>tx &lt;-<span class="st"> </span><span class="kw"><a href="reference/taxinfo_download.html">taxinfo_download</a></span>(<span class="st">"rk_family:Estrildidae"</span>,<span class="dt">fields=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"guid"</span>,<span class="st">"rk_genus"</span>,<span class="st">"scientificName"</span>,<span class="st">"rank"</span>))</span>
-<span id="cb21-2"><a href="#cb21-2"></a>tx &lt;-<span class="st"> </span>tx[tx<span class="op">$</span>rank <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"species"</span>,<span class="st">"subspecies"</span>),] <span class="co">## restrict to species and subspecies</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>sx &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_fulltext.html">search_fulltext</a></span>(<span class="st">"parus"</span>, )</span>
+<span id="cb20-2"><a href="#cb20-2"></a>(sx<span class="op">$</span>data[,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>( <span class="st">"name"</span>,<span class="st">"species"</span>, <span class="st">"speciesGuid"</span>, <span class="st">"rank"</span>)])</span></code></pre></div>
+<pre><code>#                    name             species speciesGuid    rank
+# 1  Parus Linnaeus, 1758                &lt;NA&gt;        &lt;NA&gt;   genus
+# 2        Parus dichrous      Parus dichrous     5788759 species
+# 3     Neuroctenus parus   Neuroctenus parus    10213928 species
+# 4         Parus elegans       Parus elegans     5788758 species
+# 5   Parus rubidiventris Parus rubidiventris     5788753 species
+# 6        Parus borealis      Parus borealis     8786895 species
+# 7      Parus salicarius    Parus salicarius     9104351 species
+# 8   Parus superciliosus Parus superciliosus     5788752 species
+# 9        Parus amabilis      Parus amabilis     5788755 species
+# 10   Parus rufonuchalis  Parus rufonuchalis     5788756 species</code></pre>
+<p>##TO UPDATE And we can see that violets correspond to a number of families. We want to use Estrildidae. Now we can download the taxonomic data (note that the search is case-sensitive):</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>tx &lt;-<span class="st"> </span><span class="kw"><a href="reference/taxinfo_download.html">taxinfo_download</a></span>(<span class="st">"family_s:Paridae"</span>, <span class="dt">fields=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"guid"</span>, <span class="st">"genus_s"</span>, <span class="st">"scientificName"</span>, <span class="st">"rank"</span>))</span>
+<span id="cb22-2"><a href="#cb22-2"></a>tx &lt;-<span class="st"> </span>tx[tx<span class="op">$</span>rank <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"species"</span>,<span class="st">"subspecies"</span>),] <span class="co">## restrict to species and subspecies</span></span></code></pre></div>
 <p>We can make a taxonomic tree plot using the <code>phytools</code> package:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co">## as.phylo requires the taxonomic columns to be factors</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a>temp &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/plyr/man/colwise.html">colwise</a></span>(factor, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"genus"</span>,<span class="st">"scientificName"</span>))(tx)</span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="co">## create phylo object of Scientific.Name nested within Genus</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a>ax &lt;-<span class="st"> </span><span class="kw">as.phylo</span>(<span class="op">~</span>genus<span class="op">/</span>scientificName,<span class="dt">data=</span>temp)</span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="kw">plotTree</span>(ax,<span class="dt">type=</span><span class="st">"fan"</span>,<span class="dt">fsize=</span><span class="fl">0.7</span>,<span class="dt">ftype=</span><span class="st">"i"</span>) <span class="co">## plot it</span></span></code></pre></div>
-<p><img src="./vignettes/images/treeplot1.png?raw=true" title="plot of finches" alt="Alt text"></p>
-<p>We can also plot the tree with images of the different finches species. We’ll first extract a species profile for each species identifier (guid) in our results:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>s &lt;-<span class="st"> </span><span class="kw"><a href="reference/search_guids.html">search_guids</a></span>(tx<span class="op">$</span>guid)</span></code></pre></div>
-<p>And for each of those species profiles, download the thumbnail image and store it in our data cache. Unfortunately, not all species have images available. You can browse available images on the NBN Atlas <a href="https://images.nbnatlas.org/">images</a>.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>imfiles &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(s<span class="op">$</span>thumbnailUrl,<span class="cf">function</span>(z){ </span>
-<span id="cb24-2"><a href="#cb24-2"></a>  <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(z),NBN4R<span class="op">:::</span><span class="kw">cached_get</span>(z,<span class="dt">type=</span><span class="st">"binary_filename"</span>),<span class="st">""</span>) </span>
-<span id="cb24-3"><a href="#cb24-3"></a>})</span></code></pre></div>
-<p>And finally, plot the tree:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">plotTree</span>(ax,<span class="dt">type=</span><span class="st">"fan"</span>,<span class="dt">ftype=</span><span class="st">"off"</span>) <span class="co">## plot tree without labels</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a>tr &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/get.html">get</a></span>(<span class="st">"last_plot.phylo"</span>,<span class="dt">envir =</span> .PlotPhyloEnv) <span class="co">## get the tree plot object</span></span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="co">## add each image</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(jpeg)</span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span>(imfiles)<span class="op">&gt;</span><span class="dv">0</span>))</span>
-<span id="cb25-6"><a href="#cb25-6"></a>        <span class="kw"><a href="https://rdrr.io/r/graphics/rasterImage.html">rasterImage</a></span>(<span class="kw">readJPEG</span>(imfiles[k]),tr<span class="op">$</span>xx[k]<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">10</span>,tr<span class="op">$</span>yy[k]<span class="op">-</span><span class="dv">1</span><span class="op">/</span><span class="dv">10</span>,tr<span class="op">$</span>xx[k]<span class="op">+</span><span class="dv">1</span><span class="op">/</span><span class="dv">10</span>,tr<span class="op">$</span>yy[k]<span class="op">+</span><span class="dv">1</span><span class="op">/</span><span class="dv">10</span>)</span></code></pre></div>
-<p><img src="./vignettes/images/treeplot2.png?raw=true" title="plot of finches images" alt="Alt text"></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co">## as.phylo requires the taxonomic columns to be factors</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>tx<span class="op">$</span>genusS&lt;-<span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(tx<span class="op">$</span>genusS)</span>
+<span id="cb23-3"><a href="#cb23-3"></a>tx<span class="op">$</span>scientificName&lt;-<span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(tx<span class="op">$</span>scientificName)</span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="co">## create phylo object of Scientific.Name nested within Genus</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>ax &lt;-<span class="st"> </span><span class="kw">as.phylo</span>(<span class="op">~</span>genusS<span class="op">/</span>scientificName, <span class="dt">data=</span>tx)</span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="kw">plotTree</span>(ax, <span class="dt">fsize=</span><span class="fl">0.7</span>, <span class="dt">ftype=</span><span class="st">"i"</span>) <span class="co">## plot it</span></span></code></pre></div>
 <p>###Example 2: Quality assertions Data quality assertions are a suite of fields that are the result of a set of tests peformed on NBN data. Download occurrence data for the Blunt-fruited Water-starwort:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="reference/occurrences.html">occurrences</a></span>(<span class="dt">taxon=</span><span class="st">"Callitriche obtusangula"</span>, <span class="dt">download_reason_id=</span><span class="dv">10</span>)</span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="reference/occurrences.html">occurrences</a></span>(<span class="dt">taxon=</span><span class="st">"Callitriche obtusangula"</span>, <span class="dt">download_reason_id=</span><span class="dv">10</span>)</span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(x)</span></code></pre></div>
 <pre><code># number of original names: 2 
 # number of taxonomically corrected names: 1 
 # number of observation records: 1319 
@@ -216,89 +200,28 @@
 #   assumedPresentOccurrenceStatus: 992 records 
 #   firstOfMonth: 479 records </code></pre>
 <p>There are many other ways of producing spatial plots in R. The <code>leaflet</code> package provides a simple method of producing browser-based maps iwth panning, zooming, and background layers:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(leaflet)</span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="co">## drop any records with missing lat/lon values</span></span>
-<span id="cb28-3"><a href="#cb28-3"></a>x<span class="op">$</span>data &lt;-<span class="st"> </span>x<span class="op">$</span>data[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(x<span class="op">$</span>data<span class="op">$</span>longitude) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(x<span class="op">$</span>data<span class="op">$</span>latitude),] </span>
-<span id="cb28-4"><a href="#cb28-4"></a>xa &lt;-<span class="st"> </span><span class="kw"><a href="reference/check_assertions.html">check_assertions</a></span>(x)</span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="co">## columns of x corresponding to a fatal assertion</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a>x_afcols &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(x<span class="op">$</span>data) <span class="op">%in%</span><span class="st"> </span>xa<span class="op">$</span>occurColnames[xa<span class="op">$</span>taxonIdentificationIssue])</span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="co">## rows of x that have a fatal assertion</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a>x_afrows &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(x<span class="op">$</span>data[,x_afcols],<span class="dv">1</span>,any)</span>
-<span id="cb28-9"><a href="#cb28-9"></a><span class="co">## which taxonIdentificationIssue assertions are present in this data?</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a>these_assertions &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(x<span class="op">$</span>data)[x_afcols]</span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="co">## make a link to the web page for each occurrence</span></span>
-<span id="cb28-12"><a href="#cb28-12"></a>popup_link &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"&lt;a href=</span><span class="ch">\"</span><span class="st">https://records.nbnatlas.org/occurrences/"</span>,x<span class="op">$</span>data<span class="op">$</span>id,<span class="st">"</span><span class="ch">\"</span><span class="st">&gt;Link to occurrence record&lt;/a&gt;"</span>)</span>
-<span id="cb28-13"><a href="#cb28-13"></a><span class="co">## colour palette</span></span>
-<span id="cb28-14"><a href="#cb28-14"></a>pal &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/grep.html">sub</a></span>(<span class="st">"FF$"</span>,<span class="st">""</span>,<span class="kw"><a href="https://rdrr.io/r/grDevices/palettes.html">heat.colors</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(these_assertions))))</span>
-<span id="cb28-15"><a href="#cb28-15"></a><span class="co">## map each data row to colour, depending on its assertions</span></span>
-<span id="cb28-16"><a href="#cb28-16"></a>marker_colour &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"#00FF00"</span>,<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(x<span class="op">$</span>data))</span>
-<span id="cb28-17"><a href="#cb28-17"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(these_assertions)) marker_colour[x<span class="op">$</span>data[,x_afcols[k]]] &lt;-<span class="st"> </span>pal[k]</span>
-<span id="cb28-18"><a href="#cb28-18"></a><span class="co">## blank map, with imagery background</span></span>
-<span id="cb28-19"><a href="#cb28-19"></a>m &lt;-<span class="st"> </span><span class="kw">addProviderTiles</span>(<span class="kw">leaflet</span>(),<span class="st">"Esri.WorldImagery"</span>)</span>
-<span id="cb28-20"><a href="#cb28-20"></a><span class="co">## add markers</span></span>
-<span id="cb28-21"><a href="#cb28-21"></a>m &lt;-<span class="st"> </span><span class="kw">addCircleMarkers</span>(m,x<span class="op">$</span>data<span class="op">$</span>longitude,x<span class="op">$</span>data<span class="op">$</span>latitude,<span class="dt">col=</span>marker_colour,<span class="dt">popup=</span>popup_link)</span>
-<span id="cb28-22"><a href="#cb28-22"></a><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(m)</span></code></pre></div>
-<p>###Example 3: Community composition and turnover Some extra packages needed here:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(vegan)</span>
-<span id="cb29-2"><a href="#cb29-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mgcv)</span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(geosphere)</span></code></pre></div>
-<p>Define our area of interest as a transect running westwards, and download the occurrences of bats:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>wkt &lt;-<span class="st"> "POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="reference/occurrences.html">occurrences</a></span>(<span class="dt">taxon=</span><span class="st">"Vespertilionidae"</span>,<span class="dt">wkt=</span>wkt,<span class="dt">qa=</span><span class="st">"none"</span>,<span class="dt">download_reason_id=</span><span class="dv">10</span>)</span>
-<span id="cb30-3"><a href="#cb30-3"></a>x &lt;-<span class="st"> </span>x<span class="op">$</span>data <span class="co">## just take the data component</span></span></code></pre></div>
-<p>Bin the locations into 0.5-degree grid cells:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>x<span class="op">$</span>longitude &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(x<span class="op">$</span>longitude<span class="op">*</span><span class="dv">100</span>)<span class="op">/</span><span class="dv">100</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>x<span class="op">$</span>latitude &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(x<span class="op">$</span>latitude<span class="op">*</span><span class="dv">100</span>)<span class="op">/</span><span class="dv">100</span></span></code></pre></div>
-<p>Create a sites-by-species data frame. This could also be done with e.g. the reshape library or the table() function, or indeed directly from NBN4R’s <code>species_by_site</code> function. Note: this process inherently makes some strong assumptions about absences in the data.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co">## discard genus- and higher-level records</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a>xsub &lt;-<span class="st"> </span>x<span class="op">$</span>rank <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"species"</span>,<span class="st">"subspecies"</span>,<span class="st">"variety"</span>,<span class="st">"form"</span>,<span class="st">"cultivar"</span>)</span>
-<span id="cb32-3"><a href="#cb32-3"></a>unames &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(x[xsub,]<span class="op">$</span>scientificName) <span class="co">## unique names </span></span>
-<span id="cb32-4"><a href="#cb32-4"></a>ull &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(x[xsub,<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"longitude"</span>,<span class="st">"latitude"</span>)])</span>
-<span id="cb32-5"><a href="#cb32-5"></a>xgridded &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="ot">NA</span>,<span class="dt">nrow=</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(ull),<span class="dt">ncol=</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(unames))</span>
-<span id="cb32-6"><a href="#cb32-6"></a><span class="cf">for</span> (uli <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(ull)) {</span>
-<span id="cb32-7"><a href="#cb32-7"></a>    lidx &lt;-<span class="st"> </span>xsub <span class="op">&amp;</span><span class="st"> </span>x<span class="op">$</span>longitude<span class="op">==</span>ull[uli,]<span class="op">$</span>longitude <span class="op">&amp;</span><span class="st"> </span>x<span class="op">$</span>latitude<span class="op">==</span>ull[uli,]<span class="op">$</span>latitude</span>
-<span id="cb32-8"><a href="#cb32-8"></a>    xgridded[uli,] &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(unames <span class="op">%in%</span><span class="st"> </span>x[lidx,]<span class="op">$</span>scientificName)</span>
-<span id="cb32-9"><a href="#cb32-9"></a>}</span>
-<span id="cb32-10"><a href="#cb32-10"></a>xgridded &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span>(xgridded)</span>
-<span id="cb32-11"><a href="#cb32-11"></a><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(xgridded) &lt;-<span class="st"> </span>unames</span>
-<span id="cb32-12"><a href="#cb32-12"></a>xgridded &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(ull,xgridded)</span></code></pre></div>
-<p>Now we can start to examine the patterns in the data. Let’s plot richness as a function of longitude:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(xgridded<span class="op">$</span>longitude,<span class="kw"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(xgridded[,<span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)],<span class="dv">1</span>,sum),<span class="dt">ylab=</span><span class="st">"Richness"</span>,</span>
-<span id="cb33-2"><a href="#cb33-2"></a>  <span class="dt">xlab=</span><span class="st">"Longitude"</span>,<span class="dt">pch=</span><span class="dv">20</span>,<span class="dt">col=</span><span class="st">"grey25"</span>)</span></code></pre></div>
-<p>The number of species is highest at the eastern end of the transect. This probably reflects both higher species richness as well as greater sampling effort in this area compared to the western end of the transect.</p>
-<p>How does the community composition change along the transect? Calculate the dissimilarity between nearby grid cells as a function of along-transect position:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>D &lt;-<span class="st"> </span><span class="kw">vegdist</span>(xgridded[,<span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>)],<span class="st">'bray'</span>) <span class="co">## Bray-Curtis dissimilarity</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a>Dm &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(D) <span class="co">## convert to a matrix object</span></span>
-<span id="cb34-3"><a href="#cb34-3"></a><span class="co">## calculate geographic distance from longitude and latitude</span></span>
-<span id="cb34-4"><a href="#cb34-4"></a>Dll &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(xgridded[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>],<span class="dv">1</span>,<span class="cf">function</span>(z){<span class="kw">distVincentySphere</span>(z,xgridded[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>])})</span>
-<span id="cb34-5"><a href="#cb34-5"></a>closeidx &lt;-<span class="st"> </span>Dll<span class="op">&gt;</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>Dll<span class="op">&lt;</span><span class="fl">100e3</span> <span class="co">## find grid cells within 100km of each other</span></span>
-<span id="cb34-6"><a href="#cb34-6"></a><span class="co">## create a matrix of longitudes that matches the size of the pairwise-D matrices</span></span>
-<span id="cb34-7"><a href="#cb34-7"></a>temp &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(xgridded<span class="op">$</span>longitude,<span class="dt">nrow=</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(xgridded),<span class="dt">ncol=</span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(xgridded))</span>
-<span id="cb34-8"><a href="#cb34-8"></a><span class="co">## plot dissimilarity as a function of transect position</span></span>
-<span id="cb34-9"><a href="#cb34-9"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(temp[closeidx],Dm[closeidx],<span class="dt">xlab=</span><span class="st">"Longitude"</span>,<span class="dt">ylab=</span><span class="st">"Dissimilarity"</span>,<span class="dt">pch=</span><span class="dv">20</span>,</span>
-<span id="cb34-10"><a href="#cb34-10"></a>  <span class="dt">col=</span><span class="st">"grey85"</span>)</span>
-<span id="cb34-11"><a href="#cb34-11"></a><span class="co">## add smooth fit via gam()</span></span>
-<span id="cb34-12"><a href="#cb34-12"></a>fit &lt;-<span class="st"> </span><span class="kw">gam</span>(d<span class="op">~</span><span class="kw">s</span>(tp,<span class="dt">k=</span><span class="dv">7</span>),<span class="dt">data=</span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">tp=</span>temp[closeidx],<span class="dt">d=</span>Dm[closeidx]))</span>
-<span id="cb34-13"><a href="#cb34-13"></a>tpp &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dt">from=</span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(xgridded<span class="op">$</span>longitude),<span class="dt">to=</span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(xgridded<span class="op">$</span>longitude),<span class="dt">length.out=</span><span class="dv">100</span>)</span>
-<span id="cb34-14"><a href="#cb34-14"></a>fitp &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span>(fit,<span class="dt">newdata=</span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">tp=</span>tpp))</span>
-<span id="cb34-15"><a href="#cb34-15"></a><span class="kw"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(tpp,fitp,<span class="dt">col=</span><span class="dv">1</span>)</span></code></pre></div>
-<p>Clustering:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>cl &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/hclust.html">hclust</a></span>(D,<span class="dt">method=</span><span class="st">"ave"</span>) <span class="co">## UPGMA clustering</span></span>
-<span id="cb35-2"><a href="#cb35-2"></a><span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(cl) <span class="co">## plot dendrogram</span></span></code></pre></div>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>grp &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span>(cl,<span class="dv">20</span>) <span class="co">## extract group labels at the 20-group level</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="co">## coalesce small (outlier) groups into a single catch-all group</span></span>
-<span id="cb36-3"><a href="#cb36-3"></a>sing &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/table.html">table</a></span>(grp)<span class="op">&lt;</span><span class="dv">5</span>)</span>
-<span id="cb36-4"><a href="#cb36-4"></a>grp[grp <span class="op">%in%</span><span class="st"> </span>sing] &lt;-<span class="st"> </span><span class="dv">21</span> <span class="co">## put these in a new combined group</span></span>
-<span id="cb36-5"><a href="#cb36-5"></a>grp &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(grp,<span class="cf">function</span>(z)<span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(grp)<span class="op">==</span>z)) <span class="co">## renumber groups</span></span>
-<span id="cb36-6"><a href="#cb36-6"></a><span class="co">## plot</span></span>
-<span id="cb36-7"><a href="#cb36-7"></a><span class="kw"><a href="https://rdrr.io/r/base/with.html">with</a></span>(xgridded,<span class="kw"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(longitude,latitude,<span class="dt">pch=</span><span class="dv">21</span>,<span class="dt">col=</span>grp,<span class="dt">bg=</span>grp))</span></code></pre></div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="co">## or slightly nicer map plot</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(maps)</span>
-<span id="cb37-3"><a href="#cb37-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(mapdata)</span>
-<span id="cb37-4"><a href="#cb37-4"></a><span class="kw">map</span>(<span class="st">"worldHires"</span>,<span class="st">"UK"</span>, <span class="dt">xlim=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="op">-</span><span class="dv">11</span>,<span class="dv">3</span>), <span class="dt">ylim=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">49</span>,<span class="fl">60.9</span>), <span class="dt">col=</span><span class="st">"gray90"</span>, <span class="dt">fill=</span>F)</span>
-<span id="cb37-5"><a href="#cb37-5"></a>thiscol &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"#1f77b4"</span>,<span class="st">"#ff7f0e"</span>,<span class="st">"#2ca02c"</span>,<span class="st">"#d62728"</span>,<span class="st">"#9467bd"</span>,<span class="st">"#8c564b"</span>,</span>
-<span id="cb37-6"><a href="#cb37-6"></a>  <span class="st">"#e377c2"</span>,<span class="st">"#7f7f7f"</span>,<span class="st">"#bcbd22"</span>,<span class="st">"#17becf"</span>) <span class="co">## colours for clusters</span></span>
-<span id="cb37-7"><a href="#cb37-7"></a><span class="kw"><a href="https://rdrr.io/r/base/with.html">with</a></span>(xgridded,<span class="kw"><a href="https://rdrr.io/r/graphics/points.html">points</a></span>(longitude,latitude,<span class="dt">pch=</span><span class="dv">21</span>,<span class="dt">col=</span>thiscol[grp],<span class="dt">bg=</span>thiscol[grp],<span class="dt">cex=</span><span class="fl">0.75</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(leaflet)</span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co">## drop any records with missing lat/lon values</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a>x<span class="op">$</span>data &lt;-<span class="st"> </span>x<span class="op">$</span>data[<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(x<span class="op">$</span>data<span class="op">$</span>longitude) <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(x<span class="op">$</span>data<span class="op">$</span>latitude),] </span>
+<span id="cb26-4"><a href="#cb26-4"></a>xa &lt;-<span class="st"> </span><span class="kw"><a href="reference/check_assertions.html">check_assertions</a></span>(x)</span>
+<span id="cb26-5"><a href="#cb26-5"></a><span class="co">## columns of x corresponding to a fatal assertion</span></span>
+<span id="cb26-6"><a href="#cb26-6"></a>x_afcols &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(x<span class="op">$</span>data) <span class="op">%in%</span><span class="st"> </span>xa<span class="op">$</span>occurColnames[xa<span class="op">$</span>taxonIdentificationIssue])</span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="co">## rows of x that have a fatal assertion</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>x_afrows &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(x<span class="op">$</span>data[,x_afcols],<span class="dv">1</span>,any)</span>
+<span id="cb26-9"><a href="#cb26-9"></a><span class="co">## which taxonIdentificationIssue assertions are present in this data?</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>these_assertions &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(x<span class="op">$</span>data)[x_afcols]</span>
+<span id="cb26-11"><a href="#cb26-11"></a><span class="co">## make a link to the web page for each occurrence</span></span>
+<span id="cb26-12"><a href="#cb26-12"></a>popup_link &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"&lt;a href=</span><span class="ch">\"</span><span class="st">https://records.nbnatlas.org/occurrences/"</span>,x<span class="op">$</span>data<span class="op">$</span>id,<span class="st">"</span><span class="ch">\"</span><span class="st">&gt;Link to occurrence record&lt;/a&gt;"</span>)</span>
+<span id="cb26-13"><a href="#cb26-13"></a><span class="co">## colour palette</span></span>
+<span id="cb26-14"><a href="#cb26-14"></a>pal &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/grep.html">sub</a></span>(<span class="st">"FF$"</span>,<span class="st">""</span>,<span class="kw"><a href="https://rdrr.io/r/grDevices/palettes.html">heat.colors</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(these_assertions))))</span>
+<span id="cb26-15"><a href="#cb26-15"></a><span class="co">## map each data row to colour, depending on its assertions</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a>marker_colour &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"#00FF00"</span>,<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(x<span class="op">$</span>data))</span>
+<span id="cb26-17"><a href="#cb26-17"></a><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(these_assertions)) marker_colour[x<span class="op">$</span>data[,x_afcols[k]]] &lt;-<span class="st"> </span>pal[k]</span>
+<span id="cb26-18"><a href="#cb26-18"></a><span class="co">## blank map, with imagery background</span></span>
+<span id="cb26-19"><a href="#cb26-19"></a>m &lt;-<span class="st"> </span><span class="kw">addProviderTiles</span>(<span class="kw">leaflet</span>(),<span class="st">"Esri.WorldImagery"</span>)</span>
+<span id="cb26-20"><a href="#cb26-20"></a><span class="co">## add markers</span></span>
+<span id="cb26-21"><a href="#cb26-21"></a>m &lt;-<span class="st"> </span><span class="kw">addCircleMarkers</span>(m,x<span class="op">$</span>data<span class="op">$</span>longitude,x<span class="op">$</span>data<span class="op">$</span>latitude,<span class="dt">col=</span>marker_colour,<span class="dt">popup=</span>popup_link)</span>
+<span id="cb26-22"><a href="#cb26-22"></a><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(m)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -308,9 +231,9 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/bioatlas/r-functionality">https://​github.com/​bioatlas/​r-functionality</a>
+<li>Browse source code at <br><a href="https://github.com/bioatlas/SBDI4R">https://​github.com/​bioatlas/​SBDI4R</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/bioatlas/r-functionality/issues">https://​github.com/​bioatlas/​r-functionality/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/bioatlas/SBDI4R/issues">https://​github.com/​bioatlas/​SBDI4R/​issues</a>
 </li>
 </ul>
 </div>

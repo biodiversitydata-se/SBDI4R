@@ -124,7 +124,8 @@ x <- occurrences(taxon="genus:Accipiter",
                  download_reason_id=10)
  
 ## download records in polygon, with no quality assertion information
-mellan_sve <- "POLYGON((16.551 60.760,18.836 59.801,17.606 58.860,16.199 58.540,12.244 58.494,12.772 61.523,16.551 60.760))"
+mellan_sve <- "POLYGON((16.551 60.760,18.836 59.801,17.606 58.860,16.199 58.540,
+                       12.244 58.494,12.772 61.523,16.551 60.760))"
 x <- occurrences(taxon="genus:Accipiter",
                  wkt=mellan_sve, 
                  download_reason_id=10, 

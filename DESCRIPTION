@@ -13,8 +13,8 @@ Authors@R: c(person("Debora","Arlt", email="debora.arlt@slu.se", role=c("aut","c
 	   person("Tom","August",role="ctb"),
 	   person("XX","YY",role="ctb"))
 Maintainer: Debora Arlt <debora.arlt@slu.se>
-Description: SBDI Bioatlas provides tools to enable users
-    of biodiversity information to find, access, combine and visualise data on
+Description: SBDI Bioatlas provides tools to enable users of biodiversity 
+    information to find, access, combine and visualise data on
     Sweden plants, animals and fungi; these have been made available from
     <https://bioatlas.se/>. SBDI4R provides a subset of the tools based on the 
     ALA4R package, and a few functions custom made for Sweden, which can be 

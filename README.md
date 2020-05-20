@@ -4,7 +4,7 @@ R functionality for SBDI data portal
 
 The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; these have been made available from [Biodiversity Atlas Sweden](https://bioatlas.se/). Here we provide a subset of the tools, and some extension tools (found previously in Analysportalen.se) to be directly used within R.
 
-SBDI4R enables the R community to directly access data and resources hosted by the Biodiversity Atlas Sweden. Our goal is to enable outputs (e.g. observations of species) to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia [ALA4R](https://github.com/AtlasOfLivingAustralia/ALA4R) package which provides similar services for the ALA and. This package also builds upon a similar package [NBN4R](https://github.com/fozy81/NBN4R) that wraps ALA4R functions but redirects requests to different web servers, in this case, Bioatlas servers. Both SBDI, NBN and ALA share similar Application Protocol Interface (API) web services. 
+SBDI4R enables the R community to directly access data and resources hosted by the Biodiversity Atlas Sweden. Our goal is to enable outputs (e.g. observations of species) to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia [ALA4R](https://github.com/AtlasOfLivingAustralia/ALA4R) package which provides similar services for the ALA and. This package also builds upon a similar package [NBN4R](https://github.com/fozy81/NBN4R) that wraps ALA4R functions but redirects requests to different web servers, in this case, SBDI servers. Both SBDI, NBN and ALA share similar Application Protocol Interface (API) web services. 
 
 The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/) are available in the package vignette, via (in R): `vignette("SBDI4R")`, and a draft modifed version using NBN data is below.
 
@@ -96,13 +96,13 @@ Caching can also be turned off entirely by:
 ```R
 sbdi_config(caching="off")
 ```
-or set to “refresh”, meaning that the cached results will re-downloaded from the Bioatlas servers and the cache updated. (This will happen for as long as caching is set to “refresh” — so you may wish to switch back to normal “on” caching behaviour once you have updated your cache with the data you are working on).
+or set to “refresh”, meaning that the cached results will re-downloaded from the SBDI servers and the cache updated. (This will happen for as long as caching is set to “refresh” — so you may wish to switch back to normal “on” caching behaviour once you have updated your cache with the data you are working on).
 
 ###User-agent string
-Each request to the Bioatlas server is accompanied by a “user-agent” string that identifies the software making the request. This is a standard behaviour used by web browsers as well. The user-agent identifies the user requests to the Bioatlas, helping the Bioatlas to adapt and enhance the services that it provides. By default, the SBDI4R user-agent string is set to “SBDI4R” plus the SBDI4R version number (e.g. “SBDI4R 1.0”).
+Each request to SBDI servers is accompanied by a “user-agent” string that identifies the software making the request. This is a standard behaviour used by web browsers as well. The user-agent identifies the user requests to SBDI, helping SBDI to adapt and enhance the services that it provides. By default, the SBDI4R user-agent string is set to “SBDI4R” plus the SBDI4R version number (e.g. “SBDI4R 1.0”).
 
 ###E-mail address
-Each request to the Bioatlas server is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field, and unless specified in the package configuration, needs to be specified for each request using the function 'occurrences()'.
+Each request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field, and unless specified in the package configuration, needs to be specified for each request using the function 'occurrences()'.
 You can set this up by:
 ```R
 sbdi_config(email="your.valid@emailaddress.com")
@@ -120,7 +120,7 @@ sbdi_config(verbose=TRUE)
 ```
 
 ### Setting the download reason
-Bioatlas requires that you provide a reason when downloading occurrence data (via the SBDI4R `occurrences()` function). You can provide this as a parameter directly to each call of `occurrences()`, or you can set it once per session using:
+SBDI requires that you provide a reason when downloading occurrence data (via the SBDI4R `occurrences()` function). You can provide this as a parameter directly to each call of `occurrences()`, or you can set it once per session using:
 
 ```R
 sbdi_config(download_reason_id=your_reason_id)
