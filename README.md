@@ -72,7 +72,7 @@ install.packages("data.table")
 
 ## Using SBDI4R  
 The SBDI4R package must be loaded for each new R session with `library(SBDI4R)`,
-or specifying your local location with 'library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")'.
+or specifying your local location with `library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")`.
 
 ## Customizing SBDI4R  
 Various aspects of the SBDI4R package can be customized.
