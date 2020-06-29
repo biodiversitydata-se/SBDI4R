@@ -2,11 +2,11 @@
 
 R functionality for SBDI data portal
 
-The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; these have been made available from [Biodiversity Atlas Sweden](https://bioatlas.se/). Here we provide a subset of the tools, and some extension tools (found previously in Analysportalen.se) to be directly used within R.
+The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; available through [Biodiversity Atlas Sweden](https://bioatlas.se/). The R package SBDI4R provides a subset of the tools, and some extension tools (found previously in Analysportalen.se), to be directly used within R.
 
-SBDI4R enables the R community to directly access data and resources hosted by the Biodiversity Atlas Sweden. Our goal is to enable outputs (e.g. observations of species) to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia [ALA4R](https://github.com/AtlasOfLivingAustralia/ALA4R) package which provides similar services for the ALA and. This package also builds upon a similar package [NBN4R](https://github.com/fozy81/NBN4R) that wraps ALA4R functions but redirects requests to different web servers, in this case, SBDI servers. Both SBDI, NBN and ALA share similar Application Protocol Interface (API) web services. 
+SBDI4R enables the R community to directly access data and resources hosted by SBDI. Our goal is to enable observations of species to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia [ALA4R](https://github.com/AtlasOfLivingAustralia/ALA4R) package which provides similar services for the ALA. Similar to the [NBN4R](https://github.com/fozy81/NBN4R) package DBDI4R wraps ALA4R functions but redirects requests to local web servers. All SBDI, NBN and ALA share similar Application Protocol Interface (API) web services. 
 
-The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/) are available in the package vignette, via (in R): `vignette("SBDI4R")`, and a draft modifed version using NBN data is below.
+The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/) are available in the package vignette, via (in R): `vignette("SBDI4R")`, and a draft modifed version using NBN data is found below.
 
 ## Installing SBDI4R
 
@@ -28,6 +28,12 @@ install.packages(c("stringr","sp"))
 ```
 and then `install_github("bioatlas/SBDI4R")` again.
 
+If you see an error about "ERROR: lazy loading failed for package 'SBDI4R'", this may be due to you trying to install on a network location. 
+Try instead to install on a local location: first create the local location you want to use, and then specify this location for isntalling, and later loading the package:
+```R
+install_github("bioatlas/SBDI4R", lib = "C:/pathname/MyLibrary")
+library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")
+```
 
 If you wish to use the `data.table` package for potentially faster loading of data matrices (optional), also do:
 ```R
@@ -65,13 +71,14 @@ install.packages("data.table")
 ```
 
 ## Using SBDI4R  
-The SBDI4R package must be loaded for each new R session with `library(SBDI4R)`:
+The SBDI4R package must be loaded for each new R session with `library(SBDI4R)`,
+or specifying your local location with 'library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")'.
 
 ## Customizing SBDI4R  
 Various aspects of the SBDI4R package can be customized.
 
 ### Caching  
-SBDI4R can cache most results to local files. This means that if the same code is run multiple times, the second and subsequent iterations will be faster. This will also reduce load on the NBN servers.
+SBDI4R can cache most results to local files. This means that if the same code is run multiple times, the second and subsequent iterations will be faster. This will also reduce load on the web servers.
 By default, this caching is session-based, meaning that the local files are stored in a temporary directory that is automatically deleted when the R session is ended. This behaviour can be altered so that caching is permanent, by setting the caching directory to a non-temporary location. For example, under Windows, use something like:
 ```R
 sbdi_config(cache_directory = file.path("c:","mydata","sbdi_cache")) ## Windows
@@ -99,8 +106,7 @@ or set to “refresh”, meaning that the cached results will re-downloaded from
 Each request to SBDI servers is accompanied by a “user-agent” string that identifies the software making the request. This is a standard behaviour used by web browsers as well. The user-agent identifies the user requests to SBDI, helping SBDI to adapt and enhance the services that it provides. By default, the SBDI4R user-agent string is set to “SBDI4R” plus the SBDI4R version number (e.g. “SBDI4R 1.0”).
 
 ### E-mail address  
-Each request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field, and unless specified in the package configuration, needs to be specified for each request using the function 'occurrences()'.
-You can set this up by:
+Each request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field. You can provide your e-mail address as a parameter directly to each call of the function occurrences(), or you can set it once per session specifying it in the package configuration:
 ```R
 sbdi_config(email="your.valid@emailaddress.com")
 ```
@@ -118,7 +124,6 @@ sbdi_config(verbose=TRUE)
 
 ### Setting the download reason  
 SBDI requires that you provide a reason when downloading occurrence data (via the SBDI4R `occurrences()` function). You can provide this as a parameter directly to each call of `occurrences()`, or you can set it once per session using:
-
 ```R
 sbdi_config(download_reason_id=your_reason_id)
 ```
