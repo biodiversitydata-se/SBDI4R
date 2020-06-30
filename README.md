@@ -222,7 +222,7 @@ summary(x)
 # 	recordedByUnparsable: 3 records 
 # 	firstOfMonth: 131 records
 ```
-You can check using 'sbdi_fields("assertions",as_is=TRUE)' for a list of all record issues and to see what is considered as fatal quality issues.
+You can see a list of all record issues using `sbdi_fields("assertions",as_is=TRUE)` and see what is considered as fatal quality issues.
 
 You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all fatal issues:
 ```R
