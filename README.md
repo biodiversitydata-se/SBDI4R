@@ -128,7 +128,8 @@ SBDI requires that you provide a reason when downloading occurrence data (via th
 sbdi_config(download_reason_id=your_reason_id)
 ```
 
-(See `sbdi_reasons()` for valid download reasons)
+(See `sbdi_reasons()` for valid download reasons, 
+e.g. download_reason_id=10 for "testing", or 7 for "ecological research", 8 for "systematic research/taxonomy", 3 for "education")
 
 
 ### Other options
@@ -153,7 +154,7 @@ library(phytools)
 ```
 
 ### Example 1: Name searching and taxonomic trees
-We want to look at the taxonomy of tits, but we don’t know what the correct scientific name is, so let’s search for it:
+We want to look at the taxonomy of titmice, but we don’t know what the correct scientific name is, so let’s search for it:
 ```R
 sx <- search_fulltext("parus")
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
@@ -187,10 +188,16 @@ ax <- as.phylo(~genusS/scientificName, data=tx)
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
-### Example 2: Quality assertions  
-Data quality assertions are a suite of fields that are the result of a set of tests peformed on NBN data. Download occurrence data for the Blunt-fruited Water-starwort:
+### Example 2: Get some data  
+Download occurrence data for the Blunt-fruited Water-starwort and view top of the data table:
 ```R
 x <- occurrences(taxon="Callitriche cophocarpa", download_reason_id=10)
+head(x$data)
+```
+
+### Example 3: Quality assertions, and plotting data on a map  
+Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
+```R
 summary(x)
 ```
 ```
@@ -215,9 +222,17 @@ summary(x)
 # 	recordedByUnparsable: 3 records 
 # 	firstOfMonth: 131 records
 ```
+You can check using 'sbdi_fields("assertions",as_is=TRUE)' for a list of all record issues and to see what is considered as fatal quality issues.
+
+You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all fatal issues:
+```R
+occurrences_plot(x,"obsPlot.pdf", qa="fatal", 
+                  grouped=FALSE, taxon_level="species", 
+                  pch='+')
+```
+Note that the plot is saved to a pdf file that you have to locate on your computer. 
 
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
-
 ```R
 library(leaflet)
 ## drop any records with missing lat/lon values
@@ -244,37 +259,34 @@ m <- addCircleMarkers(m, x$data$longitude, x$data$latitude,
 m
 ```
 
-You can also quickly plot all the observations with the function `ocurrence_plot()`
+### Example 4: Summarise occurrences over a defined grid
+Now we want to summarise occurrences over a defined grid instead of plotting every observation point. 
+First we need to overlay the observations with the grid:
 ```R
-occurrences_plot(x,"obsPlot.pdf", qa="fatal", 
-                  grouped=FALSE, taxon_level="species", 
-                  pch='+')
-```
-
-Now say we want to summarise over a defined grid instead of ploting every observation point. 
-We need to overlay the observations with the grid:
-```R
-load some shapes over Sweden
+## load some shapes over Sweden
 data("swe_wgs84", package="SBDI4R", envir=environment()) # Political borders
 data("swe100kmGrid", package="SBDI4R", envir=environment()) # A grid
 grid<-swe100kmGrid
 
-# Make the observations spatial
+## make the observations spatial
 obs <- as.data.frame(x$data)
 sp::coordinates(obs) <- obs[,c("longitude","latitude")]
 sp::proj4string(obs) <- "+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
 
 nObs <- nrow(obs)
 
-### Overlay the data to the grid
+## overlay the data with the grid
 ObsInGridList <- over(grid, obs, returnList=TRUE)
 wNonEmpty <- unname( which( unlist(lapply(ObsInGridList, nrow)) != 0) )
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 
-### Check nObs
+## check nObs
 nObsInGrid <- sum(unlist(lapply(ObsInGridList, nrow)))
+```
 
-### Apply a summary over the grid
+Now summarise occurrences within grid cells:
+```R
+## apply a summary over the grid
 nCells <- length(ObsInGridList)
 
 res <- data.frame("nObs"=as.numeric(rep(NA,nCells)),
@@ -306,7 +318,7 @@ rownames(res) <- row.names(grid)
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 ```
 
-And finally plot it as a map:
+Finally plot the grid summary as a map:
 ```R
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, max(resSp@data$nObs, na.rm = TRUE)), 
