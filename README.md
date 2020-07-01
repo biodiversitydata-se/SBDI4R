@@ -263,7 +263,6 @@ m
 Now we want to summarise occurrences over a defined grid instead of plotting every observation point. 
 First we need to overlay the observations with the grid:
 ```R
-library(rgeos)
 ## load some shapes over Sweden
 data("swe_wgs84", package="SBDI4R", envir=environment()) # Political borders
 data("swe100kmGrid", package="SBDI4R", envir=environment()) # A grid
