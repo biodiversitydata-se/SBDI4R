@@ -271,12 +271,12 @@ grid<-swe100kmGrid
 ## make the observations spatial
 obs <- as.data.frame(x$data)
 sp::coordinates(obs) <- obs[,c("longitude","latitude")]
-sp::proj4string(obs) <- "+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+sp::proj4string(obs) <- "+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84"
 
 nObs <- nrow(obs)
 
 ## overlay the data with the grid
-ObsInGridList <- over(grid, obs, returnList=TRUE)
+ObsInGridList <- rgeos::over(grid, obs, returnList=TRUE)
 wNonEmpty <- unname( which( unlist(lapply(ObsInGridList, nrow)) != 0) )
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 
