@@ -243,6 +243,8 @@ occurrences_plot(x,"obsPlot.pdf", qa="fatal",
 ```
 Note that the plot is saved to a pdf file in the current working directory. You can find that by getwd()  
 
+<img src=https://github.com/bioatlas/SBDI4R/tree/master/man/obsPlot_CallitricheCophocarpa.pdf />
+
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
 ```R
 library(leaflet)
