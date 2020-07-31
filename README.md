@@ -199,7 +199,7 @@ ax <- as.phylo(~genusS/scientificName, data=tx)
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
-### Example 2: Get some data, quality asserstion, plotting data on a map and save data  
+### Example 2: Get some data, quality assertions, plotting data on a map and save data  
 Download occurrence data for the Blunt-fruited Water-starwort and view top of the data table:
 ```R
 x <- occurrences(taxon="Callitriche cophocarpa", download_reason_id=10)
@@ -272,7 +272,7 @@ m <- addCircleMarkers(m, x$data$longitude, x$data$latitude,
                       col=marker_colour, popup=popup_link)
 m
 ```
-#### save data
+#### Save data
 ```R
 # save as data.frame
 Callitriche <- as.data.frame(x$data)
