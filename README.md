@@ -199,14 +199,14 @@ ax <- as.phylo(~genusS/scientificName, data=tx)
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
-### Example 2: Get some data  
+### Example 2: Get some data, quality asserstion, plotting data on a map and save data  
 Download occurrence data for the Blunt-fruited Water-starwort and view top of the data table:
 ```R
 x <- occurrences(taxon="Callitriche cophocarpa", download_reason_id=10)
 head(x$data)
 ```
 
-### Example 3: Quality assertions, and plotting data on a map  
+#### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
 ```R
 summary(x)
@@ -235,6 +235,7 @@ summary(x)
 ```
 You can see a list of all record issues using `sbdi_fields("assertions",as_is=TRUE)` and see what is considered as fatal quality issues.
 
+#### Plotting data on a map  
 You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all fatal issues:
 ```R
 occurrences_plot(x,"obsPlot.pdf", qa="fatal", 
@@ -271,8 +272,26 @@ m <- addCircleMarkers(m, x$data$longitude, x$data$latitude,
                       col=marker_colour, popup=popup_link)
 m
 ```
+#### save data
+```R
+# save as data.frame
+Callitriche <- as.data.frame(x$data)
 
-### Example 4: Summarise occurrences over a defined grid
+# simplyfy data frame
+calli <- data.frame(Callitriche$scientificName,
+                   Callitriche$latitude,
+                   Callitriche$longitude)
+# simplify column names
+colnames(calli) <- c("species","latitude","longitude")
+# remove rows with missing values (NAs)
+calli <- na.omit(calli)
+
+# save new dataframe
+write.csv(calli,"Callitriche.csv")
+```
+
+
+### Example 3: Summarise occurrences over a defined grid
 Now we want to summarise occurrences over a defined grid instead of plotting every observation point. 
 First we need to overlay the observations with the grid:
 ```R
