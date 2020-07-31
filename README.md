@@ -173,7 +173,18 @@ sx <- search_fulltext("parus")
 # 10   Parus rufonuchalis  Parus rufonuchalis     5788756 species
 ```
 
-But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae. Now we can download the taxonomic data (note that the search is case-sensitive):
+But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
+```R
+sx <- search_fulltext("Paridae")
+(sx$data[,c( "name","species", "speciesGuid", "rank")])
+```
+To restrict the query specifically to birds we can also use the fq argument to filter the query (see sbdi_fields("general",as_is=TRUE) for all the fields that are queryable), and increase page_size to include more records (default=10):
+```R
+sx <- search_fulltext("Paridae", fq="class_s:Aves", page_size=100)
+(sx$data[,c( "name","species", "speciesGuid", "rank")])
+```
+
+Now we can download the taxonomic data (note that the search is case-sensitive):
 ```R
 tx <- taxinfo_download("family_s:Paridae", fields=c("guid", "genus_s", "scientificName", "rank"))
 tx <- tx[tx$rank == "species",] ## restrict to species
@@ -230,7 +241,7 @@ occurrences_plot(x,"obsPlot.pdf", qa="fatal",
                   grouped=FALSE, taxon_level="species", 
                   pch='+')
 ```
-Note that the plot is saved to a pdf file that you have to locate on your computer. 
+Note that the plot is saved to a pdf file in the current working directory. You can find that by getwd()  
 
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
 ```R
@@ -276,6 +287,7 @@ sp::proj4string(obs) <- "+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +el
 nObs <- nrow(obs)
 
 ## overlay the data with the grid
+library(rgeos) #  the function over() is in package rgeos
 ObsInGridList <- rgeos::over(grid, obs, returnList=TRUE)
 wNonEmpty <- unname( which( unlist(lapply(ObsInGridList, nrow)) != 0) )
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
