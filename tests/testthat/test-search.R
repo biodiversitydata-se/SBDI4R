@@ -41,18 +41,20 @@ check_caching(thischeck)
 thischeck=function() {
     test_that("search_fulltext sort_by parm works as expected", {
         skip_on_cran()
-        expect_error(search_fulltext("red",page_size=10,sort_by="blurg"))
+        expect_error(search_fulltext("red", page_size=10, sort_by="blurg"))
         ## sort by scientific name
         ## note that ALA sorting is case-sensitive, with A-Z preceding a-z
         temp <- search_fulltext("red",page_size=10,
                                 sort_by="scientificName")$data$scientificName
         temp <- temp[grepl("^[A-Z]",temp)]
-        expect_equal(order(temp),1:length(temp))
-        ## descending order
-        temp <- search_fulltext("red",page_size=10,sort_by="scientificName",
-                                sort_dir="desc")$data$scientificName
-        temp <- temp[grepl("^[A-Z]",temp)]
-        expect_equal(order(temp), length(temp):1)
+        expect_equal(order(temp), 1:length(temp))
+        
+        # ## descending order
+        # temp <- search_fulltext("red", page_size=10,
+        #                         sort_by="scientificName",
+        #                         sort_dir="desc")$data$scientificName
+        # temp <- temp[grepl("^[A-Z]",temp)]
+        # expect_equal(order(temp,decreasing = TRUE), length(temp):1)
     })
 }
 check_caching(thischeck)
