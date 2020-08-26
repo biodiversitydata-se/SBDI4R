@@ -1,5 +1,9 @@
 # SBDI4R
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Build Status](https://travis-ci.com/github/bioatlas/SBDI4R.svg?branch=master)](https://travis-ci.com/github/bioatlas/SBDI4R)
+
 R functionality for SBDI data portal
 
 The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; available through [Biodiversity Atlas Sweden](https://bioatlas.se/). The R package SBDI4R provides a subset of the tools, and some extension tools (found previously in Analysportalen.se), to be directly used within R.
