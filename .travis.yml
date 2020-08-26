@@ -1,5 +1,6 @@
-language: R
-sudo: false
+language: r
+os: linux
+dist: xenial
 cache: packages
 addons:
   apt:
@@ -13,14 +14,14 @@ addons:
     - gcc-8
     - g++-8
     - gfortran-8
-matrix:
+jobs:
   include:
   - os: linux
     r: release
-    dist: trusty
+    dist: xenial
     env:
-    - BUILD_NAME=trusty_release
-    - DETAILS="trusty release build"
+    - BUILD_NAME=xenial_release
+    - DETAILS="xenial release build"
     - R_CODECOV=true
 env:
   global:
