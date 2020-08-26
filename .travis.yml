@@ -1,4 +1,4 @@
-language: R
+language: r
 cache: packages
 addons:
   apt:
@@ -27,7 +27,7 @@ env:
   - COMPILER=g++-8
   - CC=gcc-8
   - CXX=g++-8
-  - NOT_CRAN=true
+  - NOT_CRAN=false
 before_install:
   - mkdir -p ~/.R && touch ~/.R/Makevars
   - VER=-8
