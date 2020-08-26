@@ -1,0 +1,9 @@
+language: r
+os: linux
+dist: xenial
+cache: packages
+
+env:
+  global:
+  - NOT_CRAN=true
+  
