@@ -46,5 +46,3 @@ script:
   travis_wait 20 R CMD check ALA4R*tar.gz
 after_success:
 - if [[ "${R_CODECOV}" ]]; then travis_wait 20 Rscript -e 'covr::codecov()'; fi
-notifications:
-  slack: atlaslivingaustralia:IPdEJ1wsRcGOF6PhqrgD7Ny4
