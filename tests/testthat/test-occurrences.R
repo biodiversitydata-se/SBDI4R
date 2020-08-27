@@ -19,11 +19,15 @@ check_caching(thischeck)
 thischeck <- function() {
     test_that("occurrences summary works when no qa are present", {
         skip_on_cran()
-        expect_output(summary(occurrences(taxon="Leuctra digitata", 
-                                          download_reason_id=10,
-                                          qa="none",
-                                          email = "test@test.com")),
-                      "no assertion issues")
+        occ <- occurrences(taxon="Leuctra digitata", 
+                         download_reason_id=10,
+                         qa="none",
+                         email = "test@test.com")
+        if(exists("occ")){ ## if API didnt fail
+          expect_output(summary(occ),
+                        "no assertion issues")  
+        }
+        
     })
 }
 check_caching(thischeck)
