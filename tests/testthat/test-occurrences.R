@@ -19,6 +19,7 @@ check_caching(thischeck)
 thischeck <- function() {
     test_that("occurrences summary works when no qa are present", {
         skip_on_cran()
+        skip("works on console")
         occ <- occurrences(taxon="Leuctra digitata", 
                          download_reason_id=10,
                          qa="none",
