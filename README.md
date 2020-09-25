@@ -371,5 +371,5 @@ legend("bottomleft",
 ## More examples - case studies
 
 ### Case 1: 
-coming soon
+coming soon...
 
