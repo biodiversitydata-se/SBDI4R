@@ -23,19 +23,19 @@ Or the development version from GitHub:
 ```R
 install.packages("remotes")
 library(remotes)
-install_github("bioatlas/SBDI4R")
+install_github("biodiversitydata-se/SBDI4R")
 ```
 
 If you see an error about a missing package, you will need to install it manually, e.g.:
 ```R
 install.packages(c("stringr","sp"))
 ```
-and then `install_github("bioatlas/SBDI4R")` again.
+and then `install_github("biodiversitydata-se/SBDI4R")` again.
 
 If you see an error about "ERROR: lazy loading failed for package 'SBDI4R'", this may be due to you trying to install on a network location. 
 Try instead to install on a local location: first create the local location you want to use, and then specify this location for isntalling, and later loading the package:
 ```R
-install_github("bioatlas/SBDI4R", lib = "C:/pathname/MyLibrary")
+install_github("biodiversitydata-se/SBDI4R", lib = "C:/pathname/MyLibrary")
 library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")
 ```
 
@@ -59,7 +59,7 @@ Or the development version from GitHub:
 ```{r eval=FALSE}
 install.packages("remotes")
 library(remotes)
-install_github("bioatlas/SBDI4R")
+install_github("biodiversitydata-se/SBDI4R")
 ```
 
 If you see an error about a missing package, you will need to install it manually, e.g.:
