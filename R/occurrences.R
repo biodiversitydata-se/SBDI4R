@@ -1,12 +1,17 @@
 #' Get occurrence data
 #' 
-#' Retrieve SBDI occurrence data via the "occurrence download" web service. At least one of \code{taxon}, \code{wkt}, or \code{fq} must be supplied for a valid query. Note that there is a limit of 500000 records per request when using \code{method="indexed"}. Use the \code{method="offline"} for larger requests. For small requests, \code{method="indexed"} likely to be faster.
+#' Retrieve SBDI occurrence data via the "occurrence download" web service. At 
+#' least one of \code{taxon}, \code{wkt}, or \code{fq} must be supplied for a 
+#' valid query. 
+# Note that there is a limit of 500000 records per request when 
+# using \code{method="indexed"}. Use the \code{method="offline"} for larger 
+# requests. For small requests, \code{method="indexed"} likely to be faster.
 #' 
 #' @references \itemize{
 #' \item Associated SBDI web service for record counts: \url{https://api.bioatlas.se/#ws3}
 #' \item Associated SBDI web service for occurence downloads: \url{https://api.bioatlas.se/#ws4}
 #' \item Field definitions: \url{https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc}
-#' \item WKT reference: \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
+#' \item WKT reference: \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 #' }
 #' @param taxon string: (optional) query of the form field:value (e.g. "genus:Macropus")
 #'  or a free text search (e.g. "macropodidae"). Note that a free-text search is 
@@ -53,8 +58,6 @@
 #' download. Use \code{qa="all"} to include all available issues, or \code{qa="none"} 
 #' to include none. Otherwise see \code{sbdi_fields("assertions",as_is=TRUE)} for
 #' valid values
-#' @param method DEPRECATED in ALA4R. string: "indexed" (default) or "offline". 
-#' In "offline" mode, more fields are available and larger datasets can be returned
 #' @param email (required) string: the email address of the user performing the 
 #' download  [default is set by sbdi_config()]
 #' @param download_reason_id numeric or string: (required unless record_count_only is TRUE) 
@@ -72,8 +75,9 @@
 #' that would be downloaded, but don't download them. Note that the record count
 #'  is always re-retrieved from the SBDI, regardless of the caching settings. If
 #'  a cached copy of this query exists on the local machine, the actual data set 
-#'  size may therefore differ from this record count. \code{record_count_only=TRUE} 
-#'  can only be used with \code{method="indexed"}
+#'  size may therefore differ from this record count. 
+# \code{record_count_only=TRUE}
+ # can only be used with \code{method="indexed"}
 #' @param use_layer_names logical: if TRUE, layer names will be used as layer 
 #' column names in the returned data frame (e.g. "watsonianViceCounties"). Otherwise, 
 #' layer id value will be used for layer column names (e.g. "cl10009")
@@ -126,7 +130,7 @@
 
 occurrences <- function(taxon, wkt, fq, fields, extra, qa, 
                         email = sbdi_config()$email, 
-                        method,
+                        #method,
                         download_reason_id = sbdi_config()$download_reason_id,
                         reason,
                         verbose = sbdi_config()$verbose, 
@@ -136,29 +140,18 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
   
   assert_that(is.flag(record_count_only))
   
-  if (!missing(method)) {
-    warning("Method is a deprecated field. All queries use offline method,
-                unless record_count_only == TRUE, when indexed method is used")
-  }
+  # if (!missing(method)) {
+  #   warning("Method is a deprecated field. All queries use offline method,
+  #               unless record_count_only == TRUE, when indexed method is used")
+  # }
 
   # if (missing(email) || !is.notempty.string(email)) {
   assert_that(is.notempty.string(email), msg = "email is required")
 
   
-    # ALA4R::occurrences(taxon, wkt, fq, 
-    #                     fields, extra, qa, 
-    #                     method, email,
-    #                     download_reason_id, reason,
-    #                     verbose, record_count_only,
-    #                     use_layer_names, use_data_table)
-    #                     
   #### FROM HERE the origial function
   ## check input parms are sensible
   assert_that(is.flag(record_count_only))
-  if (!missing(method)) {
-    warning("Method is a deprecated field. All queries use offline method,
-                unless record_count_only == TRUE, when indexed method is used")
-  }
   if (record_count_only) {
     valid_fields_type <- "occurrence_stored"
   }

@@ -179,12 +179,12 @@ sx <- search_fulltext("parus")
 
 But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
 ```R
-sx <- search_fulltext("Paridae")
+sx <- search_fulltext("parus", fq="family_s:Paridae")
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
 ```
 To restrict the query specifically to birds we can also use the fq argument to filter the query (see sbdi_fields("general",as_is=TRUE) for all the fields that are queryable), and increase page_size to include more records (default=10):
 ```R
-sx <- search_fulltext("Paridae", fq="class_s:Aves", page_size=100)
+sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
 ```
 
@@ -214,8 +214,7 @@ head(x$data)
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
 ```R
 summary(x)
-```
-```
+
 # number of original names: 3 
 # number of taxonomically corrected names: 1 
 # number of observation records: 5634 
@@ -236,19 +235,20 @@ summary(x)
 # 	idPreOccurrence: 4 records 
 # 	recordedByUnparsable: 3 records 
 # 	firstOfMonth: 131 records
-```
+```  
+
 You can see a list of all record issues using `sbdi_fields("assertions",as_is=TRUE)` and see what is considered as fatal quality issues.
 
 #### Plotting data on a map  
 You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all fatal issues:
 ```R
-occurrences_plot(x,"obsPlot.pdf", qa="fatal", 
+occurrences_plot(x, "obsPlot.pdf", qa="fatal", 
                   grouped=FALSE, taxon_level="species", 
                   pch='+')
 ```
-Note that the plot is saved to a pdf file in the current working directory. You can find that by getwd()  
+Note that the plot is saved to a pdf file in the current working directory. You can find that by `getwd()`.  
 
-<img src=https://github.com/bioatlas/SBDI4R/tree/master/man/figures/obsPlot_CallitricheCophocarpa.png />
+<img src=https://github.com/biodiversitydata-se/SBDI4R/tree/master/man/figures/obsPlot_CallitricheCophocarpa.png />
 
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
 ```R
@@ -259,11 +259,12 @@ xa <- check_assertions(x)
 ## columns of x corresponding to a fatal assertion
 x_afcols <- which(names(x$data) %in% xa$occurColnames[xa$isFatal])
 ## rows of x that have a fatal assertion
-x_afrows <- apply(x$data[,x_afcols],1,any)
+x_afrows <- apply(x$data[,x_afcols], 1, any)
 ## which taxonIdentificationIssue assertions are present in this data?
 these_assertions <- names(x$data)[x_afcols]
 ## make a link to the web page for each occurrence
-popup_link <- paste0("<a href=\"https://records.bioatlas.se/occurrences/",x$data$id,"\">Link to occurrence record</a>")
+popup_link <- paste0("<a href=\"https://records.bioatlas.se/occurrences/",
+                      x$data$id,"\">Link to occurrence record</a>")
 ## colour palette
 pal <- c(sub("FF$","", heat.colors(length(these_assertions))))
 ## map each data row to colour, depending on its assertions
@@ -272,10 +273,11 @@ for (k in 1:length(these_assertions)) marker_colour[x$data[,x_afcols[k]]] <- pal
 ## blank map, with imagery background
 m <- addProviderTiles(leaflet(),"Esri.WorldImagery")
 ## add markers
-m <- addCircleMarkers(m, x$data$longitude, x$data$latitude, 
+m <- addCircleMarkers(m, x$data$longitude, x$data$latitude,  radius = 5,
                       col=marker_colour, popup=popup_link)
 m
-```
+```  
+
 #### Save data
 ```R
 # save as data.frame
@@ -296,24 +298,28 @@ write.csv(calli,"Callitriche.csv")
 
 
 ### Example 3: Summarise occurrences over a defined grid
-Now we want to summarise occurrences over a defined grid instead of plotting every observation point. 
-First we need to overlay the observations with the grid:
+Now we want to summarise occurrences over a defined grid instead of plotting every 
+observation point. For this example you will need the `sp` and `rgeso` packages. 
+Install them if you haven´t with `install.packages("sp", "rgeos")`.
+First we need to overlay the observations with the grid:  
+
 ```R
+library(sp) # the function coordinates() and proj4string() are in sp
+library(rgeos) #  the function over() is in package rgeos
 ## load some shapes over Sweden
 data("swe_wgs84", package="SBDI4R", envir=environment()) # Political borders
 data("swe100kmGrid", package="SBDI4R", envir=environment()) # A grid
-grid<-swe100kmGrid
+grid <- swe100kmGrid
 
 ## make the observations spatial
 obs <- as.data.frame(x$data)
-sp::coordinates(obs) <- obs[,c("longitude","latitude")]
-sp::proj4string(obs) <- "+init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84"
+coordinates(obs) <- obs[,c("longitude","latitude")]
+proj4string(obs) <- "+init=epsg:4326"
 
 nObs <- nrow(obs)
 
 ## overlay the data with the grid
-library(rgeos) #  the function over() is in package rgeos
-ObsInGridList <- rgeos::over(grid, obs, returnList=TRUE)
+ObsInGridList <- over(grid, obs, returnList=TRUE)
 wNonEmpty <- unname( which( unlist(lapply(ObsInGridList, nrow)) != 0) )
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 

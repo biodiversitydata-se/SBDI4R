@@ -8,7 +8,7 @@
     ## We need to overwrite the server configuration found in ALA4R package with SBDI info and urls
     sbdi_config() 
     version_string <- "version unknown"
-    suppressWarnings(try(version_string<-utils::packageDescription('SBDI4R')[["Version"]], silent=TRUE)) ## get the SBDI4R version, if we can
+    suppressWarnings(try(version_string <- utils::packageDescription('SBDI4R')[["Version"]], silent=TRUE)) ## get the SBDI4R version, if we can
     user_agent_string <- paste0("SBDI4R ",version_string)
     sbdi_config(user_agent=user_agent_string) 
     ## Both APIs are the same (SBDI has recently based their API on ALA)  
