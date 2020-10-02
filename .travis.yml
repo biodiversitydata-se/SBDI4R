@@ -16,10 +16,10 @@ jobs:
   include:
   - os: linux
     r: release
-    dist: xenial
+    dist: bionic
     env:
-    - BUILD_NAME=xenial_release
-    - DETAILS="xenial release build"
+    - BUILD_NAME=release
+    - DETAILS="release build"
     - R_CODECOV=true
 env:
   global:
