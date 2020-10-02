@@ -38,7 +38,9 @@ check_caching(thischeck)
 
 thischeck = function() {
   test_that("occurrence_details arguments in SBDI4R package match arguments in ALA4R package", {
-    expect_named(formals(occurrence_details),names(formals(ALA4R::occurrence_details)),ignore.order = TRUE)
+    expect_named(formals(occurrence_details), 
+                 names(formals(ALA4R::occurrence_details)),
+                 ignore.order = TRUE)
   })
 }
 check_caching(thischeck)

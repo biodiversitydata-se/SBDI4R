@@ -12,6 +12,7 @@ occurrences(
   extra,
   qa,
   email = sbdi_config()$email,
+  method,
   download_reason_id = sbdi_config()$download_reason_id,
   reason,
   verbose = sbdi_config()$verbose,
@@ -69,6 +70,8 @@ valid values}
 
 \item{email}{(required) string: the email address of the user performing the 
 download  [default is set by sbdi_config()]}
+
+\item{method}{[Deprecated]}
 
 \item{download_reason_id}{numeric or string: (required unless record_count_only is TRUE) 
 a reason code for the download, either as a numeric ID (currently 0--11) or a 

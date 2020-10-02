@@ -53,6 +53,7 @@
 #' download. Use \code{qa="all"} to include all available issues, or \code{qa="none"} 
 #' to include none. Otherwise see \code{sbdi_fields("assertions",as_is=TRUE)} for
 #' valid values
+#' @param method [Deprecated]
 #' @param email (required) string: the email address of the user performing the 
 #' download  [default is set by sbdi_config()]
 #' @param download_reason_id numeric or string: (required unless record_count_only is TRUE) 
@@ -123,7 +124,7 @@
 
 occurrences <- function(taxon, wkt, fq, fields, extra, qa, 
                         email = sbdi_config()$email, 
-                        #method,
+                        method,
                         download_reason_id = sbdi_config()$download_reason_id,
                         reason,
                         verbose = sbdi_config()$verbose, 
