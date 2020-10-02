@@ -132,7 +132,7 @@ thischeck <- function() {
     test_that("occurrences gives same results for offline and indexed methods", {
         skip_on_cran()
         skip("offline method not working on SBDI?")
-        x1 <- occurrences(taxon="taxon_name:\"Leuctra digitata\"",method="offline",
+        x1 <- occurrences(taxon="taxon_name:\"Leuctra digitata\"", #method="offline",
                           download_reason_id="testing",
                           email="ala4rtesting@test.org")
         x2 <- occurrences(taxon="taxon_name:\"Leuctra digitata\"",
