@@ -97,8 +97,8 @@ All results will be stored in that cache directory and will be used from one ses
 
 If you change the cache_directory to a permanent location, you may wish to add something like this to your .Rprofile file, so that it happens automatically each time the SBDI4R package is loaded:
 ```R
-setHook(packageEvent("SBDI4R", "attach"), 
-function(...) sbdi_config(cache_directory=file.path("~","mydata","sbdi_cache")))
+setHook(packageEvent("SBDI4R", "onLoad"), 
+        function(...) sbdi_config(cache_directory=file.path("~","mydata","sbdi_cache")))
 ```
 Caching can also be turned off entirely by:
 ```R
