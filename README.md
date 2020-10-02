@@ -10,7 +10,7 @@ The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable use
 
 SBDI4R enables the R community to directly access data and resources hosted by SBDI. Our goal is to enable observations of species to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia [ALA4R](https://github.com/AtlasOfLivingAustralia/ALA4R) package which provides similar services for the ALA. Similar to the [NBN4R](https://github.com/fozy81/NBN4R) package SBDI4R wraps ALA4R functions but redirects requests to local web servers. All SBDI, NBN and ALA share similar Application Protocol Interface (API) web services. 
 
-The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/) are available in the package vignette, via (in R): `vignette("SBDI4R")`, and a draft modifed version using NBN data is found below.
+The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/) are available in the package vignette, via (in R): `vignette("SBDI4R")`, and a draft modified version using NBN data is found below.
 
 ## Installing SBDI4R
 
