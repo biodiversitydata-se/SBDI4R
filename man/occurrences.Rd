@@ -12,7 +12,6 @@ occurrences(
   extra,
   qa,
   email = sbdi_config()$email,
-  method,
   download_reason_id = sbdi_config()$download_reason_id,
   reason,
   verbose = sbdi_config()$verbose,
@@ -50,13 +49,10 @@ for more information about filter queries}
 \item{fields}{string vector: (optional) a vector of field names to return. 
 Note that the columns of the returned data frame are not guaranteed to retain
  the ordering of the field names given here. If not specified, a default list 
- of fields will be returned. See \code{sbdi_fields("occurrence_stored")} for 
- valid field names with method \code{indexed}, and \code{sbdi_fields("occurrence")} 
- for valid field names with method \code{offline}. Field names can be passed as 
- full names (e.g. "Radiation - lowest period (Bio22)") rather than id ("el871"). 
- Use \code{fields="all"} to include all available fields, but note that 
- \code{"all"} will probably cause an error with \code{method="offline"} because
-  the request URL will exceed the maximum allowable length}
+ of fields will be returned. See \code{sbdi_fields("occurrence_stored")}. 
+ Field names can be passed as full names (e.g. "Radiation - lowest period 
+ (Bio22)") rather than id ("el871"). Use \code{fields="all"} to include all 
+ available fields.}
 
 \item{extra}{string vector: (optional) a vector of field names to include in 
 addition to those specified in \code{fields}. This is useful if you would like 
@@ -64,9 +60,7 @@ the default list of fields (i.e. when \code{fields} parameter is not specified)
 plus some additional extras. See \code{sbdi_fields("occurrence_stored",as_is=TRUE)} 
 for valid field names. Field names can be passed as full names (e.g. "Radiation
  - lowest period (Bio22)") rather than id ("el871"). Use \code{extra="all"} 
- to include all available fields, but note that \code{"all"} will probably 
- cause an error with \code{method="offline"} because the request URL will exceed 
- the maximum allowable length}
+ to include all available fields.}
 
 \item{qa}{string vector: (optional) list of record issues to include in the 
 download. Use \code{qa="all"} to include all available issues, or \code{qa="none"} 
@@ -75,9 +69,6 @@ valid values}
 
 \item{email}{(required) string: the email address of the user performing the 
 download  [default is set by sbdi_config()]}
-
-\item{method}{DEPRECATED in ALA4R. string: "indexed" (default) or "offline". 
-In "offline" mode, more fields are available and larger datasets can be returned}
 
 \item{download_reason_id}{numeric or string: (required unless record_count_only is TRUE) 
 a reason code for the download, either as a numeric ID (currently 0--11) or a 
@@ -97,8 +88,7 @@ data requests}
 that would be downloaded, but don't download them. Note that the record count
  is always re-retrieved from the SBDI, regardless of the caching settings. If
  a cached copy of this query exists on the local machine, the actual data set 
- size may therefore differ from this record count. \code{record_count_only=TRUE} 
- can only be used with \code{method="indexed"}}
+ size may therefore differ from this record count.}
 
 \item{use_layer_names}{logical: if TRUE, layer names will be used as layer 
 column names in the returned data frame (e.g. "watsonianViceCounties"). Otherwise, 
@@ -114,7 +104,9 @@ Data frame of occurrence results, with one row per occurrence record.
 The columns of the dataframe will depend on the requested fields
 }
 \description{
-Retrieve SBDI occurrence data via the "occurrence download" web service. At least one of \code{taxon}, \code{wkt}, or \code{fq} must be supplied for a valid query. Note that there is a limit of 500000 records per request when using \code{method="indexed"}. Use the \code{method="offline"} for larger requests. For small requests, \code{method="indexed"} likely to be faster.
+Retrieve SBDI occurrence data via the "occurrence download" web service. At 
+least one of \code{taxon}, \code{wkt}, or \code{fq} must be supplied for a 
+valid query.
 }
 \examples{
 \dontrun{
@@ -158,7 +150,7 @@ occurrence_plot(z)
 \item Associated SBDI web service for record counts: \url{https://api.bioatlas.se/#ws3}
 \item Associated SBDI web service for occurence downloads: \url{https://api.bioatlas.se/#ws4}
 \item Field definitions: \url{https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc}
-\item WKT reference: \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
+\item WKT reference: \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 }
 }
 \seealso{

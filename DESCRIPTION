@@ -27,8 +27,7 @@ LazyData: true
 Depends: R (>= 3.5.0)
 SystemRequirements: GDAL (>= 2.0.1)
 Imports:
-    ALA4R,
-    RCurl,
+    ALA4R (== 1.8.0),
     assertthat,
     digest,
     httr,
@@ -36,6 +35,8 @@ Imports:
     magrittr, 
     plyr,
     plotly,
+    RCurl,
+    rgdal,
     sp,
     stringr (>= 1.0.0),
     wellknown
@@ -43,10 +44,17 @@ Suggests:
     ape,
     covr,
     data.table,
+    dplyr,
+    ggplot2,
+    jpeg,
     knitr,
+    mapdata,
+    maps,
+    maptools,
     phytools,
     rmarkdown,
     testthat,
+    tidyr,
     vegan
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr

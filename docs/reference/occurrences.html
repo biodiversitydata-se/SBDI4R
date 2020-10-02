@@ -36,7 +36,9 @@
 
 
 <meta property="og:title" content="Get occurrence data — occurrences" />
-<meta property="og:description" content="Retrieve SBDI occurrence data via the &quot;occurrence download&quot; web service. At least one of taxon, wkt, or fq must be supplied for a valid query. Note that there is a limit of 500000 records per request when using method=&quot;indexed&quot;. Use the method=&quot;offline&quot; for larger requests. For small requests, method=&quot;indexed&quot; likely to be faster." />
+<meta property="og:description" content="Retrieve SBDI occurrence data via the &quot;occurrence download&quot; web service. At 
+least one of taxon, wkt, or fq must be supplied for a 
+valid query." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,7 +116,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Retrieve SBDI occurrence data via the "occurrence download" web service. At least one of <code>taxon</code>, <code>wkt</code>, or <code>fq</code> must be supplied for a valid query. Note that there is a limit of 500000 records per request when using <code>method="indexed"</code>. Use the <code>method="offline"</code> for larger requests. For small requests, <code>method="indexed"</code> likely to be faster.</p>
+    <p>Retrieve SBDI occurrence data via the "occurrence download" web service. At 
+least one of <code>taxon</code>, <code>wkt</code>, or <code>fq</code> must be supplied for a 
+valid query.</p>
     </div>
 
     <pre class="usage"><span class='fu'>occurrences</span>(
@@ -125,7 +129,6 @@
   <span class='no'>extra</span>,
   <span class='no'>qa</span>,
   <span class='kw'>email</span> <span class='kw'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span>()$<span class='no'>email</span>,
-  <span class='no'>method</span>,
   <span class='kw'>download_reason_id</span> <span class='kw'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span>()$<span class='no'>download_reason_id</span>,
   <span class='no'>reason</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span>()$<span class='no'>verbose</span>,
@@ -173,13 +176,10 @@ for more information about filter queries</p></td>
       <td><p>string vector: (optional) a vector of field names to return. 
 Note that the columns of the returned data frame are not guaranteed to retain
  the ordering of the field names given here. If not specified, a default list 
- of fields will be returned. See <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_stored")</a></code> for 
- valid field names with method <code>indexed</code>, and <code><a href='sbdi_fields.html'>sbdi_fields("occurrence")</a></code> 
- for valid field names with method <code>offline</code>. Field names can be passed as 
- full names (e.g. "Radiation - lowest period (Bio22)") rather than id ("el871"). 
- Use <code>fields="all"</code> to include all available fields, but note that 
- <code>"all"</code> will probably cause an error with <code>method="offline"</code> because
-  the request URL will exceed the maximum allowable length</p></td>
+ of fields will be returned. See <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_stored")</a></code>. 
+ Field names can be passed as full names (e.g. "Radiation - lowest period 
+ (Bio22)") rather than id ("el871"). Use <code>fields="all"</code> to include all 
+ available fields.</p></td>
     </tr>
     <tr>
       <th>extra</th>
@@ -189,9 +189,7 @@ the default list of fields (i.e. when <code>fields</code> parameter is not speci
 plus some additional extras. See <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_stored",as_is=TRUE)</a></code> 
 for valid field names. Field names can be passed as full names (e.g. "Radiation
  - lowest period (Bio22)") rather than id ("el871"). Use <code>extra="all"</code> 
- to include all available fields, but note that <code>"all"</code> will probably 
- cause an error with <code>method="offline"</code> because the request URL will exceed 
- the maximum allowable length</p></td>
+ to include all available fields.</p></td>
     </tr>
     <tr>
       <th>qa</th>
@@ -204,11 +202,6 @@ valid values</p></td>
       <th>email</th>
       <td><p>(required) string: the email address of the user performing the 
 download  [default is set by sbdi_config()]</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>DEPRECATED in ALA4R. string: "indexed" (default) or "offline". 
-In "offline" mode, more fields are available and larger datasets can be returned</p></td>
     </tr>
     <tr>
       <th>download_reason_id</th>
@@ -236,8 +229,7 @@ data requests</p></td>
 that would be downloaded, but don't download them. Note that the record count
  is always re-retrieved from the SBDI, regardless of the caching settings. If
  a cached copy of this query exists on the local machine, the actual data set 
- size may therefore differ from this record count. <code>record_count_only=TRUE</code> 
- can only be used with <code>method="indexed"</code></p></td>
+ size may therefore differ from this record count.</p></td>
     </tr>
     <tr>
       <th>use_layer_names</th>
@@ -265,7 +257,7 @@ The columns of the dataframe will depend on the requested fields</p>
 <li><p>Associated SBDI web service for record counts: <a href='https://api.bioatlas.se/#ws3'>https://api.bioatlas.se/#ws3</a></p></li>
 <li><p>Associated SBDI web service for occurence downloads: <a href='https://api.bioatlas.se/#ws4'>https://api.bioatlas.se/#ws4</a></p></li>
 <li><p>Field definitions: <a href='https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc'>https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc</a></p></li>
-<li><p>WKT reference: <a href='http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html'>http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html</a></p></li>
+<li><p>WKT reference: <a href='https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html'>https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html</a></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

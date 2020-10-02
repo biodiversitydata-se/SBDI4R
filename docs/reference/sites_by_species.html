@@ -130,7 +130,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>taxon</th>
-      <td><p>string: the identifier to get the species data from the nbn biocache. E.g. "genus:Macropus". See <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_stored")</a></code> for valid field names</p></td>
+      <td><p>string: the identifier to get the species data from the sbdi biocache. 
+E.g. "genus:Accipiter". See <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_stored")</a></code> for valid field names</p></td>
     </tr>
     <tr>
       <th>wkt</th>
@@ -142,7 +143,8 @@
     </tr>
     <tr>
       <th>SPdata.frame</th>
-      <td><p>logical: should the output be returned as a SpatialPointsDataFrame of the sp package?</p></td>
+      <td><p>logical: should the output be returned as a SpatialPointsDataFrame 
+of the sp package?</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -152,28 +154,29 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe or a SpatialPointsDataFrame containing the species by sites data. Columns will include longitude, latitude, and each species present. Values for species are record counts (i.e. number of recorded occurrences of that taxon in each grid cell). The <code>guid</code> attribute of the data frame gives the guids of the species (columns) as a named character vector</p>
+    <p>A dataframe or a SpatialPointsDataFrame containing the species by 
+sites data. Columns will include longitude, latitude, and each species present. 
+Values for species are record counts (i.e. number of recorded occurrences of 
+that taxon in each grid cell). The <code>guid</code> attribute of the data frame gives 
+the guids of the species (columns) as a named character vector</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Associated web services: <a href='https://spatial.bioatlas.se/ws'>https://spatial.bioatlas.se/ws</a></p>
+    <p>Associated web services: <a href='https://spatial.bioatlas.se/ws/capabilities'>https://spatial.bioatlas.se/ws/capabilities</a> 
+see PointsToGrid/sitesBySpecies</p>
 <p><a href='http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html'>http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># Otters in Scotland based on a 0.1 degree grid</span>
-<span class='no'>ss</span> <span class='kw'>&lt;-</span> <span class='fu'>sites_by_species</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Leutra"</span>,<span class='kw'>wkt</span><span class='kw'>=</span><span class='st'>"POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))
-"</span>,<span class='kw'>gridsize</span><span class='kw'>=</span><span class='fl'>0.1</span>,<span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='co'># Eagles in southern Sweden based on a 0.1 degree grid</span>
+<span class='no'>ss</span> <span class='kw'>&lt;-</span> <span class='fu'>sites_by_species</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Accipiter"</span>,
+               <span class='kw'>wkt</span><span class='kw'>=</span><span class='st'>"POLYGON((11.94 55.13, 11.97 58.60, 17.90 58.58, 17.87 55.11, 11.94 55.13))"</span>,
+               <span class='kw'>gridsize</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>ss</span>[,<span class='fl'>1</span>:<span class='fl'>6</span>])
-<span class='co'># equivalent direct POST webservice call:</span>
-<span class='co'># https://spatial.bioatlas.se/ws/sitesbyspecies?speciesq=genus:Viola&amp;qname=data&amp;</span>
-<span class='co'>#  area=POLYGON((-3%2056,-4%2056,-4%2057,-3%2047,-3%2056))&amp;bs=- https://records.bioatlas.se/ws/</span>
-<span class='co'>#  ws/&amp;movingaveragesize=1&amp;gridsize=0.1&amp;sitesbyspecies=1</span>
 
 <span class='co'>## get the guid of the first species (which is the third column of the data frame, since the</span>
 <span class='co'>##  first two columns are longitude and latitude)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>ss</span>,<span class='st'>"guid"</span>)[<span class='fl'>1</span>]
-}
-<span class='co'>#@export</span></div></pre>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

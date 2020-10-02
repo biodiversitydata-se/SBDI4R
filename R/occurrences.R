@@ -38,22 +38,17 @@
 #' @param fields string vector: (optional) a vector of field names to return. 
 #' Note that the columns of the returned data frame are not guaranteed to retain
 #'  the ordering of the field names given here. If not specified, a default list 
-#'  of fields will be returned. See \code{sbdi_fields("occurrence_stored")} for 
-#'  valid field names with method \code{indexed}, and \code{sbdi_fields("occurrence")} 
-#'  for valid field names with method \code{offline}. Field names can be passed as 
-#'  full names (e.g. "Radiation - lowest period (Bio22)") rather than id ("el871"). 
-#'  Use \code{fields="all"} to include all available fields, but note that 
-#'  \code{"all"} will probably cause an error with \code{method="offline"} because
-#'   the request URL will exceed the maximum allowable length
+#'  of fields will be returned. See \code{sbdi_fields("occurrence_stored")}. 
+#'  Field names can be passed as full names (e.g. "Radiation - lowest period 
+#'  (Bio22)") rather than id ("el871"). Use \code{fields="all"} to include all 
+#'  available fields.
 #' @param extra string vector: (optional) a vector of field names to include in 
 #' addition to those specified in \code{fields}. This is useful if you would like 
 #' the default list of fields (i.e. when \code{fields} parameter is not specified) 
 #' plus some additional extras. See \code{sbdi_fields("occurrence_stored",as_is=TRUE)} 
 #' for valid field names. Field names can be passed as full names (e.g. "Radiation
 #'  - lowest period (Bio22)") rather than id ("el871"). Use \code{extra="all"} 
-#'  to include all available fields, but note that \code{"all"} will probably 
-#'  cause an error with \code{method="offline"} because the request URL will exceed 
-#'  the maximum allowable length
+#'  to include all available fields.
 #' @param qa string vector: (optional) list of record issues to include in the 
 #' download. Use \code{qa="all"} to include all available issues, or \code{qa="none"} 
 #' to include none. Otherwise see \code{sbdi_fields("assertions",as_is=TRUE)} for
@@ -76,8 +71,6 @@
 #'  is always re-retrieved from the SBDI, regardless of the caching settings. If
 #'  a cached copy of this query exists on the local machine, the actual data set 
 #'  size may therefore differ from this record count. 
-# \code{record_count_only=TRUE}
- # can only be used with \code{method="indexed"}
 #' @param use_layer_names logical: if TRUE, layer names will be used as layer 
 #' column names in the returned data frame (e.g. "watsonianViceCounties"). Otherwise, 
 #' layer id value will be used for layer column names (e.g. "cl10009")
