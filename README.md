@@ -19,7 +19,7 @@ In R:
 
 Or the development version from GitHub:
 
-```R
+```{r}
 install.packages("remotes")
 library(remotes)
 install_github("biodiversitydata-se/SBDI4R")
