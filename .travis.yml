@@ -9,6 +9,9 @@ addons:
     - gcc-8
     - g++-8
     - gfortran-8
+    - libgdal-dev
+    - libproj-dev
+    - libgeos-dev
 jobs:
   include:
   - os: linux
