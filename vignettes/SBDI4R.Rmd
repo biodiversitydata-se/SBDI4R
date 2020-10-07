@@ -25,7 +25,7 @@ options(width = 120)
 Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
 
 The SBDI4R package must be loaded for each new R session:
-```{r, echo=FALSE}
+```{r, message=FALSE}
 library(SBDI4R)
 sbdi_config(caching="off")
 ```  
@@ -45,30 +45,30 @@ if(length(to_install)>0)
 ### Example 1: Name searching and taxonomic trees
 We want to look at the taxonomy of titmice, but we don’t know what the correct 
 scientific name is, so let’s search for it:
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE}
 sx <- search_fulltext("parus")
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
 ```  
 
 But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
-```{r}
+```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="family_s:Paridae")
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
 ```
 To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
-```{r, echo=FALSE}
+```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
-(sx$data[,c( "name","species", "speciesGuid", "rank")])
+sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```
 
 Now we can download the taxonomic data (note that the search is case-sensitive):
-```{r}
+```{r, message=FALSE}
 tx <- taxinfo_download("family_s:Paridae", 
                        fields=c("guid", "genus_s", "scientificName", "rank"))
 tx <- tx[tx$rank == "species",] ## restrict to species
 ```
 We can make a taxonomic tree plot using the `phytools` package:
-```{r, echo=FALSE}
+```{r, message=FALSE}
 library(phytools)
 ## as.phylo requires the taxonomic columns to be factors
 tx$genusS <- as.factor(tx$genusS)
@@ -78,10 +78,10 @@ ax <- as.phylo(~genusS/scientificName, data=tx)
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
-### Example 2: Get some data, quality assertions, plotting data on a map and save data  
+### Example 2: Get some data, quality assertions, plotting data on a map and save data
 Download occurrence data for the "Sommarlånke" and view top of 
 the data table:
-```{r}
+```{r, message=FALSE}
 x <- occurrences(taxon="Callitriche cophocarpa", 
                  email="test@test.org", 
                  download_reason_id=10)
@@ -90,29 +90,8 @@ head(x$data)
 
 #### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
-```{r, echo=FALSE}
+```{r, message=FALSE}
 summary(x)
-
-# number of original names: 3 
-# number of taxonomically corrected names: 1 
-# number of observation records: 5634 
-# number of assertions listed: 16  -- ones with flagged issues are listed below
-# 	invalidCollectionDate: 45 records 
-# 	zeroCoordinates: 2 records -- considered fatal
-# 	incompleteCollectionDate: 271 records 
-# 	unrecognisedInstitutionCode: 1732 records 
-# 	uncertaintyRangeMismatch: 1 records 
-# 	firstOfYear: 24 records 
-# 	zeroLatitude: 2 records -- considered fatal
-# 	geodeticDatumAssumedWgs84: 5034 records 
-# 	unrecognisedCollectionCode: 1732 records 
-# 	uncertaintyInPrecision: 81 records 
-# 	countryCoordinateMismatch: 2 records 
-# 	assumedPresentOccurrenceStatus: 1180 records 
-# 	zeroLongitude: 2 records -- considered fatal
-# 	idPreOccurrence: 4 records 
-# 	recordedByUnparsable: 3 records 
-# 	firstOfMonth: 131 records
 ```  
 
 You can see a list of all record issues using `sbdi_fields("assertions",as_is=TRUE)` and see what is considered as fatal quality issues.
@@ -179,7 +158,7 @@ Now, following with the data downloaded in the previous example, we want to
 summarise occurrences over a defined grid instead of plotting every observation 
 point. First we need to overlay the observations with the grid:  
 
-```{r, echo=FALSE}
+```{r, message=FALSE}
 library(sp) # the function coordinates() and proj4string() are in sp
 library(rgeos) #  the function over() is in package rgeos
 ## load some shapes over Sweden
@@ -240,7 +219,7 @@ resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 
 #### Plotting data on a map
 Finally plot the grid summary as a map:
-```{r, fig.width=600}
+```{r, fig.width=6, fig.height=6}
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, max(resSp@data$nObs, na.rm = TRUE)), 
                                na.color = "transparent")
@@ -308,7 +287,7 @@ specieslist(wkt=wkt) %>%
     head(10)
 ```
 
-```{r echo=FALSE}
+```{r message=FALSE}
 tryCatch({
 specieslist(wkt=wkt) %>%
     dplyr::arrange(desc(occurrenceCount)) %>%
@@ -322,9 +301,7 @@ specieslist(wkt=wkt) %>%
 library(vegan)
 ```
 
-Define our area of interest as a transect running westwards from the Stockholm region, 
-and download the occurrences of legumes (Fabaceae; a large family of flowering plants) 
-in this area:
+Define our area of interest as a transect running westwards from the Stockholm region, and download the occurrences of legumes (Fabaceae; a large family of flowering plants) in this area:  
 ```{r eval=FALSE}
 wkt <- "POLYGON((14.94 58.88, 14.94 59.69, 18.92 59.69, 18.92 58.88, 14.94 58.88))"
 
@@ -385,7 +362,7 @@ sppcols <- setdiff(names(xgridded), c("longitude", "latitude",
 ```
 
 The end result:
-```{r, echo=FALSE}
+```{r}
 xgridded
 ```
 
