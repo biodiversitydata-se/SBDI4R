@@ -91,7 +91,7 @@ plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
 ### Example 2: Get some data, quality assertions, plotting data on a map and save data  
-Download occurrence data for the Blunt-fruited Water-starwort and view top of 
+Download occurrence data for the "Sommarlånke" and view top of 
 the data table:
 ```{r}
 x <- occurrences(taxon="Callitriche cophocarpa", 
@@ -186,12 +186,10 @@ calli <- na.omit(calli)
 write.csv(calli,"Callitriche.csv")
 ```
 
-
 ### Example 3: Summarise occurrences over a defined grid
-Now we want to summarise occurrences over a defined grid instead of plotting every 
-observation point. For this example you will need the `sp` and `rgeso` packages. 
-Install them if you haven´t with `install.packages("sp", "rgeos")`.
-First we need to overlay the observations with the grid:  
+Now, following with the data downloaded in the previous example, we want to 
+summarise occurrences over a defined grid instead of plotting every observation 
+point. First we need to overlay the observations with the grid:  
 
 ```{r}
 library(sp) # the function coordinates() and proj4string() are in sp
@@ -227,10 +225,10 @@ res <- data.frame("nObs"=as.numeric(rep(NA,nCells)),
                   "nYears"=as.numeric(rep(NA,nCells)),
                   stringsAsFactors = FALSE)
 
-cols2use<-c("scientificName", "year")
+cols2use <- c("scientificName", "year")
 
-dataRes<-lapply(ObsInGridList[wNonEmpty], function(x){
-  x<-x[,cols2use]
+dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
+  x <- x[,cols2use]
   colnames(x) <- c("scientificName", "year")
   
   return(c("nObs" = length(x[,"scientificName"]),
@@ -250,7 +248,8 @@ res[wNonEmpty,] <- dataRes
 rownames(res) <- row.names(grid)
 
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
-```
+```  
+
 #### Plotting data on a map
 Finally plot the grid summary as a map:
 ```{r}
@@ -265,9 +264,7 @@ legend("bottomleft",
        title = "Number of observations", pch = 15, bty="n")
 ```
 
-
 ### Example 4: Area report: what listed species exist in a given area?
-
 Vector spatial layers (eg. Polygons) can be imported  in a number of different ways. 
 Bioatlas' APIs take as search input polygons in the s.k. WKT (Well Known Text \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}). 
 So the first step is to load a vector layer and transform it into a WKT string. 
@@ -333,7 +330,6 @@ specieslist(wkt=wkt) %>%
 ```
 
 ### Example 5: Community composition and turnover
-
 ```{r message=FALSE}
 library(vegan)
 ```
