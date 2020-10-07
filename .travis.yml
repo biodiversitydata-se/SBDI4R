@@ -3,15 +3,15 @@ cache: packages
 addons:
   apt:
     update: true
-    sources:
-    - sourceline: 'ppa:opencpu/imagemagick'
-    - 'ubuntu-toolchain-r-test'
     packages:
     - libv8-3.14-dev
     - libmagick++-dev
     - gcc-8
     - g++-8
     - gfortran-8
+    - libgdal-dev
+    - libproj-dev
+    - libgeos-dev
 jobs:
   include:
   - os: linux
@@ -43,5 +43,3 @@ script:
 - |
   R CMD build .
   travis_wait 20 R CMD check SBDI4R*tar.gz
-after_success:
-- if [[ "${R_CODECOV}" ]]; then travis_wait 20 Rscript -e 'covr::codecov()'; fi

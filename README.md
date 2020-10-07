@@ -15,12 +15,11 @@ The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium
 ## Installing SBDI4R
 
 ### Windows
-
 In R:
 
 Or the development version from GitHub:
 
-```R
+```{r}
 install.packages("remotes")
 library(remotes)
 install_github("biodiversitydata-se/SBDI4R")
