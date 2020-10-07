@@ -15,7 +15,6 @@ The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium
 ## Installing SBDI4R
 
 ### Windows
-
 In R:
 
 Or the development version from GitHub:
