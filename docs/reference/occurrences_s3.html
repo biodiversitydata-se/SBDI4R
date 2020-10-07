@@ -212,17 +212,17 @@ This uses information based on selections of assertions (quality assurance issue
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>#download some observations</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='occurrences.html'>occurrences</a></span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"Leuctra geniculata"</span>,<span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='occurrences.html'>occurrences</a></span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"Leuctra geniculata"</span>, <span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
 
 <span class='co'>#summarize the occurrences</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>x</span>)
 
 <span class='co'>#keep spatially unique data at 0.01 degrees (latitude and longitude)</span>
-<span class='no'>tt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>,<span class='kw'>spatial</span><span class='kw'>=</span><span class='fl'>0.01</span>)
+<span class='no'>tt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>, <span class='kw'>spatial</span><span class='kw'>=</span><span class='fl'>0.01</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>tt</span>)
 
 <span class='co'>#keep spatially unique data that is also unique year/month for the collection date</span>
-<span class='no'>tt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>,<span class='kw'>spatial</span><span class='kw'>=</span><span class='fl'>0</span>,<span class='kw'>temporal</span><span class='kw'>=</span><span class='st'>'yearmonth'</span>)
+<span class='no'>tt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span>(<span class='no'>x</span>, <span class='kw'>spatial</span><span class='kw'>=</span><span class='fl'>0</span>,<span class='kw'>temporal</span><span class='kw'>=</span><span class='st'>'yearmonth'</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>tt</span>)
 
 <span class='co'>#keep only information for which fatal or "error" assertions do not exist</span>

@@ -25,14 +25,15 @@ options(width = 120)
 Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
 
 The SBDI4R package must be loaded for each new R session:
-```{r}
+```{r, echo=FALSE}
 library(SBDI4R)
+sbdi_config(caching="off")
 ```  
 
 However, the options you stored in .Rprofile if you did it so, will load automatically 
 with the package. Then, check that we have some additional packages that we'll 
 use in the examples, and install them if necessary.
-```{r message=FALSE}
+```{r, message=FALSE}
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
                 "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan")
 to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
@@ -44,31 +45,18 @@ if(length(to_install)>0)
 ### Example 1: Name searching and taxonomic trees
 We want to look at the taxonomy of titmice, but we don’t know what the correct 
 scientific name is, so let’s search for it:
-```{r}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 sx <- search_fulltext("parus")
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
-```
-```
-#                    name             species speciesGuid    rank
-# 1  Parus Linnaeus, 1758                <NA>        <NA>   genus
-# 2        Parus dichrous      Parus dichrous     5788759 species
-# 3     Neuroctenus parus   Neuroctenus parus    10213928 species
-# 4         Parus elegans       Parus elegans     5788758 species
-# 5   Parus rubidiventris Parus rubidiventris     5788753 species
-# 6        Parus borealis      Parus borealis     8786895 species
-# 7      Parus salicarius    Parus salicarius     9104351 species
-# 8   Parus superciliosus Parus superciliosus     5788752 species
-# 9        Parus amabilis      Parus amabilis     5788755 species
-# 10   Parus rufonuchalis  Parus rufonuchalis     5788756 species
-```
+```  
 
 But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
 ```{r}
 sx <- search_fulltext("parus", fq="family_s:Paridae")
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
 ```
-To restrict the query specifically to birds we can also use the fq argument to filter the query (see sbdi_fields("general", as_is=TRUE) for all the fields that are queryable), and increase page_size to include more records (default=10):
-```{r}
+To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
+```{r, echo=FALSE}
 sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
 (sx$data[,c( "name","species", "speciesGuid", "rank")])
 ```
@@ -80,7 +68,7 @@ tx <- taxinfo_download("family_s:Paridae",
 tx <- tx[tx$rank == "species",] ## restrict to species
 ```
 We can make a taxonomic tree plot using the `phytools` package:
-```{r}
+```{r, echo=FALSE}
 library(phytools)
 ## as.phylo requires the taxonomic columns to be factors
 tx$genusS <- as.factor(tx$genusS)
@@ -102,7 +90,7 @@ head(x$data)
 
 #### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
-```{r}
+```{r, echo=FALSE}
 summary(x)
 
 # number of original names: 3 
@@ -138,7 +126,7 @@ occurrences_plot(x, "obsPlot.pdf", qa="fatal",
 ```
 Note that the plot is saved to a pdf file in the current working directory. You can find that by `getwd()`.  
 
-<img src=https://github.com/biodiversitydata-se/SBDI4R/tree/master/man/figures/obsPlot_CallitricheCophocarpa.png />
+<img src=https://github.com/biodiversitydata-se/SBDI4R/blob/master/man/figures/obsPlot_CallitricheCophocarpa.png />
 
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
 ```{r}
@@ -191,7 +179,7 @@ Now, following with the data downloaded in the previous example, we want to
 summarise occurrences over a defined grid instead of plotting every observation 
 point. First we need to overlay the observations with the grid:  
 
-```{r}
+```{r, echo=FALSE}
 library(sp) # the function coordinates() and proj4string() are in sp
 library(rgeos) #  the function over() is in package rgeos
 ## load some shapes over Sweden
@@ -252,7 +240,7 @@ resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 
 #### Plotting data on a map
 Finally plot the grid summary as a map:
-```{r}
+```{r, fig.width=600}
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, max(resSp@data$nObs, na.rm = TRUE)), 
                                na.color = "transparent")
@@ -274,8 +262,8 @@ working directory (\code{getwd()}). Extract the .zip file named KommunSweref99.z
 <!-- We use the ALA4R's caching mechanism here, but you could equally download this file directly. -->
 
 ```{r, eval=FALSE}
-# library(rgdal)
-# shape <- readOGR(dsn=file.path("your/path/to/file", "Kommun_Sweref99TM_region.shp"))
+library(rgdal)
+shape <- readOGR(dsn=file.path("your/path/to/file", "Kommun_Sweref99TM_region.shp"))
 ```
 This will only work when you set a valid filepath, and will create an object of 
 class SpatialPolygon. You could instead use the data we kindly provided in this 
@@ -339,6 +327,7 @@ and download the occurrences of legumes (Fabaceae; a large family of flowering p
 in this area:
 ```{r eval=FALSE}
 wkt <- "POLYGON((14.94 58.88, 14.94 59.69, 18.92 59.69, 18.92 58.88, 14.94 58.88))"
+
 ## define some environmental layers of interest [see sbdi_fields(fields_type = "occurrence")]
 # el10011 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_12
 # el10009 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_10
@@ -396,7 +385,7 @@ sppcols <- setdiff(names(xgridded), c("longitude", "latitude",
 ```
 
 The end result:
-```{r}
+```{r, echo=FALSE}
 xgridded
 ```
 

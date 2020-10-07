@@ -109,7 +109,7 @@
 #' fq_str<-pick_filter("resource")
 #' 
 #' z <- occurrences(taxon="genus:Accipiter",
-#'                  fields=c("latitude","longitude","rigths"),
+#'                  fields=c(latitude","longitude","rights"),
 #'                  wkt=mellan_sve, 
 #'                  fq=fq_str, # e.g. c( "institution_uid:in3", "cl10097:Uppsala"),
 #'                  #fq=c( "collection_uid:co3"), ## Artportalen data collection
@@ -392,17 +392,17 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
         }
       }, warning=function(e) {
         if (verbose) {
-          warning("reading of csv as data.table failed, will fall
-                            back to read.table (may be slow). The warning
-                            message was: ",e)
+          warning(paste("Reading of csv as data.table failed, will fall
+                         back to read.table (may be slow). The warning
+                         message was: ", e))
         }
         read_ok <- FALSE
       }
       , error=function(e) {
         if (verbose) {
-          warning("reading of csv as data.table failed, will fall 
-                            back to read.table (may be slow). The error message
-                            was: ",e)
+          warning(paste("Reading of csv as data.table failed, will fall 
+                         back to read.table (may be slow). The error message
+                         was: ", e))
         }
         read_ok <- FALSE
       })
@@ -475,7 +475,7 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
         warning("no matching records were returned")
       }
       if (!missing(wkt) && !isTRUE(check_wkt(wkt))) {
-        warning("WKT string may not be valid: ",wkt)
+        warning(paste("WKT string may not be valid: ", wkt))
       }
       xc <- NULL
     }
