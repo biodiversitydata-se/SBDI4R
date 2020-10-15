@@ -85,7 +85,6 @@
 #' @seealso \code{\link{sbdi_reasons}} for download reasons; \code{\link{sbdi_config}}
 #' @examples
 #' \dontrun{
-#' 
 #' x <- occurrences(taxon="genus:Accipiter", 
 #'                  fields=c("species","longitude","latitude","common_name","rank","rights"), 
 #'                  download_reason_id=10)
@@ -109,7 +108,7 @@
 #' fq_str<-pick_filter("resource")
 #' 
 #' z <- occurrences(taxon="genus:Accipiter",
-#'                  fields=c(latitude","longitude","rights"),
+#'                  fields=c("latitude","longitude","rights"),
 #'                  wkt=mellan_sve, 
 #'                  fq=fq_str, # e.g. c( "institution_uid:in3", "cl10097:Uppsala"),
 #'                  #fq=c( "collection_uid:co3"), ## Artportalen data collection

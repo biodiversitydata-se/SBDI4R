@@ -111,6 +111,42 @@ Retrieve SBDI occurrence data via the "occurrence download" web service. At
 least one of \code{taxon}, \code{wkt}, or \code{fq} must be supplied for a 
 valid query.
 }
+\examples{
+\dontrun{
+x <- occurrences(taxon="genus:Accipiter", 
+                 fields=c("species","longitude","latitude","common_name","rank","rights"), 
+                 download_reason_id=10)
+ 
+## download records in polygon, with no quality assertion information
+mellan_sve <- "POLYGON((16.551 60.760,18.836 59.801,17.606 58.860,16.199 58.540,
+                       12.244 58.494,12.772 61.523,16.551 60.760))"
+x <- occurrences(taxon="genus:Accipiter",
+                 wkt=mellan_sve, 
+                 download_reason_id=10, 
+                 qa="none", verbose = TRUE)
+
+y <- occurrences(taxon="taxon_name:\%22Accipiter gentilis\%22",
+                 wkt=mellan_sve, 
+                 fields=c("latitude","longitude", "family", "collector", "rights"),
+                 download_reason_id=10)
+str(y)
+
+## other filtered searches
+
+fq_str<-pick_filter("resource")
+
+z <- occurrences(taxon="genus:Accipiter",
+                 fields=c("latitude","longitude","rights"),
+                 wkt=mellan_sve, 
+                 fq=fq_str, # e.g. c( "institution_uid:in3", "cl10097:Uppsala"),
+                 #fq=c( "collection_uid:co3"), ## Artportalen data collection
+                 #fq=c( "data_resource_uid:dr5"), ## Artportalen data resource
+                 qa="none", download_reason_id=10)
+                 
+occurrence_plot(z)
+               
+}
+}
 \references{
 \itemize{
 \item Associated SBDI web service for record counts: \url{https://api.bioatlas.se/#ws3}

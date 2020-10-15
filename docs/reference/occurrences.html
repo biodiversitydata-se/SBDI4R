@@ -269,6 +269,41 @@ The columns of the dataframe will depend on the requested fields</p>
 
     <div class='dont-index'><p><code><a href='sbdi_reasons.html'>sbdi_reasons</a></code> for download reasons; <code><a href='sbdi_config.html'>sbdi_config</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Accipiter"</span>,
+                 <span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"species"</span>,<span class='st'>"longitude"</span>,<span class='st'>"latitude"</span>,<span class='st'>"common_name"</span>,<span class='st'>"rank"</span>,<span class='st'>"rights"</span>),
+                 <span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
+
+<span class='co'>## download records in polygon, with no quality assertion information</span>
+<span class='no'>mellan_sve</span> <span class='kw'>&lt;-</span> <span class='st'>"POLYGON((16.551 60.760,18.836 59.801,17.606 58.860,16.199 58.540,
+                       12.244 58.494,12.772 61.523,16.551 60.760))"</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Accipiter"</span>,
+                 <span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>mellan_sve</span>,
+                 <span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>,
+                 <span class='kw'>qa</span><span class='kw'>=</span><span class='st'>"none"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"taxon_name:%22Accipiter gentilis%22"</span>,
+                 <span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>mellan_sve</span>,
+                 <span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"latitude"</span>,<span class='st'>"longitude"</span>, <span class='st'>"family"</span>, <span class='st'>"collector"</span>, <span class='st'>"rights"</span>),
+                 <span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>y</span>)
+
+<span class='co'>## other filtered searches</span>
+
+<span class='no'>fq_str</span><span class='kw'>&lt;-</span><span class='fu'><a href='pick_filter.html'>pick_filter</a></span>(<span class='st'>"resource"</span>)
+
+<span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'>occurrences</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Accipiter"</span>,
+                 <span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"latitude"</span>,<span class='st'>"longitude"</span>,<span class='st'>"rights"</span>),
+                 <span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>mellan_sve</span>,
+                 <span class='kw'>fq</span><span class='kw'>=</span><span class='no'>fq_str</span>, <span class='co'># e.g. c( "institution_uid:in3", "cl10097:Uppsala"),</span>
+                 <span class='co'>#fq=c( "collection_uid:co3"), ## Artportalen data collection</span>
+                 <span class='co'>#fq=c( "data_resource_uid:dr5"), ## Artportalen data resource</span>
+                 <span class='kw'>qa</span><span class='kw'>=</span><span class='st'>"none"</span>, <span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>)
+
+<span class='fu'>occurrence_plot</span>(<span class='no'>z</span>)
+
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -277,6 +312,7 @@ The columns of the dataframe will depend on the requested fields</p>
       <li><a href="#value">Value</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
