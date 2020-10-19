@@ -21,7 +21,7 @@ Description: SBDI provides tools to enable users of biodiversity
     directly used within R. It enables the R community to directly access data 
     and resources hosted by the SBDI. Our goal is to enable observations 
     of species to be queried, and output in a range of standard formats.
-License: GPL-3
+License: AGPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
