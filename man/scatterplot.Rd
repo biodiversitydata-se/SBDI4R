@@ -3,7 +3,7 @@
 \name{scatterplot}
 \alias{scatterplot}
 \title{Scatterplot of environmental parameters associated with species occurrence data. 
-Interactive plotly plot of environmental variables and species occurence data}
+Interactive plotly plot of environmental variables and species occurrence data}
 \usage{
 scatterplot(taxon, ...)
 }
@@ -19,7 +19,7 @@ specific field where possible (see \code{nbn_fields("occurrence_indexed")} for
 valid fields). It is also good practice to quote the taxon name if it contains 
 multiple words, for example \code{taxon="taxon_name:\"Alaba vibex\""}}
 
-\item{\dots}{: other options passed to occurences()}
+\item{\dots}{: other options passed to occurrences()}
 }
 \value{
 Data frame of occurrence results, with one row per occurrence record. 
@@ -31,7 +31,7 @@ using plotly is displayed on-screen.
 WARNING: This function is under development and its functionality is limited
 Makes a search using \code{\link{occurrences}}and plots environmental variables 
 associated with species presence against each other. Alternatively, makes a 
-search using \code{\link{occurrences}}and plots species occurence data e.g 
+search using \code{\link{occurrences}}and plots species occurrence data e.g 
 frequencies against environmental variables. Note that there is a limit of 
 500000 records per request when using \code{method="indexed"}. Use the 
 \code{method="offline"} for larger requests. For small requests, 
@@ -45,7 +45,7 @@ scatterplot(taxon="Ectocarpus siliculosus", download_reason_id=10)
 \references{
 \itemize{
 \item Associated Bioatlas web service for record counts: \url{https://api.bioatlas.se/#ws3} # TODO UPDATE
-\item Associated Bioatlas web service for occurence downloads: \url{https://api.bioatlas.se/#ws4} # TODO UPDATE
+\item Associated Bioatlas web service for occurrence downloads: \url{https://api.bioatlas.se/#ws4} # TODO UPDATE
 \item Field definitions: \url{https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc}
 \item WKT reference: \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 }

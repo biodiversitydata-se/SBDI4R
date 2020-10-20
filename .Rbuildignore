@@ -8,3 +8,4 @@
 ^docs/
 ^.*\.yaml$
 ^.*\.yml$
+^\.gitignore$
