@@ -40,7 +40,7 @@
 #' \dontrun{ 
 #' scatterplot(taxon="Ectocarpus siliculosus", download_reason_id=10)
 #' }
-#' @export scatterplot
+#' @export
 ## TODO: more extensive testing. In particular making the fields = "all" call work. Need to work on design and layout of plotly plot, current design/layout is default.
 ## TODO: miss variable containing date to plot on X-axis, current fields only contain year + day?
 ## TODO FUTURE:changing axis layout to logarithmic scale would be useful 
@@ -59,7 +59,7 @@ scatterplot <- function(taxon, ...) {
   )
   
   plot_ly(df$data, x = ~year, y = ~individualCount, type = "scatter", mode = "markers", visible = T) %>%
-    layout(
+    plotly::layout(
       title = paste("SBDI4R - Scatterplot",taxon, sep=" = "),
       xaxis = ax,
       yaxis = ax,

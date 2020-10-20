@@ -86,6 +86,26 @@ x <- occurrences(taxon="Callitriche cophocarpa",
                  email="test@test.org", 
                  download_reason_id=10)
 head(x$data)
+table(x$data$dataResourceName)
+```
+
+We see there are different data sources. Let´s assume you only need to see data from one source, e.g. Artportalen. If you see on the data that Artportalens identifier is "dr5" you can directly filter the search by:
+```{r, message=FALSE}
+x <- occurrences(taxon="Callitriche cophocarpa", 
+                 fq = "data_resource_uid:dr5",
+                 email="test@test.org", 
+                 download_reason_id=10)
+```
+Else, you can search available data resourses, collections (and more) using the interactive function \code{pick_filter} like:
+```{r, message=FALSE}
+fq_str <- pick_filter("resource") 
+## follow the instructions
+
+x <- occurrences(taxon="Callitriche cophocarpa", 
+                 fq = fq_str,
+                 email="test@test.org", 
+                 download_reason_id=10)
+table(x$data$dataResourceName)
 ```
 
 #### Quality assertions
