@@ -1,10 +1,10 @@
 #' Scatterplot of environmental parameters associated with species occurrence data. 
-#' Interactive plotly plot of environmental variables and species occurence data
+#' Interactive plotly plot of environmental variables and species occurrence data
 #' 
 #' WARNING: This function is under development and its functionality is limited
 #' Makes a search using \code{\link{occurrences}}and plots environmental variables 
 #' associated with species presence against each other. Alternatively, makes a 
-#' search using \code{\link{occurrences}}and plots species occurence data e.g 
+#' search using \code{\link{occurrences}}and plots species occurrence data e.g 
 #' frequencies against environmental variables. Note that there is a limit of 
 #' 500000 records per request when using \code{method="indexed"}. Use the 
 #' \code{method="offline"} for larger requests. For small requests, 
@@ -12,7 +12,7 @@
 #' 
 #' @references \itemize{
 #' \item Associated Bioatlas web service for record counts: \url{https://api.bioatlas.se/#ws3} # TODO UPDATE
-#' \item Associated Bioatlas web service for occurence downloads: \url{https://api.bioatlas.se/#ws4} # TODO UPDATE
+#' \item Associated Bioatlas web service for occurrence downloads: \url{https://api.bioatlas.se/#ws4} # TODO UPDATE
 #' \item Field definitions: \url{https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc}
 #' \item WKT reference: \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 #' }
@@ -27,7 +27,7 @@
 #' specific field where possible (see \code{nbn_fields("occurrence_indexed")} for 
 #' valid fields). It is also good practice to quote the taxon name if it contains 
 #' multiple words, for example \code{taxon="taxon_name:\"Alaba vibex\""}
-#' @param \dots : other options passed to occurences()
+#' @param \dots : other options passed to occurrences()
 #' @return Data frame of occurrence results, with one row per occurrence record. 
 #' The columns of the dataframe will depend on the requested fields. The data 
 #' frame is plotted with ggplot and output stored as pdf, an interactive ggplot
@@ -42,38 +42,71 @@
 #' }
 #' @export scatterplot
 ## TODO: more extensive testing. In particular making the fields = "all" call work. Need to work on design and layout of plotly plot, current design/layout is default.
+## TODO: miss variable containing date to plot on X-axis, current fields only contain year + day?
+## TODO FUTURE:changing axis layout to logarithmic scale would be useful 
 ## TODO FUTURE: adding diversity metrics functionality e.g. calculating species richness and plot against environmental variables.
 
 scatterplot <- function(taxon, ...) {
   
   df <- occurrences(taxon, ...)
 
-  #Plotly - First test with lat vs. long
-  plot_ly(df$data, x = ~longitude) %>%
-    add_markers(y = ~latitude, name = "lat") %>%
-    add_markers(y = ~longitude, name = "long", visible = FALSE) %>%
-    graphics::layout(
-      title = paste(taxon, "SBDI4R Scatterplot", sep=" "),
-      xaxis = list(domain = c(0.1, 1)),
-      yaxis = list(title = "lat"),
-      showlegend = FALSE,
+  ax <- list(
+    title = "",
+    zeroline = FALSE,
+    showline = FALSE,
+    showticklabels = TRUE,
+    showgrid = TRUE
+  )
+  
+  plot_ly(df$data, x = ~year, y = ~individualCount, type = "scatter", mode = "markers", visible = T) %>%
+    layout(
+      title = paste("SBDI4R - Scatterplot",taxon, sep=" = "),
+      xaxis = ax,
+      yaxis = ax,
       updatemenus = list(
+        ## Y-AXIS
         list(
           y = 0.7,
           buttons = list(
-            list(method = "update",
-                 args = list(list(visible = list(TRUE, FALSE)),
-                             list(yaxis = list(title = "lat"))
-                             ),
-                 label = "lat"),
-            
-            list(method = "update",
-                 args = list(list(visible =  list(FALSE, TRUE)),
-                             list(yaxis = list(title = "long"))
-                             ),
-                 label = "long")
-            )
-        )
-      )
-    )
+            list(method = "restyle",
+                 args = list("y", list(df$data$individualCount)),  
+                 label = "Y = INDIVIDUAL_COUNT"),
+            list(method = "restyle",
+                 args = list("y", list(df$data$locality)),  
+                 label = "Y = LOCALITY"),
+            list(method = "restyle",
+                 args = list("y", list(df$data$minimumDepthInMeters)),  
+                 label = "Y = MINIMUM_DEPTH (m)"),
+            list(method = "restyle",
+                 args = list("y", list(df$data$maximumDepthInMeters)),  
+                 label = "Y = MAXIMUM_DEPTH (m)"),
+            list(method = "restyle",
+                 args = list("y", list(df$data$latitude)),  
+                 label = "Y = LATITUDE"),
+            list(method = "restyle",
+                 args = list("y", list(df$data$longitude)),  
+                 label = "Y = LONGITUDE"))),
+        ## X-AXIS
+        list(
+          x = 0.7,
+          buttons = list(
+            list(method = "restyle",
+                 args = list("x", list(df$data$year)),  
+                 label = "X = YEAR"),
+            list(method = "restyle",
+                 args = list("x", list(df$data$locality)),  
+                 label = "X = LOCALITY"),
+            list(method = "restyle",
+                 args = list("x", list(df$data$minimumDepthInMeters)),  
+                 label = "X = MINIMUM_DEPTH (m)"),
+            list(method = "restyle",
+                 args = list("x", list(df$data$maximumDepthInMeters)),  
+                 label = "X = MAXIMUM_DEPTH (m)"),
+            list(method = "restyle",
+                 args = list("x", list(df$data$longitude)),  
+                 label = "X = LONGITUDE"),
+            list(method = "restyle",
+                 args = list("x", list(df$data$latitude)),  
+                 label = "X = LATITUDE")))
+      ))
 }
