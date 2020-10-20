@@ -47,13 +47,13 @@ We want to look at the taxonomy of titmice, but we don’t know what the correct
 scientific name is, so let’s search for it:
 ```{r, warning=FALSE, message=FALSE}
 sx <- search_fulltext("parus")
-(sx$data[,c( "name","species", "speciesGuid", "rank")])
+sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```  
 
 But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
 ```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="family_s:Paridae")
-(sx$data[,c( "name","species", "speciesGuid", "rank")])
+sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```
 To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
 ```{r, message=FALSE}
