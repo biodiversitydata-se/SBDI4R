@@ -53,7 +53,7 @@ pick_filter<-function(type = NULL){
 inst_questionarie<-function(){
   continue <- TRUE
   res <- c()
-  this_url <- SBDI4R:::build_url_from_parts(getOption("ALA4R_server_config")$base_url_collections, 
+  this_url <- SBDI4R:::build_url_from_parts(getOption("ALA4R_server_config")$base_url_collectory, 
                                             c("institution.json"))
   
   institutions <- fromJSON(content(GET(this_url), "text"))
