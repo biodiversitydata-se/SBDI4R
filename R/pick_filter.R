@@ -60,7 +60,10 @@ inst_questionarie<-function(){
   institutions <- institutions[,c("uid","name", "uri")]
   while(continue){
     message("\nWhich institution do you want to get data from? Type the corresponding uid: \n")
-    message(paste0(capture.output(institutions[order(institutions[,"uid"]), c("uid","name")]), 
+    # message(paste0(capture.output(institutions[order(institutions[,"uid"]), c("uid","name")]), 
+    #                collapse = "\n"))
+    message(paste0(capture.output(print(institutions[order(institutions[,"uid"]), c("uid","name")], 
+                                        row.names = FALSE)), 
                    collapse = "\n"))
     r <- readline()
    
@@ -73,9 +76,11 @@ inst_questionarie<-function(){
       dataResource <- institutionAll$linkedRecordProviders
       message("\nBy which collection or data resourcedo you want to filter? Type the corresponding uid or write 'all': \n")
       message("\nCollections: \n")
-      message(paste0(capture.output(collections[order(collections$uid),c("uid","name")]), collapse = "\n"))
+      message(paste0(capture.output(print(collections[order(collections$uid),c("uid","name")],
+                                          row.names = FALSE)), collapse = "\n"))
       message("\nData resources: \n")
-      message(paste0(capture.output(dataResource[order(dataResource$uid),c("uid","name")]), collapse = "\n"))
+      message(paste0(capture.output(print(dataResource[order(dataResource$uid),c("uid","name")],
+                                          row.names = FALSE)), collapse = "\n"))
       r <- readline()
       if(r =="all"){
         res <- c(res, paste0("institution_uid",":",ruid))
@@ -88,7 +93,7 @@ inst_questionarie<-function(){
                            "dp" = "data_provider_uid")
           res <- c(res, paste0(field,":",r))
           
-          if(continue("Filter added. Do you want to continue? Type 'y' for yes. ")){
+          if(continue("Filter added. Do you want to continue? Type 'y' for yes. Else hit 'Enter'")){
             type <- NULL
           }else{
             continue <- FALSE
@@ -131,7 +136,8 @@ layer_questionarie<-function(){
     ## TODO if the message if longer that 4800 something "bytes" it will be cut in the console. 
     ## Make it so that the tables gets cut and message divided in many messages
     message("\nWhich layer do you want use as filter? Type the corresponding uid: \n")
-    message(paste0(capture.output(layersDisp), collapse = "\n"))
+    message(paste0(capture.output(print(layersDisp, 
+                                        row.names = FALSE)), collapse = "\n"))
     r <- readline()
     
     if(r %in% layers_cl$id){
@@ -142,7 +148,8 @@ layer_questionarie<-function(){
       objectsDisp <- data.frame("name"=objectsLy$id[order(objectsLy$pid)],
                                row.names=sort(objectsLy$pid))
       message("\nBy which object in this layer do you want to filter? Type the corresponding 'name': \n")
-      message(paste0(capture.output(objectsDisp), collapse = "\n"))
+      message(paste0(capture.output(print(objectsDisp, 
+                                          row.names = FALSE)), collapse = "\n"))
       r <- readline()
       if(r %in% objectsLy$id){
         if(is.na(suppressWarnings(as.numeric(r)))) r <- paste0("%22",r,"%22")
@@ -180,7 +187,7 @@ layer_questionarie<-function(){
 #auxiliary function
 #param msg the message to pass to the function  
   continue <- function(msg){
-    print(msg)
+    message(msg)
     r <- readline()
     r <- tolower(r)
     return(any(c("yes", "y") %in% r))
