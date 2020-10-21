@@ -22,7 +22,7 @@ options(width = 120)
 
 ## Using SBDI4R
 
-Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
+Lets assume you have already installed the package as shown in the main site  \url{https://biodiversitydata-se.github.io/SBDI4R}. 
 
 The SBDI4R package must be loaded for each new R session:
 ```{r, message=FALSE}
