@@ -22,7 +22,7 @@ options(width = 120)
 
 ## Using SBDI4R
 
-Lets assume you have already installed the package as shown in the main site  \url{https://biodiversitydata-se.github.io/SBDI4R}. 
+Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
 
 The SBDI4R package must be loaded for each new R session:
 ```{r, message=FALSE}
@@ -87,6 +87,59 @@ x <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 head(x$data)
 table(x$data$dataResourceName)
+
+#keep spatially unique data at 0.01 degrees (latitude and longitude)
+# ll <- unique(x, spatial=0.01)
+# summary(ll)
+# 
+# #keep only information for which fatal or "error" assertions do not exist
+# nofat <- subset(x, remove.fatal = TRUE)
+# summary(nofat)
+# 
+# #keep only information for which fatal or "error" assertions do not exist
+# 
+# SpatCert <- subset(x, max.spatial.uncertainty=50)
+# summary(SpatCert)
+# # # quickly get some more info about the data:
+# 
+# # no. observations (records)
+# nrow(x$data)
+# 
+# # no. obs/year
+# table(x$data$year) 
+# freq_year <- table(x$data$year)
+# #sum(freq_year)
+# 
+# # data where 'year' is missing?
+# sum(is.na(x$data$year))
+# 
+# 
+# # no. obs across years:
+# hist(x$data$year, 20)
+# 
+# library(plyr)
+# #count(x$data$year)
+# c <- count(x$data$year)
+# barplot(c$freq ~ c$x)
+# 
+# 
+# # subsetting
+# 
+# # get occurrences for selected time
+# 
+# # year = 2019
+# x2019 <- occurrences(taxon="Reynoutria japonica", fq="year:2019")
+# nrow(x2019$data) 
+# 
+# x2yr <- occurrences(taxon="Reynoutria japonica", fq=c("year:2018 OR year:2019"))
+# nrow(x2yr$data) 
+# 
+# 
+# # years 2010 - 2019:
+# ##current alternative is downloading all and filter afterwards
+# x <- occurrences(taxon="Reynoutria japonica")
+# x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
+# table(x10yr$year)
 ```
 
 We see there are different data sources. Let´s assume you only need to see data from one source, e.g. Artportalen. If you see on the data that Artportalens identifier is "dr5" you can directly filter the search by:
