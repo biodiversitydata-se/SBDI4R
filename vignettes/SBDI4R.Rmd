@@ -20,7 +20,11 @@ opts_chunk$set(
 options(width = 120)
 ```  
 
-Here we provide a collection of use-examples showing examples for a range of queries that we think a typical use of the biodiversity infrastructure may want to perform. The examples are extended from a basic set for ALA4R presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/). Please get in contact with us if you have questions regarding the use of the SBDI4R package.
+Here we provide a collection of use-examples showing examples for a range of queries that we think a typical use of the biodiversity infrastructure may want to perform. The examples are extended from a basic set for ALA4R presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/). 
+
+The SBDI4R package is primarily for accessing data. It includes some filter functions that allow you to filter prior to download. It also includes some simple summary functions, and some function for some simple data exploration. The examples also show you how you can use the data by continued exploring and analysing using other R package.
+
+Please get in contact with us if you have questions regarding the use of the SBDI4R package.
 
 ## Using SBDI4R
 
@@ -44,43 +48,7 @@ if(length(to_install)>0)
 ```
 
 
-### Example 1: Name searching and taxonomic trees
-We want to look at the taxonomy of titmice, but we don’t know what the correct 
-scientific name is, so let’s search for it:
-```{r, warning=FALSE, message=FALSE}
-sx <- search_fulltext("parus")
-sx$data[,c( "name","species", "speciesGuid", "rank")]
-```  
-
-But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
-```{r, message=FALSE}
-sx <- search_fulltext("parus", fq="family_s:Paridae")
-sx$data[,c( "name","species", "speciesGuid", "rank")]
-```
-To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
-```{r, message=FALSE}
-sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
-sx$data[,c( "name","species", "speciesGuid", "rank")]
-```
-
-Now we can download the taxonomic data (note that the search is case-sensitive):
-```{r, message=FALSE}
-tx <- taxinfo_download("family_s:Paridae", 
-                       fields=c("guid", "genus_s", "scientificName", "rank"))
-tx <- tx[tx$rank == "species",] ## restrict to species
-```
-We can make a taxonomic tree plot using the `phytools` package:
-```{r, message=FALSE}
-library(phytools)
-## as.phylo requires the taxonomic columns to be factors
-tx$genusS <- as.factor(tx$genusS)
-tx$scientificName <- as.factor(tx$scientificName)
-## create phylo object of Scientific.Name nested within Genus
-ax <- as.phylo(~genusS/scientificName, data=tx)
-plotTree(ax, fsize=0.7, ftype="i") ## plot it
-```
-
-### Example 2: Get some data, quality assertions, plotting data on a map and save data
+### Example 1: Get some data, quality assertions, plotting data on a map and save data
 Download occurrence data for the "Sommarlånke" and view top of 
 the data table:
 ```{r, message=FALSE}
@@ -233,7 +201,7 @@ calli <- na.omit(calli)
 write.csv(calli,"Callitriche.csv")
 ```
 
-### Example 3: Summarise occurrences over a defined grid
+### Example 2: Summarise occurrences over a defined grid
 Now, following with the data downloaded in the previous example, we want to 
 summarise occurrences over a defined grid instead of plotting every observation 
 point. First we need to overlay the observations with the grid:  
@@ -311,7 +279,7 @@ legend("bottomleft",
        title = "Number of \nobservations", pch = 15, bty="n")
 ```
 
-### Example 4: Area report: what listed species exist in a given area?
+### Example 3: Area report: what listed species exist in a given area?
 Vector spatial layers (eg. Polygons) can be imported  in a number of different ways. 
 Bioatlas' APIs take as search input polygons in the s.k. WKT (Well Known Text \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}). 
 So the first step is to load a vector layer and transform it into a WKT string. 
@@ -374,6 +342,42 @@ specieslist(wkt=wkt) %>%
     dplyr::select(speciesName, species, family, occurrenceCount) %>%
     head(10)
 }, error = function(e) { print(e$message)})
+```
+
+### Example 4: Name searching and taxonomic trees
+We want to look at the taxonomy of titmice, but we don’t know what the correct 
+scientific name is, so let’s search for it:
+```{r, warning=FALSE, message=FALSE}
+sx <- search_fulltext("parus")
+sx$data[,c( "name","species", "speciesGuid", "rank")]
+```  
+
+But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
+```{r, message=FALSE}
+sx <- search_fulltext("parus", fq="family_s:Paridae")
+sx$data[,c( "name","species", "speciesGuid", "rank")]
+```
+To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
+```{r, message=FALSE}
+sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
+sx$data[,c( "name","species", "speciesGuid", "rank")]
+```
+
+Now we can download the taxonomic data (note that the search is case-sensitive):
+```{r, message=FALSE}
+tx <- taxinfo_download("family_s:Paridae", 
+                       fields=c("guid", "genus_s", "scientificName", "rank"))
+tx <- tx[tx$rank == "species",] ## restrict to species
+```
+We can make a taxonomic tree plot using the `phytools` package:
+```{r, message=FALSE}
+library(phytools)
+## as.phylo requires the taxonomic columns to be factors
+tx$genusS <- as.factor(tx$genusS)
+tx$scientificName <- as.factor(tx$scientificName)
+## create phylo object of Scientific.Name nested within Genus
+ax <- as.phylo(~genusS/scientificName, data=tx)
+plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
 ### Example 5: Community composition and turnover
