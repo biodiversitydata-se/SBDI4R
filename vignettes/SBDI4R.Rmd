@@ -20,6 +20,8 @@ opts_chunk$set(
 options(width = 120)
 ```  
 
+Here we provide a collection of use-examples showing examples for a range of queries that we think a typical use of the biodiversity infrastructure may want to perform. The examples are extended from a basic set for ALA4R presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/). Please get in contact with us if you have questions regarding the use of the SBDI4R package.
+
 ## Using SBDI4R
 
 Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
