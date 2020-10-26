@@ -43,6 +43,18 @@ If you wish to use the `data.table` package for potentially faster loading of da
 install.packages("data.table")
 ```
 
+### Mac
+Follow the instructions for Windows.
+
+If you see an error about a failure to set default locale, you will need to manually set this:
+```{r}
+system('defaults write org.R-project.R force.LANG en_US.UTF-8')
+``` 
+and restart R.
+
+More information can be found on the [CRAN R for Mac page](https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Internationalization-of-the-R_002eapp).
+
+
 ### Linux
 
 First, ensure that `libcurl` is installed on your system --- e.g. on Ubuntu, open a terminal and do:
