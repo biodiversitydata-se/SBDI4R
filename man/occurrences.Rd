@@ -43,8 +43,8 @@ for all the fields that are queryable.
 NOTE that fq matches are case-sensitive, but sometimes the entries in the fields are 
 not consistent in terms of case (e.g. kingdom names "Fungi" and "Plantae" but "ANIMALIA"). 
 fq matches are ANDed by default (e.g. c("field1:abc","field2:def") will match records that have 
-field1 value "abc" and field2 value "def"). To obtain OR behaviour, use the form c("field1:abc 
-OR field2:def"). See e.g. \url{http://wiki.apache.org/solr/CommonQueryParameters} 
+field1 value "abc" and field2 value "def"). To obtain OR behavior, use the form c("field1:abc 
+OR field2:def"). See e.g. \url{https://wiki.apache.org/solr/CommonQueryParameters} 
 for more information about filter queries}
 
 \item{fields}{string vector: (optional) a vector of field names to return. 

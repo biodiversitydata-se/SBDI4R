@@ -27,7 +27,7 @@ LazyData: true
 Depends: R (>= 3.5.0)
 SystemRequirements: GDAL (>= 2.0.1)
 Imports:
-    ALA4R (== 1.8.0),
+    ALA4R (>= 1.8.0),
     assertthat,
     digest,
     httr,

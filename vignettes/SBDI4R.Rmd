@@ -251,6 +251,8 @@ library(rgeos) #  the function over() is in package rgeos
 data("swe_wgs84", package="SBDI4R", envir=environment()) # Political borders
 data("swe100kmGrid", package="SBDI4R", envir=environment()) # A grid
 grid <- swe100kmGrid
+grid <- spTransform(grid, CRS("+init=epsg:4326")) ## it has the same CRS 
+# but changes are undergoing in the sp package and this step is needed
 
 ## make the observations spatial
 obs <- as.data.frame(x$data)
