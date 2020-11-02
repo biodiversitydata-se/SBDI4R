@@ -42,7 +42,7 @@ if(length(to_install)>0)
 ```
 
 
-### Example 1: Name searching and taxonomic trees
+## Example 1: Name searching and taxonomic trees
 We want to look at the taxonomy of titmice, but we don’t know what the correct 
 scientific name is, so let’s search for it:
 ```{r, warning=FALSE, message=FALSE}
@@ -78,7 +78,7 @@ ax <- as.phylo(~genusS/scientificName, data=tx)
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
-### Example 2: Get some data, quality assertions, plotting data on a map and save data
+## Example 2: Get some data, quality assertions, plotting data on a map and save data
 Download occurrence data for the "Sommarlånke" and view top of 
 the data table:
 ```{r, message=FALSE}
@@ -162,7 +162,7 @@ x <- occurrences(taxon="Callitriche cophocarpa",
 table(x$data$dataResourceName)
 ```
 
-#### Quality assertions
+### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
 ```{r, message=FALSE}
 summary(x)
@@ -170,7 +170,7 @@ summary(x)
 
 You can see a list of all record issues using `sbdi_fields("assertions",as_is=TRUE)` and see what is considered as fatal quality issues.
 
-#### Plotting data on a map  
+### Plotting data on a map  
 You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all fatal issues:
 ```{r}
 occurrences_plot(x, "obsPlot.pdf", qa="fatal", 
@@ -213,7 +213,7 @@ m <- addCircleMarkers(m, x$data$longitude, x$data$latitude,  radius = 5,
 m
 ```  
 
-#### Save data
+### Save data
 ```{r}
 # save as data.frame
 Callitriche <- as.data.frame(x$data)
@@ -231,7 +231,7 @@ calli <- na.omit(calli)
 write.csv(calli,"Callitriche.csv")
 ```
 
-### Example 3: Summarise occurrences over a defined grid
+## Example 3: Summarise occurrences over a defined grid
 Now, following with the data downloaded in the previous example, we want to 
 summarise occurrences over a defined grid instead of plotting every observation 
 point. First we need to overlay the observations with the grid:  
@@ -260,7 +260,7 @@ if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 nObsInGrid <- sum(unlist(lapply(ObsInGridList, nrow)))
 ```
 
-#### Summarise
+### Summarise
 Now summarise occurrences within grid cells:
 ```{r}
 ## apply a summary over the grid
@@ -295,7 +295,7 @@ rownames(res) <- row.names(grid)
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 ```  
 
-#### Plotting data on a map
+### Plotting data on a map
 Finally plot the grid summary as a map:
 ```{r, fig.width=6, fig.height=6}
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
@@ -309,7 +309,7 @@ legend("bottomleft",
        title = "Number of \nobservations", pch = 15, bty="n")
 ```
 
-### Example 4: Area report: what listed species exist in a given area?
+## Example 4: Area report: what listed species exist in a given area?
 Vector spatial layers (eg. Polygons) can be imported  in a number of different ways. 
 Bioatlas' APIs take as search input polygons in the s.k. WKT (Well Known Text \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}). 
 So the first step is to load a vector layer and transform it into a WKT string. 
@@ -374,7 +374,7 @@ specieslist(wkt=wkt) %>%
 }, error = function(e) { print(e$message)})
 ```
 
-### Example 5: Community composition and turnover
+## Example 5: Community composition and turnover
 ```{r message=FALSE}
 library(vegan)
 ```
