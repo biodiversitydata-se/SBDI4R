@@ -10,7 +10,7 @@ The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable use
 
 SBDI4R enables the R community to directly access data and resources hosted by SBDI. Our goal is to enable observations of species to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia [ALA4R](https://github.com/AtlasOfLivingAustralia/ALA4R) package which provides similar services for the ALA. Similar to the [NBN4R](https://github.com/fozy81/NBN4R) package SBDI4R wraps ALA4R functions but redirects requests to local web servers. All SBDI, NBN and ALA share similar Application Protocol Interface (API) web services. 
 
-The use-examples based on ALA4R are presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/) are available in the package vignette, via (in R): `vignette("SBDI4R")`, and a draft modified version using NBN data is found below.
+Use-examples are available in the package [vignette here](https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html), or via (in R): `vignette("SBDI4R")`.
 
 ## Installing SBDI4R
 
@@ -42,6 +42,18 @@ If you wish to use the `data.table` package for potentially faster loading of da
 ```R
 install.packages("data.table")
 ```
+
+### Mac
+Follow the instructions for Windows.
+
+If you see an error about a failure to set default locale, you will need to manually set this:
+```{r}
+system('defaults write org.R-project.R force.LANG en_US.UTF-8')
+``` 
+and restart R.
+
+More information can be found on the [CRAN R for Mac page](https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Internationalization-of-the-R_002eapp).
+
 
 ### Linux
 

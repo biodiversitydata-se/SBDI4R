@@ -20,6 +20,12 @@ opts_chunk$set(
 options(width = 120)
 ```  
 
+Here we provide a collection of use-examples showing examples for a range of queries that we think a typical use of the biodiversity infrastructure may want to perform. The examples are extended from a basic set for ALA4R presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/). 
+
+The SBDI4R package is primarily for accessing data. It includes some filter functions that allow you to filter prior to download. It also includes some simple summary functions, and some function for some simple data exploration. The examples also show you how you can use the data by continued exploring and analysing using other R package.
+
+Please get in contact with us if you have questions regarding the use of the SBDI4R package.
+
 ## Using SBDI4R
 
 Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
@@ -79,6 +85,7 @@ plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
 ## Example 2: Get some data, quality assertions, plotting data on a map and save data
+
 Download occurrence data for the "Sommarlånke" and view top of 
 the data table:
 ```{r, message=FALSE}
@@ -232,6 +239,7 @@ write.csv(calli,"Callitriche.csv")
 ```
 
 ## Example 3: Summarise occurrences over a defined grid
+
 Now, following with the data downloaded in the previous example, we want to 
 summarise occurrences over a defined grid instead of plotting every observation 
 point. First we need to overlay the observations with the grid:  
@@ -310,6 +318,7 @@ legend("bottomleft",
 ```
 
 ## Example 4: Area report: what listed species exist in a given area?
+
 Vector spatial layers (eg. Polygons) can be imported  in a number of different ways. 
 Bioatlas' APIs take as search input polygons in the s.k. WKT (Well Known Text \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}). 
 So the first step is to load a vector layer and transform it into a WKT string. 
@@ -375,6 +384,7 @@ specieslist(wkt=wkt) %>%
 ```
 
 ## Example 5: Community composition and turnover
+
 ```{r message=FALSE}
 library(vegan)
 ```
