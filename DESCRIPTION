@@ -48,11 +48,13 @@ Suggests:
     ggplot2,
     jpeg,
     knitr,
+    leaflet,
     mapdata,
     maps,
     maptools,
     phytools,
     rmarkdown,
+    rgeos,
     testthat,
     tidyr,
     vegan
