@@ -56,6 +56,9 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -83,7 +86,7 @@
 <p>R functionality for SBDI data portal</p>
 <p>The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; available through <a href="https://bioatlas.se/">Biodiversity Atlas Sweden</a>. The R package SBDI4R provides a subset of the tools, and some extension tools (found previously in Analysportalen.se), to be directly used within R.</p>
 <p>SBDI4R enables the R community to directly access data and resources hosted by SBDI. Our goal is to enable observations of species to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia <a href="https://github.com/AtlasOfLivingAustralia/ALA4R">ALA4R</a> package which provides similar services for the ALA. Similar to the <a href="https://github.com/fozy81/NBN4R">NBN4R</a> package SBDI4R wraps ALA4R functions but redirects requests to local web servers. All SBDI, NBN and ALA share similar Application Protocol Interface (API) web services.</p>
-<p>The use-examples based on ALA4R are presented at the <a href="http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/">2014 ALA Science Symposium</a> are available in the package vignette, via (in R): <code><a href="articles/SBDI4R.html">vignette("SBDI4R")</a></code>, and a draft modified version using NBN data is found below.</p>
+<p>Use-examples are available in the package <a href="https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html">vignette here</a>, or via (in R): <code><a href="articles/SBDI4R.html">vignette("SBDI4R")</a></code>.</p>
 <div id="installing-sbdi4r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-sbdi4r" class="anchor"></a>Installing SBDI4R</h2>
@@ -104,20 +107,29 @@ install_github("biodiversitydata-se/SBDI4R")</code></pre>
 <p>If you wish to use the <code>data.table</code> package for potentially faster loading of data matrices (optional), also do:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"data.table"</span>)</span></code></pre></div>
 </div>
+<div id="mac" class="section level3">
+<h3 class="hasAnchor">
+<a href="#mac" class="anchor"></a>Mac</h3>
+<p>Follow the instructions for Windows.</p>
+<p>If you see an error about a failure to set default locale, you will need to manually set this:</p>
+<pre class="{r}"><code><a href="https://rdrr.io/r/base/system.html">system('defaults write org.R-project.R force.LANG en_US.UTF-8')</a></code></pre>
+<p>and restart R.</p>
+<p>More information can be found on the <a href="https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Internationalization-of-the-R_002eapp">CRAN R for Mac page</a>.</p>
+</div>
 <div id="linux" class="section level3">
 <h3 class="hasAnchor">
 <a href="#linux" class="anchor"></a>Linux</h3>
 <p>First, ensure that <code>libcurl</code> is installed on your system — e.g. on Ubuntu, open a terminal and do:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">sudo</span> apt-get install libcurl4-openssl-dev</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">sudo</span> apt-get install libcurl4-openssl-dev</span></code></pre></div>
 <p>or install <code>libcurl4-openssl-dev</code> via the Software Centre.</p>
 <p>Then, in R:</p>
 <p>Or the development version from GitHub:</p>
 <p><code>{r eval=FALSE} install.packages("remotes") library(remotes) install_github("biodiversitydata-se/SBDI4R")</code></p>
 <p>If you see an error about a missing package, you will need to install it manually, e.g.:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"stringr"</span>,<span class="st">"sp"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"stringr"</span>,<span class="st">"sp"</span>))</span></code></pre></div>
 <p>and then try installing SBDI4R again.</p>
 <p>If you wish to use the <code>data.table</code> package for potentially faster loading of data matrices (optional), also do:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"data.table"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"data.table"</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="using-sbdi4r" class="section level2">
@@ -133,16 +145,16 @@ install_github("biodiversitydata-se/SBDI4R")</code></pre>
 <h3 class="hasAnchor">
 <a href="#caching" class="anchor"></a>Caching</h3>
 <p>SBDI4R can cache most results to local files. This means that if the same code is run multiple times, the second and subsequent iterations will be faster. This will also reduce load on the web servers. By default, this caching is session-based, meaning that the local files are stored in a temporary directory that is automatically deleted when the R session is ended. This behaviour can be altered so that caching is permanent, by setting the caching directory to a non-temporary location. For example, under Windows, use something like:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"c:"</span>,<span class="st">"mydata"</span>,<span class="st">"sbdi_cache"</span>)) <span class="co">## Windows</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory =</span> <span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"c:"</span>,<span class="st">"mydata"</span>,<span class="st">"sbdi_cache"</span>)) <span class="co">## Windows</span></span></code></pre></div>
 <p>or for Linux:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory =</span> <span class="st">"~/mydata/sbdi_cache"</span>) <span class="co">## Linux</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory =</span> <span class="st">"~/mydata/sbdi_cache"</span>) <span class="co">## Linux</span></span></code></pre></div>
 <p>Note that this directory must exist (you need to create it yourself).</p>
 <p>All results will be stored in that cache directory and will be used from one session to the next. They won’t be re-downloaded from the server unless the user specifically deletes those files or changes the caching setting to “refresh”.</p>
 <p>If you change the cache_directory to a permanent location, you may wish to add something like this to your .Rprofile file, so that it happens automatically each time the SBDI4R package is loaded:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">setHook</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">packageEvent</a></span>(<span class="st">"SBDI4R"</span>, <span class="st">"onLoad"</span>), </span>
-<span id="cb10-2"><a href="#cb10-2"></a>        <span class="cf">function</span>(...) <span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory=</span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"~"</span>,<span class="st">"mydata"</span>,<span class="st">"sbdi_cache"</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">setHook</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/userhooks.html">packageEvent</a></span>(<span class="st">"SBDI4R"</span>, <span class="st">"onLoad"</span>), </span>
+<span id="cb11-2"><a href="#cb11-2"></a>        <span class="cf">function</span>(...) <span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">cache_directory=</span><span class="kw"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"~"</span>,<span class="st">"mydata"</span>,<span class="st">"sbdi_cache"</span>)))</span></code></pre></div>
 <p>Caching can also be turned off entirely by:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">caching=</span><span class="st">"off"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">caching=</span><span class="st">"off"</span>)</span></code></pre></div>
 <p>or set to “refresh”, meaning that the cached results will re-downloaded from the SBDI servers and the cache updated. (This will happen for as long as caching is set to “refresh” — so you may wish to switch back to normal “on” caching behaviour once you have updated your cache with the data you are working on).</p>
 </div>
 <div id="user-agent-string" class="section level3">
@@ -154,28 +166,28 @@ install_github("biodiversitydata-se/SBDI4R")</code></pre>
 <h3 class="hasAnchor">
 <a href="#e-mail-address" class="anchor"></a>E-mail address</h3>
 <p>Each request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field. You can provide your e-mail address as a parameter directly to each call of the function occurrences(), or you can set it once per session specifying it in the package configuration:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">email=</span><span class="st">"your.valid@emailaddress.com"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">email=</span><span class="st">"your.valid@emailaddress.com"</span>)</span></code></pre></div>
 <p><em>NO</em> other personal identification information is sent. You can see all configuration settings, including the the user-agent string that is being used, with the command:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>()</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>()</span></code></pre></div>
 </div>
 <div id="debugging" class="section level3">
 <h3 class="hasAnchor">
 <a href="#debugging" class="anchor"></a>Debugging</h3>
 <p>If things aren’t working as expected, more detail (particularly about web requests and caching behaviour) can be obtained by setting the verbose configuration option:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">verbose=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">verbose=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="setting-the-download-reason" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setting-the-download-reason" class="anchor"></a>Setting the download reason</h3>
 <p>SBDI requires that you provide a reason when downloading occurrence data (via the SBDI4R <code><a href="reference/occurrences.html">occurrences()</a></code> function). You can provide this as a parameter directly to each call of <code><a href="reference/occurrences.html">occurrences()</a></code>, or you can set it once per session using:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">download_reason_id=</span>your_reason_id)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">download_reason_id=</span>your_reason_id)</span></code></pre></div>
 <p>(See <code><a href="reference/sbdi_reasons.html">sbdi_reasons()</a></code> for valid download reasons, e.g. download_reason_id=10 for “testing”, or 7 for “ecological research”, 8 for “systematic research/taxonomy”, 3 for “education”)</p>
 </div>
 <div id="other-options" class="section level3">
 <h3 class="hasAnchor">
 <a href="#other-options" class="anchor"></a>Other options</h3>
 <p>If you make a request that returns an empty result set (e.g. an un-matched name), by default you will simply get an empty data structure returned to you without any special notification. If you would like to be warned about empty result sets, you can use:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">warn_on_empty=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">warn_on_empty=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="see-examples-on-how-to-use-the-package-in-the-next-vignette" class="section level3">
 <h3 class="hasAnchor">

@@ -9,4 +9,5 @@
 ^.*\.yaml$
 ^.*\.yml$
 ^\.gitignore$
-^.*\.git$
+.git/
+.github/
