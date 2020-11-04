@@ -4,13 +4,13 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Build Status](https://travis-ci.com/biodiversitydata-se/SBDI4R.svg?branch=master)](https://travis-ci.com/biodiversitydata-se/SBDI4R) 
 
-R functionality for SBDI data portal
+R functionality for the SBDI data portal
 
 The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; available through [Biodiversity Atlas Sweden](https://bioatlas.se/). The R package SBDI4R provides a subset of the tools, and some extension tools (found previously in Analysportalen.se), to be directly used within R.
 
 SBDI4R enables the R community to directly access data and resources hosted by SBDI. Our goal is to enable observations of species to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia [ALA4R](https://github.com/AtlasOfLivingAustralia/ALA4R) package which provides similar services for the ALA. Similar to the [NBN4R](https://github.com/fozy81/NBN4R) package SBDI4R wraps ALA4R functions but redirects requests to local web servers. All SBDI, NBN and ALA share similar Application Protocol Interface (API) web services. 
 
-Use-examples are available in the package [vignette here](https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html), or via (in R): `vignette("SBDI4R")`.
+Use-examples are available in the package [vignette here](https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html), or via (in R): `vignette("SBDI4R")`. If you have any questions please contact the author and maintainer Debora Arlt via [email](mailto:debora.arlt@slu.se?subject=[GitHub]%20SBDI4R).
 
 ## Installing SBDI4R
 
