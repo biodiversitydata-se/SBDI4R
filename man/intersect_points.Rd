@@ -34,16 +34,15 @@ Intersect environmental or contextual layers at a given a set of points (coordin
  # single point with multiple layers
  # i.e local environmental Records Centre boundaries UK &
  # watsonian vice counties:
- layers <- c('cl23','cl14')
+ layers <- c('el10016','el10009')
  pnts <- c(51.5074,0.1278)
  intersect_points(pnts,layers) 
  # equivalent direct web service call:
- # https://spatial.bioatlas.se/ws/intersect/cl23,cl14/51.5074/0.1278
+ # https://spatial.bioatlas.se/ws/intersect/el10016,el10009/51.5074/0.1278
 
  # multiple points as a grid sampling multiple layers
- # i.e ancient woodland & watsonian vice counties:
- layers <- c('cl23','cl14')   
- pnts <- data.frame(expand.grid(lat=seq(51.5074,52.5074),lon=seq(0.1278,0.1278)))
+ pnts <- data.frame(expand.grid(lat=seq(51.5074,52.5074),
+                                lon=seq(0.1278,0.1278)))
  intersect_points(pnts,layers)
 }
 }

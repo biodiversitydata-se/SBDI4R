@@ -158,7 +158,9 @@ layer_questionarie<-function(){
         if(r %in% objectsDisp$id){
           # if(is.na(suppressWarnings(as.numeric(r)))) r <- paste0("%22",r,"%22")
             
-          res <- c(res, paste0(lid,":", as.character(objectsDisp$name)[as.numeric(r)]))
+          # res <- c(res, paste0(lid,":", 
+          #                      "%2A", as.character(objectsDisp$name)[as.numeric(r)],"%2A"))
+          res <- c(res, paste0(lid,":",  as.character(objectsDisp$name)[as.numeric(r)]))
           
           if(continue("Filter added. Do you want to continue? Type 'y' for yes. ")){
             type <- NULL

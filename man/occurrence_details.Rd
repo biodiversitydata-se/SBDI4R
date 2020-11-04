@@ -19,7 +19,7 @@ Note that this makes a separate web request for each occurrence uuid, and so may
 }
 \examples{
 \dontrun{
-s1 <- occurrence_details("4fce3968-c4b0-4083-8896-78d8f213d517")
+s1 <- occurrence_details("f31e5f0e-f964-4bc3-b8f3-78f2ad520563")
 str(s1,max.level=3)
 }
 }

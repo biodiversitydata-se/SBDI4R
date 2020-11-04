@@ -2,7 +2,7 @@
 #'
 #' This provides a data.frame detailing the assertions that are found in a dataset returned from \code{\link{occurrences}}.
 #'
-#' @references \url{https://api.bioatlas.se/}, \samp{http://records.bioatlas.se/ws/assertions/codes}
+#' @references \url{https://api.bioatlas.se/}, \url{http://records.bioatlas.se/ws/assertions/codes}
 #'  
 #' @param x list: an object returned from \code{\link{occurrences}}
 #' 
@@ -11,7 +11,10 @@
 #' @examples
 #' #download species data with all possible assertions
 #' \dontrun{
-#'  x <- occurrences(taxon="golden plover",download_reason_id=10,qa=sbdi_fields("assertions")$name)
+#'  x <- occurrences(taxon="golden plover",
+#'                   download_reason_id=10,
+#'                   qa=sbdi_fields("assertions")$name)
+#'  
 #'  asserts <- check_assertions(x) #data.frame of assertions, their description and column names
 #'  asserts$description # List out descriptions of all (current) assertions
 #'

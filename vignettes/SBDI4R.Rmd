@@ -88,65 +88,19 @@ plotTree(ax, fsize=0.7, ftype="i") ## plot it
 
 Download occurrence data for the "Sommarlånke" and view top of 
 the data table:
-```{r, message=FALSE}
-x <- occurrences(taxon="Callitriche cophocarpa", 
+```{r, message=FALSE, eval=FALSE}
+x <- occurrences(taxon="Callitriche cophocarpa",
                  email="test@test.org", 
                  download_reason_id=10)
 head(x$data)
 table(x$data$dataResourceName)
+```
 
-#keep spatially unique data at 0.01 degrees (latitude and longitude)
-# ll <- unique(x, spatial=0.01)
-# summary(ll)
-# 
-# #keep only information for which fatal or "error" assertions do not exist
-# nofat <- subset(x, remove.fatal = TRUE)
-# summary(nofat)
-# 
-# #keep only information for which fatal or "error" assertions do not exist
-# 
-# SpatCert <- subset(x, max.spatial.uncertainty=50)
-# summary(SpatCert)
-# # # quickly get some more info about the data:
-# 
-# # no. observations (records)
-# nrow(x$data)
-# 
-# # no. obs/year
-# table(x$data$year) 
-# freq_year <- table(x$data$year)
-# #sum(freq_year)
-# 
-# # data where 'year' is missing?
-# sum(is.na(x$data$year))
-# 
-# 
-# # no. obs across years:
-# hist(x$data$year, 20)
-# 
-# library(plyr)
-# #count(x$data$year)
-# c <- count(x$data$year)
-# barplot(c$freq ~ c$x)
-# 
-# 
-# # subsetting
-# 
-# # get occurrences for selected time
-# 
-# # year = 2019
-# x2019 <- occurrences(taxon="Reynoutria japonica", fq="year:2019")
-# nrow(x2019$data) 
-# 
-# x2yr <- occurrences(taxon="Reynoutria japonica", fq=c("year:2018 OR year:2019"))
-# nrow(x2yr$data) 
-# 
-# 
-# # years 2010 - 2019:
-# ##current alternative is downloading all and filter afterwards
-# x <- occurrences(taxon="Reynoutria japonica")
-# x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
-# table(x10yr$year)
+Similarly, we could search by common names (see Example X for refined taxonomic searches))
+```{r, message=FALSE}
+x <- occurrences(taxon="sommarlånke",
+                 email="test@test.org", 
+                 download_reason_id=10)
 ```
 
 We see there are different data sources. Let´s assume you only need to see data 
@@ -197,16 +151,35 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  email="test@test.org", 
                  download_reason_id=10)
 
-print(range(xf$data$coordinateUncertaintyInMetres))
+range(xf$data$coordinateUncertaintyInMetres)
 ```
 <!-- or being reported as within a a county (Note: this is what the observer says) -->
 <!-- ```{r} -->
 <!-- xf <- occurrences(taxon="Callitriche cophocarpa",  -->
-<!--                  fq="county:[* TO 100]", -->
+<!--                  fq="county:*Uppsala*", -->
 <!--                  email="test@test.org",  -->
 <!--                  download_reason_id=10) -->
 <!-- ``` -->
 
+In the same way, searching for observations between two years would be similar to:
+```{r, message=FALSE}
+xf <- occurrences(taxon="Callitriche cophocarpa", 
+                 fq="year:[2010 TO 2020]",
+                 email="test@test.org", 
+                 download_reason_id=10)
+
+hist(xf$data$year, xlab = "Year", main = "")
+```
+Likewise, search conditions can be accumulated and will be treated as AND conditions
+
+```{r, message=FALSE}
+xf <- occurrences(taxon="Callitriche cophocarpa", 
+                 fq=c("year:[2010 TO 2020]", "month:[06 TO 08]"),
+                 email="test@test.org", 
+                 download_reason_id=10)
+
+hist(xf$data$year, xlab = "Year", main = "")
+```
 
 ### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
@@ -658,6 +631,62 @@ map("worldHires", "Sweden",
     # xlim=c(105, 155), ylim=c(-45, -10), 
     col="gray90", fill=TRUE)
 with(xgridded, points(longitude, latitude, pch=21, col=thiscol[grp], bg=thiscol[grp], cex=0.75))
+```
+
+## Example 6: Handlig data in R after being downloaded
+```{r}
+#keep spatially unique data at 0.01 degrees (latitude and longitude)
+# ll <- unique(x, spatial=0.01)
+# summary(ll)
+# 
+# #keep only information for which fatal or "error" assertions do not exist
+# nofat <- subset(x, remove.fatal = TRUE)
+# summary(nofat)
+# 
+# #keep only information for which fatal or "error" assertions do not exist
+# 
+# SpatCert <- subset(x, max.spatial.uncertainty=50)
+# summary(SpatCert)
+# # # quickly get some more info about the data:
+# 
+# # no. observations (records)
+# nrow(x$data)
+# 
+# # no. obs/year
+# table(x$data$year) 
+# freq_year <- table(x$data$year)
+# #sum(freq_year)
+# 
+# # data where 'year' is missing?
+# sum(is.na(x$data$year))
+# 
+# 
+# # no. obs across years:
+# hist(x$data$year, 20)
+# 
+# library(plyr)
+# #count(x$data$year)
+# c <- count(x$data$year)
+# barplot(c$freq ~ c$x)
+# 
+# 
+# # subsetting
+# 
+# # get occurrences for selected time
+# 
+# # year = 2019
+# x2019 <- occurrences(taxon="Reynoutria japonica", fq="year:2019")
+# nrow(x2019$data) 
+# 
+# x2yr <- occurrences(taxon="Reynoutria japonica", fq=c("year:2018 OR year:2019"))
+# nrow(x2yr$data) 
+# 
+# 
+# # years 2010 - 2019:
+# ##current alternative is downloading all and filter afterwards
+# x <- occurrences(taxon="Reynoutria japonica")
+# x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
+# table(x10yr$year)
 ```
 
 
