@@ -71,7 +71,7 @@ inst_questionarie<-function(){
       ruid <- r
       uri <- institutions$uri[institutions$uid==ruid]
       
-      institutionAll <- jsonlite::fromJSON(httr::content(httr::GET(uri), "text"))
+      institutionAll <- fromJSON(content(GET(uri), "text"))
       collections <- institutionAll$collections
       dataResource <- institutionAll$linkedRecordProviders
       message("\nBy which collection or data resourcedo you want to filter? Type the corresponding uid or write 'all': \n")
@@ -130,40 +130,51 @@ layer_questionarie<-function(){
                     c("id","name", "description", "type",  "shortName")]
   
   while(continue){
-    layersDisp <- data.frame("name"=layers_cl$description[order(layers_cl$id)],
+    layersDisp <- data.frame("id"=layers_cl$id[order(layers_cl$id)],
+                             "name"=layers_cl$description[order(layers_cl$id)],
                              row.names=sort(layers_cl$id))
-    # layersDisp <- data.frame(row.names=layers[,"id"], "name source"=paste(layers$displayname, "/", layers$source))
+    
     ## TODO if the message if longer that 4800 something "bytes" it will be cut in the console. 
     ## Make it so that the tables gets cut and message divided in many messages
-    message("\nWhich layer do you want use as filter? Type the corresponding uid: \n")
+    message("\nWhich layer do you want use as filter? Type the corresponding id: \n")
     message(paste0(capture.output(print(layersDisp, 
                                         row.names = FALSE)), collapse = "\n"))
     r <- readline()
     
     if(r %in% layers_cl$id){
       lid <- r
-      layer_url<-SBDI4R:::build_url_from_parts(getOption("ALA4R_server_config")$base_url_spatial, 
+      layer_url <- SBDI4R:::build_url_from_parts(getOption("ALA4R_server_config")$base_url_spatial, 
                                                  c("objects", lid))
-      objectsLy<-jsonlite::fromJSON(httr::content(httr::GET(layer_url), as = "text", encoding = "UTF-8")) #
-      objectsDisp <- data.frame("name"=objectsLy$id[order(objectsLy$pid)],
-                               row.names=sort(objectsLy$pid))
-      message("\nBy which object in this layer do you want to filter? Type the corresponding 'name': \n")
-      message(paste0(capture.output(print(objectsDisp, 
-                                          row.names = FALSE)), collapse = "\n"))
-      r <- readline()
-      if(r %in% objectsLy$id){
-        if(is.na(suppressWarnings(as.numeric(r)))) r <- paste0("%22",r,"%22")
+      objectsLy <- fromJSON(content(GET(layer_url), 
+                                  as = "text", encoding = "UTF-8")) #
+      if(length(objectsLy)>0){
+        objectsDisp <- data.frame("id"=seq(nrow(objectsLy)),
+                                  "name"=objectsLy$name[order(objectsLy$pid)],
+                                 row.names=sort(objectsLy$pid))
+        message("\nBy which object in this layer do you want to filter? Type the corresponding 'name': \n")
+        message(paste0(capture.output(print(objectsDisp, 
+                                            row.names = FALSE)), collapse = "\n"))
+        r <- readline()
+        if(r %in% objectsDisp$id){
+          # if(is.na(suppressWarnings(as.numeric(r)))) r <- paste0("%22",r,"%22")
+            
+          res <- c(res, paste0(lid,":", as.character(objectsDisp$name)[as.numeric(r)]))
           
-        res <- c(res, paste0(lid,":",r))
-        
-        if(continue("Filter added. Do you want to continue? Type 'y' for yes. ")){
-          type <- NULL
+          if(continue("Filter added. Do you want to continue? Type 'y' for yes. ")){
+            type <- NULL
+          }else{
+            continue <- FALSE
+          }
+          
         }else{
-          continue <- FALSE
+          if(continue("No object with that uid was found. Do you want to start over? Type 'y' for yes. ")){
+            type <- NULL
+          }else{
+            continue <- FALSE
+          }
         }
-        
       }else{
-        if(continue("No object with that uid was found. Do you want to start over? Type 'y' for yes. ")){
+        if(continue("The object seems to be empty. Do you want to start over? Type 'y' for yes. ")){
           type <- NULL
         }else{
           continue <- FALSE

@@ -8,5 +8,5 @@
 #' @source https://github.com/biodiversitydata-se/Sweden_Grids
 #' @format SpatialPolygons (package sp) CRS: EPSG:4326
 
-"Sweden_Grid_50km_Wgs84"
+NULL
 

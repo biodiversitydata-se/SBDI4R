@@ -149,7 +149,9 @@ table(x$data$dataResourceName)
 # table(x10yr$year)
 ```
 
-We see there are different data sources. Let´s assume you only need to see data from one source, e.g. Artportalen. If you see on the data that Artportalens identifier is "dr5" you can directly filter the search by:
+We see there are different data sources. Let´s assume you only need to see data 
+from one source, e.g. Artportalen. If you see on the data that Artportalens 
+identifier is "dr5" you can directly filter the search by:
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = "data_resource_uid:dr5",
@@ -157,17 +159,54 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 table(xf$data$dataResourceName)
 ```
-Else, you can search available data resourses, collections (and more) using the interactive function \code{pick_filter} like:
+Else, you can search available data resources, collections (and more) using the interactive function \code{pick_filter} like:
 ```{r, message=FALSE, eval= FALSE}
 fq_str <- pick_filter("resource") 
 ## follow the instructions
 
-x <- occurrences(taxon="Callitriche cophocarpa", 
+xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = fq_str,
                  email="test@test.org", 
                  download_reason_id=10)
 table(x$data$dataResourceName)
 ```
+
+In the same way you can use the spatial layers that are available to spatially search 
+for the indexed observations. 
+
+```{r, message=FALSE, eval= FALSE}
+# fq_str <- pick_filter("layer") 
+# Follow the instructions, but here we just use the county Uppsala
+fq_str <- "cl10097:Uppsala"
+#
+xf <- occurrences(taxon="Callitriche cophocarpa", 
+                 fq = fq_str,
+                 email="test@test.org", 
+                 download_reason_id=10)
+```
+### Other filters on query
+Any search could be filtered by any indexed column or variable. You can find which 
+are the variables that are indexed writing `sbdi_fields("occurrence_indexed")`. 
+These filter strings require SOLR syntax, see [SOLR](https://blog.imaginea.com/solr-query-equivalent-to-the-database-query/)
+For example, let's filter out observations with coordinate uncertainty larger than 100 m. 
+
+
+```{r, message=FALSE}
+xf <- occurrences(taxon="Callitriche cophocarpa", 
+                 fq="coordinate_uncertainty:[* TO 100]",
+                 email="test@test.org", 
+                 download_reason_id=10)
+
+print(range(xf$data$coordinateUncertaintyInMetres))
+```
+<!-- or being reported as within a a county (Note: this is what the observer says) -->
+<!-- ```{r} -->
+<!-- xf <- occurrences(taxon="Callitriche cophocarpa",  -->
+<!--                  fq="county:[* TO 100]", -->
+<!--                  email="test@test.org",  -->
+<!--                  download_reason_id=10) -->
+<!-- ``` -->
+
 
 ### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
@@ -175,7 +214,8 @@ Data quality assertions are a suite of fields that are the result of a set of te
 summary(x)
 ```  
 
-You can see a list of all record issues using `sbdi_fields("assertions",as_is=TRUE)` and see what is considered as fatal quality issues.
+You can see a list of all record issues using `sbdi_fields("assertions")` 
+and see what is considered as fatal quality issues.
 
 ### Plotting data on a map  
 You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all fatal issues:
@@ -242,19 +282,27 @@ write.csv(calli,"Callitriche.csv")
 
 Now, following with the data downloaded in the previous example, we want to 
 summarise occurrences over a defined grid instead of plotting every observation 
-point. First we need to overlay the observations with the grid:  
+point. First we need to overlay the observations with the grid. In this case, 
+the standard Swedish grids at 50, 25, 10 and 5 km are provided as data (with 
+Coordinate Reference System = WGS84, EPSG:4326).   
 
-```{r, message=FALSE}
+```{r, message=FALSE, echo=FALSE}
 library(sp) # the function coordinates() and proj4string() are in sp
 library(rgeos) #  the function over() is in package rgeos
-## load some shapes over Sweden
-data("swe_wgs84", package="SBDI4R", envir=environment()) # Political borders
-data("swe100kmGrid", package="SBDI4R", envir=environment()) # A grid
-grid <- swe100kmGrid
+# load some shapes over Sweden
+# Political borders
+data("swe_wgs84", package="SBDI4R", envir=environment()) 
+# A standard 50km grid
+data("Sweden_Grid_50km_Wgs84", package="SBDI4R", envir=environment()) 
+
+grid <- Sweden_Grid_50km_Wgs84
 grid <- spTransform(grid, CRS("+init=epsg:4326")) ## it has the same CRS 
 # but changes are undergoing in the sp package and this step is needed
 
-## make the observations spatial
+# make the observations spatial
+# NOTE: make sure there are no NAs on either column defining the coordinates 
+# see example 2 for cleaning your dataset.
+
 obs <- as.data.frame(x$data)
 coordinates(obs) <- obs[,c("longitude","latitude")]
 proj4string(obs) <- CRS("+init=epsg:4326")
@@ -269,6 +317,8 @@ if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 ## check nObs
 nObsInGrid <- sum(unlist(lapply(ObsInGridList, nrow)))
 ```
+
+The result 'ObsInGridList' is a 'list' object with a subset of the data on each grid. 
 
 ### Summarise
 Now summarise occurrences within grid cells:
@@ -307,17 +357,114 @@ resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 
 ### Plotting data on a map
 Finally plot the grid summary as a map:
-```{r, fig.width=6, fig.height=6}
+```{r grid, fig.width=6, fig.height=6, message=FALSE}
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, max(resSp@data$nObs, na.rm = TRUE)), 
                                na.color = "transparent")
+oldpar <- par()
+par(mar = c(1,1,0,0))
 plot(resSp, col=palBW(resSp@data$nObs), border = NA)
 plot(swe_wgs84$Border, border=1, lwd=1, add=T)
 legend("bottomleft", 
        legend = round(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
        col = palBW(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
        title = "Number of \nobservations", pch = 15, bty="n")
+par(oldpar)
 ```
+
+### Other polygons
+Any other set of polygons could also be used to summarise, for example, the counties. 
+```{r}
+counties <- swe_wgs84$Counties
+## again, even both the obs and the polygon have the same CRS 
+## changes are undergoing in the sp package and this step is needed
+counties <- spTransform(counties, CRS("+init=epsg:4326")) 
+
+## overlay the data with the counties
+ObsInCountyList <- over(counties, obs, returnList=TRUE)
+wNonEmpty <- unname( which( unlist(lapply(ObsInCountyList, nrow)) != 0) )
+if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
+
+## check nObs
+nObsInCounty <- sum(unlist(lapply(ObsInCountyList, nrow)))
+
+## apply a summary over the grid
+nCells <- length(ObsInCountyList)
+
+res <- data.frame("nObs"=as.numeric(rep(NA,nCells)),
+                  "nYears"=as.numeric(rep(NA,nCells)),
+                  stringsAsFactors = FALSE)
+
+cols2use <- c("scientificName", "year")
+
+dataRes <- lapply(ObsInCountyList[wNonEmpty], function(x){
+  x <- x[,cols2use]
+  colnames(x) <- c("scientificName", "year")
+  
+  return(c("nObs" = length(x[,"scientificName"]),
+           "nYears" = length(unique(x[,"year"]))
+  ))
+})
+
+dataRes <- data.frame(matrix(unlist(dataRes),
+                             nrow=length(dataRes), 
+                             byrow=TRUE),
+                    stringsAsFactors = FALSE)
+
+dataRes$X1 <- as.numeric(dataRes$X1)
+dataRes$X2 <- as.numeric(dataRes$X2)
+
+res[wNonEmpty,] <- dataRes
+rownames(res) <- row.names(counties)
+
+resSp <- sp::SpatialPolygonsDataFrame(counties, res)
+```
+
+and again plotting as a map:
+```{r counties, fig.width=6, fig.height=6}
+palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
+                               c(0, max(resSp@data$nObs, na.rm = TRUE)), 
+                               na.color = "transparent")
+oldpar <- par()
+par(mar = c(1,1,0,0))
+plot(resSp, col=palBW(resSp@data$nObs), border = NA)
+plot(swe_wgs84$Border, border=1, lwd=1, add=T)
+text(coordinates(counties), as.character(counties$LnNamn), font = 2, cex=.5 )
+legend("bottomleft", 
+       legend = round(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
+       col = palBW(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
+       title = "Number of \nobservations", pch = 15, bty="n")
+par(oldpar)
+```
+
+### Add the County name to each observation
+```{r}
+countiesLab <- as.character(counties$LnNamn)
+
+## Add a column to the obs data.frame to hold the id of the overlapped polygon, 
+## in this case, Län (county)
+obs$overId <- NA 
+
+for(c in 1:length(ObsInCountyList)){
+  if(nrow(ObsInCountyList[[c]]) > 0){
+    idsC <- ObsInCountyList[[c]]$id
+    wObs <- match(idsC, obs$id)
+    obs$overId[wObs] <- rep(countiesLab[c], length(wObs))
+  }
+  print(countiesLab[c])
+}
+
+# check if there are any observation that doesn't fall into the territory of any county
+obs[which(is.na(obs$overId)),]
+
+oldpar <- par()
+par(mar = c(1,1,0,0))
+plot(counties, border=1, lwd=1)
+plot(obs[which(is.na(obs$overId)),], pch=19, cex=.5, col="red", add=T)
+par(oldpar)
+
+```
+
 
 ## Example 4: Area report: what listed species exist in a given area?
 
