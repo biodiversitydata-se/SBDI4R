@@ -104,7 +104,7 @@ x <- occurrences(taxon="sommarlånke",
 ```
 
 We see there are different data sources. Let´s assume you only need to see data 
-from one source, e.g. Artportalen. If you see on the data that Artportalens 
+from one source, e.g. Artportalen. If you see on the data that Artportalen's 
 identifier is "dr5" you can directly filter the search by:
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
@@ -147,7 +147,7 @@ For example, let's filter out observations with coordinate uncertainty larger th
 
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq="coordinate_uncertainty:[* TO 100]",
+                 fq="coordinate_uncertainty:[0 TO 100]",
                  email="test@test.org", 
                  download_reason_id=10)
 
