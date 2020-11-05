@@ -2,8 +2,7 @@
 % Please edit documentation in R/sbdi_cache_filename.R
 \name{sbdi_cache_filename}
 \alias{sbdi_cache_filename}
-\title{Returns the name of the cache file associated with the given URL. Note that this file 
-may not actually exist, this function just provides the mapping from URL to filename}
+\title{Returns the name of the cache file associated with the given URL.}
 \usage{
 sbdi_cache_filename(url)
 }
@@ -14,8 +13,7 @@ sbdi_cache_filename(url)
 string: the file path and name
 }
 \description{
-Returns the name of the cache file associated with the given URL. Note that this file 
-may not actually exist, this function just provides the mapping from URL to filename
+Note that this file may not actually exist, this function just provides the mapping from URL to filename
 }
 \examples{
 \dontrun{

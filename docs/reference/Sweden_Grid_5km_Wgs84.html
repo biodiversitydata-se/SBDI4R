@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check assertions in occurrences object — check_assertions • SBDI4R</title>
+<title>The standard Swedish squared grid 
+A 5 km wide grid dataset in SpatialPolygons (package sp) over Sweden. — Sweden_Grid_5km_Wgs84 • SBDI4R</title>
 
 
 <!-- jquery -->
@@ -35,8 +36,10 @@
 
 
 
-<meta property="og:title" content="Check assertions in occurrences object — check_assertions" />
-<meta property="og:description" content="This provides a data.frame detailing the assertions that are found in a dataset returned from occurrences." />
+<meta property="og:title" content="The standard Swedish squared grid 
+A 5 km wide grid dataset in SpatialPolygons (package sp) over Sweden. — Sweden_Grid_5km_Wgs84" />
+<meta property="og:description" content="The standard Swedish squared grid 
+A 5 km wide grid dataset in SpatialPolygons (package sp) over Sweden." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,54 +114,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check assertions in occurrences object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/check_assertions.R'><code>R/check_assertions.R</code></a></small>
-    <div class="hidden name"><code>check_assertions.Rd</code></div>
+    <h1>The standard Swedish squared grid 
+A 5 km wide grid dataset in SpatialPolygons (package sp) over Sweden.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/_Sweden_Grid_5km_Wgs84.R'><code>R/_Sweden_Grid_5km_Wgs84.R</code></a></small>
+    <div class="hidden name"><code>Sweden_Grid_5km_Wgs84.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This provides a data.frame detailing the assertions that are found in a dataset returned from <code><a href='occurrences.html'>occurrences</a></code>.</p>
+    <p>The standard Swedish squared grid 
+A 5 km wide grid dataset in SpatialPolygons (package sp) over Sweden.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_assertions</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>Sweden_Grid_5km_Wgs84</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>list: an object returned from <code><a href='occurrences.html'>occurrences</a></code></p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe of assertions column names, descriptions and categories/error codes. If no assertions are in the dataset, NULL is returned.</p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+    <p>SpatialPolygons (package sp) CRS: EPSG:4326</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p><a href='https://api.bioatlas.se/'>https://api.bioatlas.se/</a>, <a href='http://records.bioatlas.se/ws/assertions/codes'>http://records.bioatlas.se/ws/assertions/codes</a></p>
+    <p>https://github.com/biodiversitydata-se/Sweden_Grids</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>#download species data with all possible assertions</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='occurrences.html'>occurrences</a></span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"golden plover"</span>,
-                  <span class='kw'>download_reason_id</span><span class='kw'>=</span><span class='fl'>10</span>,
-                  <span class='kw'>qa</span><span class='kw'>=</span><span class='fu'><a href='sbdi_fields.html'>sbdi_fields</a></span>(<span class='st'>"assertions"</span>)$<span class='no'>name</span>)
-
- <span class='no'>asserts</span> <span class='kw'>&lt;-</span> <span class='fu'>check_assertions</span>(<span class='no'>x</span>) <span class='co'>#data.frame of assertions, their description and column names</span>
- <span class='no'>asserts</span>$<span class='no'>description</span> <span class='co'># List out descriptions of all (current) assertions</span>
-
- <span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>$<span class='no'>data</span>[,<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>x</span>$<span class='no'>data</span>) <span class='kw'>%in%</span> <span class='no'>asserts</span>$<span class='no'>name</span>] <span class='co'>## assertion columns from data</span>
- <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colSums</a></span>(<span class='no'>tmp</span>)<span class='kw'>&gt;</span><span class='fl'>0</span>) <span class='co'>## discard those not seen in the data</span>
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
 
   </div>

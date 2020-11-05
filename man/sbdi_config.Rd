@@ -3,11 +3,14 @@
 \name{sbdi_config}
 \alias{sbdi_config}
 \alias{ala_config}
+\alias{sbdi_reasons}
 \title{Get or set configuration options that control sbdi4R behaviour}
 \usage{
 sbdi_config(...)
 
 ala_config(...)
+
+sbdi_reasons()
 }
 \arguments{
 \item{\dots}{Options can be defined using name=value. Valid options are:
@@ -37,6 +40,8 @@ called with arguments, nothing is returned but the configuration is set.
 }
 \description{
 Get or set configuration options that control sbdi4R behaviour
+
+List valid download reasons
 }
 \examples{
 \dontrun{

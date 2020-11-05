@@ -64,13 +64,14 @@ sx$data[,c( "name","species", "speciesGuid", "rank")]
 To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
 ```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
-sx$data[,c( "name","species", "speciesGuid", "rank")]
+head(sx$data[,c( "name","species", "speciesGuid", "rank")])
 ```
 
 Now we can download the taxonomic data (note that the search is case-sensitive):
-```{r, message=FALSE}
+```{r, message=FALSE, results=FALSE}
 tx <- taxinfo_download("family_s:Paridae", 
-                       fields=c("guid", "genus_s", "scientificName", "rank"))
+                       fields=c("guid", "genus_s", "scientificName", "rank"), 
+                       verbose = FALSE)
 tx <- tx[tx$rank == "species",] ## restrict to species
 ```
 We can make a taxonomic tree plot using the `phytools` package:
@@ -86,8 +87,7 @@ plotTree(ax, fsize=0.7, ftype="i") ## plot it
 
 ## Example 2: Get some data, quality assertions, plotting data on a map and save data
 
-Download occurrence data for the "Sommarlånke" and view top of 
-the data table:
+Download occurrence data for the "Sommarlånke" and view top of the data table:
 ```{r, message=FALSE, eval=FALSE}
 x <- occurrences(taxon="Callitriche cophocarpa",
                  email="test@test.org", 
@@ -97,12 +97,15 @@ table(x$data$dataResourceName)
 ```
 
 Similarly, we could search by common names (see Example X for refined taxonomic searches))
-```{r, message=FALSE}
+```{r, message=FALSE }
 x <- occurrences(taxon="sommarlånke",
                  email="test@test.org", 
-                 download_reason_id=10)
+                 download_reason_id=10, 
+                 verbose = FALSE)
+head(x$data)
+table(x$data$dataResourceName)
 ```
-
+### Search filters
 We see there are different data sources. Let´s assume you only need to see data 
 from one source, e.g. Artportalen. If you see on the data that Artportalen's 
 identifier is "dr5" you can directly filter the search by:
@@ -110,10 +113,11 @@ identifier is "dr5" you can directly filter the search by:
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = "data_resource_uid:dr5",
                  email="test@test.org", 
-                 download_reason_id=10)
+                 download_reason_id=10, verbose = FALSE)
 table(xf$data$dataResourceName)
 ```
-Else, you can search available data resources, collections (and more) using the interactive function \code{pick_filter} like:
+Else, you can search available data resources, collections (and more) using the interactive function \code{pick_filter}.
+The \code{pick_filter}function lets you explore data collections, spatial layers, and soon more indexed fields.
 ```{r, message=FALSE, eval= FALSE}
 fq_str <- pick_filter("resource") 
 ## follow the instructions
@@ -122,28 +126,28 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  fq = fq_str,
                  email="test@test.org", 
                  download_reason_id=10)
-table(x$data$dataResourceName)
 ```
 
-In the same way you can use the spatial layers that are available to spatially search 
-for the indexed observations. 
+In the same way you can use the spatial layers that are available to spatially search for the indexed observations. 
 
 ```{r, message=FALSE, eval= FALSE}
 # fq_str <- pick_filter("layer") 
 # Follow the instructions, but here we just use the county Uppsala
 fq_str <- "cl10097:Uppsala"
-#
+
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = fq_str,
                  email="test@test.org", 
                  download_reason_id=10)
 ```
-### Other filters on query
-Any search could be filtered by any indexed column or variable. You can find which 
-are the variables that are indexed writing `sbdi_fields("occurrence_indexed")`. 
-These filter strings require SOLR syntax, see [SOLR](https://blog.imaginea.com/solr-query-equivalent-to-the-database-query/)
-For example, let's filter out observations with coordinate uncertainty larger than 100 m. 
 
+Note that this is fundamentally different than filtering by \dQuote{county:Uppsala} as this will search for the text \dQuote{uppsala} in the field \dQuote{county}, rather than spatially matching the observations.
+
+### Other filters on queries
+Any search could be filtered by any indexed field (a.k.a. column or variable). You can find which 
+are the variables that are indexed with the command `c
+These filter strings require SOLR syntax, see [SOLR](https://blog.imaginea.com/solr-query-equivalent-to-the-database-query/)
+For example, let's filter observations with coordinate uncertainty smaller than or equal to 100 m. 
 
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
@@ -155,9 +159,9 @@ range(xf$data$coordinateUncertaintyInMetres)
 ```
 <!-- or being reported as within a a county (Note: this is what the observer says) -->
 <!-- ```{r} -->
-<!-- xf <- occurrences(taxon="Callitriche cophocarpa",  -->
-<!--                  fq="county:*Uppsala*", -->
-<!--                  email="test@test.org",  -->
+<!-- xf <- occurrences(taxon="Callitriche cophocarpa", -->
+<!--                  fq="county:Uppsala", -->
+<!--                  email="test@test.org", -->
 <!--                  download_reason_id=10) -->
 <!-- ``` -->
 
@@ -181,25 +185,39 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
 hist(xf$data$year, xlab = "Year", main = "")
 ```
 
+```{r, message=FALSE}
+xf <- occurrences(taxon="Callitriche cophocarpa", 
+                 fq=c("basis_of_record:HumanObservation","basis_of_record:HumanObservation"),
+                 email="test@test.org", 
+                 download_reason_id=10)
+
+unique(xf$data$basisOfRecord)
+```
+
 ### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
 ```{r, message=FALSE}
 summary(x)
 ```  
 
-You can see a list of all record issues using `sbdi_fields("assertions")` 
-and see what is considered as fatal quality issues.
+You can see a list of all record issues using `sbdi_fields("assertions")` and see what is considered as fatal quality issues.
 
-### Plotting data on a map  
-You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all fatal issues:
 ```{r}
-occurrences_plot(x, "obsPlot.pdf", qa="fatal", 
+assert <- sbdi_fields("assertions")
+assertFatal <- assert[assert$isFatal==TRUE,"name"]
+wAssertInX <- assertFatal %in% colnames(x$data)
+colSums(x$data[,assertFatal[wAssertInX]])
+```
+### Plotting data on a map  
+You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all 'error' issues:
+```{r}
+occurrences_plot(x, "obsPlot.pdf", qa="error", 
                   grouped=FALSE, taxon_level="species", 
                   pch='+')
 ```
 Note that the plot is saved to a pdf file in the current working directory. You can find that by `getwd()`.  
 
-<img src=https://github.com/biodiversitydata-se/SBDI4R/blob/master/man/figures/obsPlot_CallitricheCophocarpa.png />
+<img src='https://github.com/biodiversitydata-se/SBDI4R/blob/master/man/figures/obsPlot_CallitricheCophocarpa.pdf' />
 
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
 ```{r}

@@ -1,5 +1,6 @@
-#' Returns the name of the cache file associated with the given URL. Note that this file 
-#' may not actually exist, this function just provides the mapping from URL to filename
+#' Returns the name of the cache file associated with the given URL. 
+#' 
+#' Note that this file may not actually exist, this function just provides the mapping from URL to filename
 #' 
 #' @references \url{https://api.bioatlas.se/}
 #' @seealso \code{sbdi_config} for cache settings, particularly the cache directory

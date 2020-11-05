@@ -161,7 +161,7 @@ ala_config <- function(...) {
 }
 
 #' List valid download reasons
-#' @rdname sbdi_reasons
+#' @rdname sbdi_config
 #' @export
 sbdi_reasons <- function() {
   ALA4R::ala_reasons()

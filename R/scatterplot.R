@@ -1,6 +1,6 @@
 #' Scatterplot of environmental parameters associated with species occurrence data. 
-#' Interactive plotly plot of environmental variables and species occurrence data
 #' 
+#' Interactive plotly plot of environmental variables and species occurrence data. 
 #' WARNING: This function is under development and its functionality is limited
 #' Makes a search using \code{\link{occurrences}}and plots environmental variables 
 #' associated with species presence against each other. Alternatively, makes a 

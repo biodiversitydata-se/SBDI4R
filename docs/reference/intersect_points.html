@@ -173,16 +173,15 @@ NOTE: batch requests (multiple points) are currently processed in a *single queu
  <span class='co'># single point with multiple layers</span>
  <span class='co'># i.e local environmental Records Centre boundaries UK &amp;</span>
  <span class='co'># watsonian vice counties:</span>
- <span class='no'>layers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'cl23'</span>,<span class='st'>'cl14'</span>)
+ <span class='no'>layers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'el10016'</span>,<span class='st'>'el10009'</span>)
  <span class='no'>pnts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>51.5074</span>,<span class='fl'>0.1278</span>)
  <span class='fu'>intersect_points</span>(<span class='no'>pnts</span>,<span class='no'>layers</span>)
  <span class='co'># equivalent direct web service call:</span>
- <span class='co'># https://spatial.bioatlas.se/ws/intersect/cl23,cl14/51.5074/0.1278</span>
+ <span class='co'># https://spatial.bioatlas.se/ws/intersect/el10016,el10009/51.5074/0.1278</span>
 
  <span class='co'># multiple points as a grid sampling multiple layers</span>
- <span class='co'># i.e ancient woodland &amp; watsonian vice counties:</span>
- <span class='no'>layers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'cl23'</span>,<span class='st'>'cl14'</span>)
- <span class='no'>pnts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span>(<span class='kw'>lat</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>51.5074</span>,<span class='fl'>52.5074</span>),<span class='kw'>lon</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.1278</span>,<span class='fl'>0.1278</span>)))
+ <span class='no'>pnts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span>(<span class='kw'>lat</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>51.5074</span>,<span class='fl'>52.5074</span>),
+                                <span class='kw'>lon</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0.1278</span>,<span class='fl'>0.1278</span>)))
  <span class='fu'>intersect_points</span>(<span class='no'>pnts</span>,<span class='no'>layers</span>)
 }</div></pre>
   </div>

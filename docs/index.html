@@ -83,10 +83,10 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#sbdi4r" class="anchor"></a>SBDI4R</h1></div>
 
-<p>R functionality for SBDI data portal</p>
+<p>R functionality for the SBDI data portal</p>
 <p>The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualise data on Swedish plants and animals; available through <a href="https://bioatlas.se/">Biodiversity Atlas Sweden</a>. The R package SBDI4R provides a subset of the tools, and some extension tools (found previously in Analysportalen.se), to be directly used within R.</p>
 <p>SBDI4R enables the R community to directly access data and resources hosted by SBDI. Our goal is to enable observations of species to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia <a href="https://github.com/AtlasOfLivingAustralia/ALA4R">ALA4R</a> package which provides similar services for the ALA. Similar to the <a href="https://github.com/fozy81/NBN4R">NBN4R</a> package SBDI4R wraps ALA4R functions but redirects requests to local web servers. All SBDI, NBN and ALA share similar Application Protocol Interface (API) web services.</p>
-<p>Use-examples are available in the package <a href="https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html">vignette here</a>, or via (in R): <code><a href="articles/SBDI4R.html">vignette("SBDI4R")</a></code>.</p>
+<p>Use-examples are available in the package <a href="https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html">vignette here</a>, or via (in R): <code><a href="articles/SBDI4R.html">vignette("SBDI4R")</a></code>. If you have any questions please contact the author and maintainer Debora Arlt via <a href="mailto:debora.arlt@slu.se?subject=%5BGitHub%5D%20SBDI4R">email</a>.</p>
 <div id="installing-sbdi4r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-sbdi4r" class="anchor"></a>Installing SBDI4R</h2>
@@ -181,7 +181,7 @@ install_github("biodiversitydata-se/SBDI4R")</code></pre>
 <a href="#setting-the-download-reason" class="anchor"></a>Setting the download reason</h3>
 <p>SBDI requires that you provide a reason when downloading occurrence data (via the SBDI4R <code><a href="reference/occurrences.html">occurrences()</a></code> function). You can provide this as a parameter directly to each call of <code><a href="reference/occurrences.html">occurrences()</a></code>, or you can set it once per session using:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="reference/sbdi_config.html">sbdi_config</a></span>(<span class="dt">download_reason_id=</span>your_reason_id)</span></code></pre></div>
-<p>(See <code><a href="reference/sbdi_reasons.html">sbdi_reasons()</a></code> for valid download reasons, e.g. download_reason_id=10 for “testing”, or 7 for “ecological research”, 8 for “systematic research/taxonomy”, 3 for “education”)</p>
+<p>(See <code><a href="reference/sbdi_config.html">sbdi_reasons()</a></code> for valid download reasons, e.g. download_reason_id=10 for “testing”, or 7 for “ecological research”, 8 for “systematic research/taxonomy”, 3 for “education”)</p>
 </div>
 <div id="other-options" class="section level3">
 <h3 class="hasAnchor">

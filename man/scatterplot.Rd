@@ -2,8 +2,7 @@
 % Please edit documentation in R/scatterplot.R
 \name{scatterplot}
 \alias{scatterplot}
-\title{Scatterplot of environmental parameters associated with species occurrence data. 
-Interactive plotly plot of environmental variables and species occurrence data}
+\title{Scatterplot of environmental parameters associated with species occurrence data.}
 \usage{
 scatterplot(taxon, ...)
 }
@@ -28,6 +27,7 @@ frame is plotted with ggplot and output stored as pdf, an interactive ggplot
 using plotly is displayed on-screen.
 }
 \description{
+Interactive plotly plot of environmental variables and species occurrence data. 
 WARNING: This function is under development and its functionality is limited
 Makes a search using \code{\link{occurrences}}and plots environmental variables 
 associated with species presence against each other. Alternatively, makes a 

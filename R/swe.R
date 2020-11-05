@@ -1,4 +1,5 @@
-#' Basic Sweden polygon for visualization
+#' Basic Sweden polygons for visualization
+#' 
 #' A basic polygon dataset in SpatialPolygons (package sp) representing
 #' Sweden.
 #' 
@@ -12,10 +13,12 @@
 NULL
 
 #' Basic Sweden polygon for visualization
+#' 
 #' A basic polygon dataset in SpatialPolygons (package sp) representing
 #' Sweden.
 #' 
 #' @name swe_wgs84
+#' @rdname swe
 #' @keywords datasets
 #' @docType data
 #' @usage data(swe_wgs84)

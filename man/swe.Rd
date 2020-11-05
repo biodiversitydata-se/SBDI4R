@@ -3,20 +3,27 @@
 \docType{data}
 \name{swe}
 \alias{swe}
-\title{Basic Sweden polygon for visualization
-A basic polygon dataset in SpatialPolygons (package sp) representing
-Sweden.}
+\alias{swe_wgs84}
+\title{Basic Sweden polygons for visualization}
 \format{
 SpatialPolygons (package sp) CRS: EPSG:3006
+
+SpatialPolygons (package sp) CRS: EPSG:4326
 }
 \source{
+Statistikmyndigheten SCB \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser}
+
 Statistikmyndigheten SCB \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser}
 }
 \usage{
 data(swe)
+
+data(swe_wgs84)
 }
 \description{
-Basic Sweden polygon for visualization
+A basic polygon dataset in SpatialPolygons (package sp) representing
+Sweden.
+
 A basic polygon dataset in SpatialPolygons (package sp) representing
 Sweden.
 }
