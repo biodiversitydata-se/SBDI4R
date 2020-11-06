@@ -1,6 +1,6 @@
 ## checking of fields in fq against valid fields
 ## not exported for users: internal SBDI4R use only
-check_fq <- function(fq,type) {
+check_fq <- function(fq, type) {
   
   ALA4R:::check_fq(fq,type)
 }

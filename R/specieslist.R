@@ -9,7 +9,7 @@
 #' @param taxon string: (optional) query of the form field:value (e.g. "genus:Macropus") or a free text search (e.g. "macropodidae").
 #' For reliable results it is recommended to use a specific field where possible (see \code{sbdi_fields("occurrence_indexed")}
 #' for valid fields). It is also good practice to quote the taxon name if it contains multiple words, for example
-#' \code{taxon="taxon_name:\"Vulpes vulpes\""} (noting, however, that multi-word names are unlikely in the context of a specieslist
+#' \code{taxon="taxon_name:Vulpes vulpes"} (noting, however, that multi-word names are unlikely in the context of a specieslist
 #' search, where one would typically be searching for all species within, say, a genus or family)
 #' @param wkt string: WKT (well-known text) defining a polygon within which to limit taxon search, e.g. "POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"
 #' @param fq string: character string or vector of strings, specifying filters to be applied to the original query. These are of the form "INDEXEDFIELD:VALUE" e.g. "kingdom:Fungi". See \code{sbdi_fields("occurrence_indexed",as_is=TRUE)} for all the fields that are queryable. NOTE that fq matches are case-sensitive, but sometimes the entries in the fields are not consistent in terms of case (e.g. kingdom names "Fungi" and "Plantae" but "ANIMALIA"). fq matches are ANDed by default (e.g. c("field1:abc","field2:def") will match records that have field1 value "abc" and field2 value "def"). To obtain OR behaviour, use the form c("field1:abc OR field2:def")
