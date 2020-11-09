@@ -10,7 +10,7 @@ specieslist(taxon, wkt, fq)
 \item{taxon}{string: (optional) query of the form field:value (e.g. "genus:Macropus") or a free text search (e.g. "macropodidae").
 For reliable results it is recommended to use a specific field where possible (see \code{sbdi_fields("occurrence_indexed")}
 for valid fields). It is also good practice to quote the taxon name if it contains multiple words, for example
-\code{taxon="taxon_name:\"Vulpes vulpes\""} (noting, however, that multi-word names are unlikely in the context of a specieslist
+\code{taxon="taxon_name:Vulpes vulpes"} (noting, however, that multi-word names are unlikely in the context of a specieslist
 search, where one would typically be searching for all species within, say, a genus or family)}
 
 \item{wkt}{string: WKT (well-known text) defining a polygon within which to limit taxon search, e.g. "POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"}
