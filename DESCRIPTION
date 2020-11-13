@@ -42,6 +42,7 @@ Imports:
     wellknown
 Suggests: 
     ape,
+    BIRDS,
     covr,
     data.table,
     dplyr,

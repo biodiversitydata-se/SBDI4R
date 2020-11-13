@@ -127,10 +127,10 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>taxon</th>
-      <td><p>string: (optional) query of the form field:value (e.g. "genus:Macropus") or a free text search (e.g. "macropodidae").
+      <td><p>string: (optional) query of the form field:value (e.g. "genus:Leuctra") or a free text search (e.g. "macropodidae").
 For reliable results it is recommended to use a specific field where possible (see <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_indexed")</a></code>
 for valid fields). It is also good practice to quote the taxon name if it contains multiple words, for example
-<code>taxon="taxon_name:\"Vulpes vulpes\""</code> (noting, however, that multi-word names are unlikely in the context of a specieslist
+<code>taxon="taxon_name:Vulpes vulpes"</code> (noting, however, that multi-word names are unlikely in the context of a specieslist
 search, where one would typically be searching for all species within, say, a genus or family)</p></td>
     </tr>
     <tr>
@@ -156,16 +156,17 @@ search, where one would typically be searching for all species within, say, a ge
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Leuctra"</span>,<span class='kw'>wkt</span><span class='kw'>=</span><span class='st'>"POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"</span>)
+<span class='no'>wkt</span> <span class='kw'>&lt;-</span> <span class='st'>"POLYGON((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 18.3284 59.9611, 18.3284 58.9611))"</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Leuctra"</span>,
+                 <span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>)
 
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='st'>"POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"</span>,<span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"rank:species"</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>, <span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"rank:species"</span>)
 
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='st'>"POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"</span>,<span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"genus:Macropus"</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>, <span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"genus:Leuctra"</span>)
 
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='st'>"POLYGONPOLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"</span>,
-<span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"kingdom:Plantae"</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>, <span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"kingdom:Plantae"</span>)
 <span class='co'>## NOTE that this response might include records with empty or NA kingdom, phylum, or</span>
-<span class='co'>##  class values, as per the note above.</span>
+<span class='co'>## class values, as per the note above.</span>
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

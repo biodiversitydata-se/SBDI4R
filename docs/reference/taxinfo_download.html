@@ -133,7 +133,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>query</th>
-      <td><p>string: (optional) query of the form field:value (e.g. "genus:Macropus") or a free text search ("Alaba vibex")</p></td>
+      <td><p>string: (optional) query of the form field:value (e.g. "genus_s:Leuctra ") or a free text search ("Alaba vibex")</p></td>
     </tr>
     <tr>
       <th>fq</th>
@@ -175,14 +175,12 @@ will be used (which may be slower)</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'>## simplest usage</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>taxinfo_download</span>(<span class='st'>"rk_genus:Macropus"</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>taxinfo_download</span>(<span class='st'>"genus_s:Leuctra "</span>)
 
 <span class='co'>## Data for Fabaceae with specified fields</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>taxinfo_download</span>(<span class='st'>"rk_family:Fabaceae"</span>,<span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"guid"</span>,<span class='st'>"parentGuid"</span>,<span class='st'>"rk_kingdom"</span>,<span class='st'>"rk_phylum"</span>,
-<span class='st'>"rk_class"</span>,<span class='st'>"rk_order"</span>,<span class='st'>"rk_family"</span>,<span class='st'>"rk_genus"</span>,<span class='st'>"scientificName"</span>))
-<span class='co'># equivalent direct URL: https://species.bioatlas.se/ws/download?q=rk_family%3AFabaceae&amp;fields=</span>
-<span class='co'># guid%2CparentGuid%2Crk_kingdom%2Crk_phylum%2Crk_class%2Crk_order%2Crk_family%2Crk_genus%</span>
-<span class='co'># 2CscientificName</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>taxinfo_download</span>(<span class='st'>"family_s:Fabaceae"</span>,<span class='kw'>fields</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"guid"</span>,<span class='st'>"parentGuid"</span>,<span class='st'>"kingdom_s"</span>,<span class='st'>"phylum_s"</span>,
+<span class='st'>"class_s"</span>,<span class='st'>"order_s"</span>,<span class='st'>"family_s"</span>,<span class='st'>"genus_s"</span>,<span class='st'>"scientificName"</span>))
+
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

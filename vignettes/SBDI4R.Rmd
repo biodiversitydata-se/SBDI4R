@@ -85,7 +85,7 @@ ax <- as.phylo(~genusS/scientificName, data=tx)
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
-## Example 2: Get some data, quality assertions, plotting data on a map and save data
+## Example 2: Get some data, filter the search, get quality assertions, plotting data on a map and save data
 
 Download occurrence data for the "Sommarlånke" and view top of the data table:
 ```{r, message=FALSE, eval=FALSE}
@@ -96,15 +96,32 @@ head(x$data)
 table(x$data$dataResourceName)
 ```
 
-Similarly, we could search by common names (see Example X for refined taxonomic searches))
-```{r, message=FALSE }
+Similarly, we could search by common names
+```{r, message=FALSE, eval=FALSE }
 x <- occurrences(taxon="sommarlånke",
                  email="test@test.org", 
                  download_reason_id=10, 
                  verbose = FALSE)
 head(x$data)
 table(x$data$dataResourceName)
-```
+```  
+
+if you get to know what you are doing you could search a batch of species (only scientific names so far)...
+
+```{r, message=FALSE }
+taxa <- c("Callitriche", "Anarrhinum")
+fq_str <- paste0("raw_name:&quot;", taxa, "&quot;")
+fq_str <- paste0(fq_str, collapse = " OR ")
+xbatch <- occurrences(fq=fq_str, 
+                 email="test@test.org", 
+                 download_reason_id=10, 
+                 verbose = FALSE)
+head(xbatch$data)
+table(xbatch$data$dataResourceName)
+table(xbatch$data$basisOfRecord)
+```  
+
+
 ### Search filters
 We see there are different data sources. Let´s assume you only need to see data 
 from one source, e.g. Artportalen. If you see on the data that Artportalen's 
@@ -165,7 +182,23 @@ range(xf$data$coordinateUncertaintyInMetres)
 <!--                  download_reason_id=10) -->
 <!-- ``` -->
 
-In the same way, searching for observations between two years would be similar to:
+One could search for observation in specific years:  
+```{r, message=FALSE}
+# year = 2019
+x2019 <- occurrences(taxon="Reynoutria japonica", 
+                     fq="year:2019",
+                     email="test@test.org", 
+                     download_reason_id=10)
+nrow(x2019$data)
+
+x2yr <- occurrences(taxon="Reynoutria japonica", 
+                    fq=c("year:2018 OR year:2019"),
+                    email="test@test.org", 
+                    download_reason_id=10)
+nrow(x2yr$data)
+```  
+
+In the same way, one could search for observations *between* two years:
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq="year:[2010 TO 2020]",
@@ -174,8 +207,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
 
 hist(xf$data$year, xlab = "Year", main = "")
 ```  
-Likewise, search conditions can be accumulated and will be treated as AND conditions
-
+Likewise, search conditions can be accumulated and will be treated as AND conditions:  
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq=c("year:[2010 TO 2020]", "month:[06 TO 08]"),
@@ -188,7 +220,7 @@ or, occurrences could be filtered by the basis of record:
 
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq=c("basis_of_record:HumanObservation","basis_of_record:HumanObservation"),
+                 fq="basis_of_record:HumanObservation",
                  email="test@test.org", 
                  download_reason_id=10)
 
@@ -198,7 +230,7 @@ unique(xf$data$basisOfRecord)
 ### Quality assertions
 Data quality assertions are a suite of fields that are the result of a set of tests performed on data. We continue using the data for the Blunt-fruited Water-starwort and get a summary of the data quality assertions:
 ```{r, message=FALSE}
-x <- occurrences(taxon="sommarlånke",
+x <- occurrences(taxon="Callitriche cophocarpa",
                  fq = "data_resource_uid:dr5",
                  email="test@test.org",
                  download_reason_id=10, 
@@ -213,7 +245,8 @@ assert <- sbdi_fields("assertions")
 assertFatal <- assert[assert$isFatal==TRUE,"name"]
 wAssertInX <- assertFatal %in% colnames(x$data)
 colSums(x$data[,assertFatal[wAssertInX]])
-```
+```  
+
 ### Plotting data on a map  
 You can quickly plot all the observations with the function `ocurrence_plot()`, here we specify to map all 'error' issues:
 ```{r, eval=FALSE}
@@ -289,7 +322,7 @@ Coordinate Reference System = WGS84, EPSG:4326).
 
 ```{r, message=FALSE, warning=FALSE}
 
-x <- occurrences(taxon="sommarlånke",
+x <- occurrences(taxon="Callitriche cophocarpa",
                  fq = "data_resource_uid:dr5",
                  email="test@test.org",
                  download_reason_id=10, 
@@ -499,7 +532,7 @@ shape <- shape[shape$KnNamn=="Örebro", ]
 ```
 
 We could create the WKT string using the `rgeos` library:
-```{r eval=FALSE}
+```{r, eval=FALSE}
 library(rgeos)
 wkt <- writeWKT(shape)
 ```
@@ -525,7 +558,7 @@ wkt <- paste("POLYGON((", paste(temp, collapse=","), "))", sep="")
 
 Now extract the species list in this polygon:
 ```{r eval=FALSE}
-specieslist(wkt=wkt) %>%
+species_list(wkt=wkt, fq="rank:species") %>%
     dplyr::arrange(desc(occurrenceCount)) %>%
     dplyr::select(speciesName, species, family, occurrenceCount) %>%
     head(10)
@@ -533,10 +566,10 @@ specieslist(wkt=wkt) %>%
 
 ```{r message=FALSE, echo=FALSE}
 tryCatch({
-specieslist(wkt=wkt) %>%
-    dplyr::arrange(desc(occurrenceCount)) %>%
-    dplyr::select(speciesName, species, family, occurrenceCount) %>%
-    head(10)
+  species_list(wkt=wkt, fq="rank:species") %>%
+      dplyr::arrange(desc(occurrenceCount)) %>%
+      dplyr::select(speciesName, species, family, occurrenceCount) %>%
+      head(20)
 }, error = function(e) { print(e$message)})
 ```
 
@@ -678,59 +711,40 @@ with(xgridded, points(longitude, latitude,
 ```
 
 ## Example 6: Handlig data in R after being downloaded
-```{r}
+R is pretty powerful when it comes to cleaning, selecting and filtering data 
+```{r Datahangling, message=FALSE}
+x <- occurrences(taxon="Callitriche cophocarpa",
+                  fq = "data_resource_uid:dr5",
+                  email="test@test.org",
+                  download_reason_id=10, 
+                  verbose = FALSE)
 #keep spatially unique data at 0.01 degrees (latitude and longitude)
-# ll <- unique(x, spatial=0.01)
-# summary(ll)
-# 
+ll001 <- unique(x, spatial=0.01)
+summary(ll001)
+
 # #keep only information for which fatal or "error" assertions do not exist
-# nofat <- subset(x, remove.fatal = TRUE)
-# summary(nofat)
-# 
-# #keep only information for which fatal or "error" assertions do not exist
-# 
-# SpatCert <- subset(x, max.spatial.uncertainty=50)
-# summary(SpatCert)
-# # # quickly get some more info about the data:
-# 
-# # no. observations (records)
-# nrow(x$data)
-# 
-# # no. obs/year
-# table(x$data$year) 
-# freq_year <- table(x$data$year)
-# #sum(freq_year)
-# 
-# # data where 'year' is missing?
-# sum(is.na(x$data$year))
-# 
-# 
-# # no. obs across years:
-# hist(x$data$year, 20)
-# 
-# library(plyr)
-# #count(x$data$year)
-# c <- count(x$data$year)
-# barplot(c$freq ~ c$x)
-# 
-# 
-# # subsetting
-# 
-# # get occurrences for selected time
-# 
-# # year = 2019
-# x2019 <- occurrences(taxon="Reynoutria japonica", fq="year:2019")
-# nrow(x2019$data) 
-# 
-# x2yr <- occurrences(taxon="Reynoutria japonica", fq=c("year:2018 OR year:2019"))
-# nrow(x2yr$data) 
-# 
-# 
-# # years 2010 - 2019:
-# ##current alternative is downloading all and filter afterwards
-# x <- occurrences(taxon="Reynoutria japonica")
-# x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
-# table(x10yr$year)
+nofat <- subset(x, remove.fatal = TRUE)
+summary(nofat)
+
+#keep only observations with a maximum spatial uncertainty of 50m
+SpatCert <- subset(x, max.spatial.uncertainty=50)
+summary(SpatCert)
+
+# quickly get some more info about the data:
+# no. observations (records)
+nrow(x$data)
+ 
+# no. obs/year
+freq_year <- table(x$data$year)
+
+# no. obs across years:
+plot(freq_year, bty="n", ylab="Frequency")
+# or
+hist(x$data$year, 20)
+
+# Subsetting is done using '[ ]'
+x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
+table(x10yr$year)
 ```  
 
 ## Example 7: Aggregating data with 'BIRDS'
@@ -742,7 +756,7 @@ In the following examples you will learn to aggregate statistics over space and 
   
 ```{r BIRDSspatial, message=FALSE, warning=FALSE}
 library(BIRDS)
-x <- occurrences(taxon="sommarlånke",
+x <- occurrences(taxon="Callitriche cophocarpa",
                   fq = "data_resource_uid:dr5",
                   email="test@test.org",
                   download_reason_id=10, 
@@ -758,10 +772,12 @@ x$data$month <- ifelse(x$data$day==31,
                        )
 
 ## Define the visit
-OB <- organiseBirds(x$data, sppCol = "scientificName", 
-              idCols = c("locality"), 
-              timeCols = c("year", "month","day"),
-              xyCols = c("longitude", "latitude"))
+OB <- organiseBirds(x$data, 
+                    sppCol = "scientificName", 
+                    idCols = c("locality"), 
+                    timeCols = c("year", "month","day"),
+                    xyCols = c("longitude", "latitude"))
+
 SB <- summariseBirds(OB, grid = Sweden_Grid_25km_Wgs84)
 
 maxC <- max(SB$spatial@data$nObs, na.rm = TRUE)
@@ -775,9 +791,14 @@ legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
        title = "Number of \nobservations", pch = 15, bty="n")
+
 ## or export other combinations, e.g. one map per observed year
-yearlySp <- exportBirds(SB, dimension = "spatial", 
-                        timeRes = "yearly", variable = "nObs", method = "sum")
+yearlySp <- exportBirds(SB, 
+                        dimension = "spatial", 
+                        timeRes = "yearly", 
+                        variable = "nObs", 
+                        method = "sum")
+
 maxC <- max(yearlySp@data, na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
@@ -796,12 +817,21 @@ legend("topleft", inset = c(0,0.05),
 par(oldpar)
 
 ```
-  
-And temporally...  
-```{r BIRDS, message=FALSE, warning=FALSE}
 
+Perhaps one needs to save many summaries over each grid cell.
+```{r BIRDSsave, message=FALSE, warning=FALSE, eval=FALSE}
+
+gridSummary <- SB$spatial@data
+write.csv(gridSummary, "Callitriche grid summary.csv")
+
+```
+  
+One could also think of agreggating the data temporally...  
+```{r BIRDStemporal, message=FALSE, warning=FALSE}
+# There is a summary on SB
 SB$temporal$nObs
 
+# But the function exportBIrds() offers planty of combinations
 yearlyXTS <- exportBirds(SB, 
                          dimension = "temporal", 
                          timeRes = "yearly", 
@@ -813,74 +843,76 @@ plot(yearlyXTS, col = "darkblue",
      grid.col = "lightgrey",  
      main = "Number of observations")
 
-```
-<!-- data_resources() NOT YET IMPLEMENTED -->
-<!-- ### Example 6: Retrieve assertion information for datasets -->
-<!-- Compare data quality metrics for data resources -->
-<!-- ```{r} -->
-<!-- dr <- data_resources(druid = c('dr1411','dr90','dr361'), extra = 'assertions') -->
-<!-- ``` -->
+```  
 
-<!-- ```{r eval = FALSE} -->
-<!-- # View names of all columns returned -->
-<!-- names(dr) -->
-<!-- ``` -->
+<!-- ## Example 8: Getting species taxonomic data with DynTaxa -->
+<!-- [dyntaxa](https://github.com/bioatlas/dyntaxa) is an R package that provides -->
+<!-- a read-only interface with Dyntaxa - the taxonomic database of organisms in Sweden. -->
+<!-- This package can be used to automate the following tasks: -->
 
-<!-- Extract the assertion metrics from the dataset -->
-<!-- ```{r warning = FALSE} -->
-<!-- library(tidyr) -->
-<!-- # match cols against known assertions -->
-<!-- assertions <- ala_fields('assertions') -->
-<!-- assert_match <- names(dr)[names(dr) %in% assertions$name] -->
-<!-- dr_assert <- dr %>% select(uid, all_of(assert_match)) %>% -->
-<!--   pivot_longer(-uid, names_to = "assertion", values_to = "count") %>% -->
-<!--   mutate(count = as.integer(trimws(as.character(count)))) %>% -->
-<!--   # build axes labels with readable assertions -->
-<!--   mutate(assertion_label = tolower(gsub('([A-Z])','\n\\1',assertion))) -->
-<!-- ``` -->
+<!--   - Taxonomic identifier from a taxonomic name and vice versa -->
+<!--   - Taxonomic name from a vernacular (common) name and vice versa -->
+<!--   - Taxonomic hierarchy/classification from identifier or name -->
+<!--   - Taxonomic children of an identifier or name -->
+<!--   - All taxa downstream to a certain rank from identifier or name -->
+<!--   - Taxonomic synonyms from identifier or name -->
 
-<!-- Plot the assertions -->
-<!-- ```{r warning=FALSE} -->
-<!-- library(ggplot2) -->
-<!-- ggplot(dr_assert) + geom_bar(aes(x = assertion_label, y = count, -->
-<!--                                  fill = uid), -->
-<!--                              stat = "identity", position = "dodge", -->
-<!--                              width = 2/3) + -->
-<!--   theme(axis.text.x = element_text(size = 7)) +  -->
-<!--   labs(x = "Assertions") -->
-<!-- ``` -->
+<!-- Here are some short and simple usage examples which shows you how to -->
+<!-- download and access data from Dyntaxa for those tasks. -->
+<!-- This package can only be installed from GitHub. -->
+<!-- ```{r , eval=FALSE} -->
+<!-- library(remotes) -->
+<!-- install_github("bioatlas/dyntaxa", build_opts = c("--no-resave-data", "--no-manual"))   -->
+<!-- ```   -->
 
-<!-- ### Example 6: Retrieve assertion information for datasets -->
-<!-- Compare data quality metrics for data resources -->
-<!-- ```{r} -->
-<!-- dr <- data_resources(druid = c('dr1411','dr90','dr361'), extra = 'assertions') -->
-<!-- ``` -->
+<!-- Next, we copy and adapt some of the examples from the 'dyntaxa' webpage to complement  -->
+<!-- the examples above.   -->
 
-<!-- ```{r eval = FALSE} -->
-<!-- # View names of all columns returned -->
-<!-- names(dr) -->
-<!-- ``` -->
+<!-- ```{r DynTaxa, message=FALSE, warning=FALSE} -->
+<!-- library(dyntaxa) -->
+<!-- # taxonomic name from taxonomic identifier -->
+<!-- dyntaxa_name_from_id(5000001) -->
 
-<!-- Extract the assertion metrics from the dataset -->
-<!-- ```{r warning = FALSE} -->
-<!-- library(tidyr) -->
-<!-- # match cols against known assertions -->
-<!-- assertions <- ala_fields('assertions') -->
-<!-- assert_match <- names(dr)[names(dr) %in% assertions$name] -->
-<!-- dr_assert <- dr %>% select(uid, all_of(assert_match)) %>% -->
-<!--   pivot_longer(-uid, names_to = "assertion", values_to = "count") %>% -->
-<!--   mutate(count = as.integer(trimws(as.character(count)))) %>% -->
-<!--   # build axes labels with readable assertions -->
-<!--   mutate(assertion_label = tolower(gsub('([A-Z])','\n\\1',assertion))) -->
-<!-- ``` -->
 
-<!-- Plot the assertions -->
-<!-- ```{r warning=FALSE} -->
-<!-- library(ggplot2) -->
-<!-- ggplot(dr_assert) + geom_bar(aes(x = assertion_label, y = count, -->
-<!--                                  fill = uid), -->
-<!--                              stat = "identity", position = "dodge", -->
-<!--                              width = 2/3) + -->
-<!--   theme(axis.text.x = element_text(size = 7)) +  -->
-<!--   labs(x = "Assertions") -->
+<!-- # taxonomic identifier from taxonomic name -->
+<!-- key <- dyntaxa_id_from_name("Alces alces") -->
+<!-- key -->
+
+<!-- # the taxon key or identifier is often needed to retrieve taxonomic data -->
+
+<!-- # taxonomic hierarchy/classification from identifier or name -->
+<!-- dyntaxa_classification(key) -->
+
+<!-- # taxa downstream from identifier or name -->
+<!-- dyntaxa_downstream(dyntaxa_id_from_name("Cervidae")) -->
+
+<!-- # taxonomic immediate children of an identifier or name -->
+<!-- dyntaxa_children(dyntaxa_id_from_name("Carnivora")) -->
+
+<!-- # taxa downstream of a specific taxon identifier  -->
+<!-- # can be filtered at species level (or at other ranks) -->
+<!-- dyntaxa_downstream(dyntaxa_id_from_name("Carnivora")) %>%  -->
+<!--   filter(taxonRank == "species") -->
+
+<!-- # search a fulltext index of Dyntaxa a vernacular name -->
+<!-- dyntaxa_search_all("blåklocka") %>%  -->
+<!--   select(taxonId, scientificName, vernacularName, title, creator) -->
+
+<!-- # another example of a full text search  -->
+<!-- dyntaxa_search_all("Thomas Karlssons Kärlväxtlista") %>% -->
+<!--   filter(taxonRank == "family") -->
+
+<!-- # what are synonyms for Sagedia zonata? -->
+<!-- dyntaxa_synonyms(dyntaxa_id_from_name("Sagedia zonata")) -->
+
+<!-- # more examples for synonyms -->
+<!-- dyntaxa_search_all("scientificName:Phyllachora graminis") -->
+
+<!-- dyntaxa_synonyms(dyntaxa_id_from_name("Phyllachora graminis")) -->
+
+<!-- # does "Citronfjäril" / "Gonepteryx rhamni" have synonyms? -->
+<!-- key <- dyntaxa_search_vernacular("citronfjäril")$taxonId -->
+<!-- dyntaxa_name_from_id(key) -->
+<!-- dyntaxa_synonyms(key) -->
+
 <!-- ``` -->

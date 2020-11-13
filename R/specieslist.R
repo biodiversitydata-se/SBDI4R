@@ -6,7 +6,7 @@
 #' @references Associated SBDI web service: \url{https://api.bioatlas.se/#ws78}
 #' @references \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 #' 
-#' @param taxon string: (optional) query of the form field:value (e.g. "genus:Macropus") or a free text search (e.g. "macropodidae").
+#' @param taxon string: (optional) query of the form field:value (e.g. "genus:Leuctra") or a free text search (e.g. "macropodidae").
 #' For reliable results it is recommended to use a specific field where possible (see \code{sbdi_fields("occurrence_indexed")}
 #' for valid fields). It is also good practice to quote the taxon name if it contains multiple words, for example
 #' \code{taxon="taxon_name:Vulpes vulpes"} (noting, however, that multi-word names are unlikely in the context of a specieslist
@@ -17,19 +17,21 @@
 #' @seealso \code{\link{sbdi_fields}} for occurrence fields that are queryable via the \code{fq} parameter
 #' @examples
 #' \dontrun{
-#' x <- specieslist(taxon="genus:Leuctra",wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))")
+#' wkt <- "POLYGON((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
+#' 18.3284 59.9611, 18.3284 58.9611))"
+#' x <- specieslist(taxon="genus:Leuctra", 
+#'                  wkt=wkt)
 #' 
-#' x <- specieslist(wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))",fq="rank:species")
+#' x <- species_list(wkt=wkt, fq="rank:species")
 #'
-#' x <- specieslist(wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))",fq="genus:Macropus")
+#' x <- species_list(wkt=wkt, fq="genus:Leuctra")
 #'
-#' x <- specieslist(wkt="POLYGONPOLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))",
-#' fq="kingdom:Plantae")
-#' ## NOTE that this response might include records with empty or NA kingdom, phylum, or
-#' ##  class values, as per the note above.
+#' x <- species_list(wkt=wkt, fq="kingdom:Plantae")
+#' ## NOTE that this response might include records with empty or NA kingdom, 
+#' ## phylum, or class values, as per the note above.
 #' }
-#' @export specieslist
-specieslist <- function(taxon, wkt, fq) {
+#' @export species_list
+species_list <- function(taxon, wkt, fq) {
   
   ALA4R::specieslist(taxon, wkt, fq)
   

@@ -2,7 +2,7 @@
 #' 
 #' @references Associated SBDI web service: \url{https://api.bioatlas.se/#ws2}
 #' 
-#' @param query string: (optional) query of the form field:value (e.g. "genus:Macropus") or a free text search ("Alaba vibex")
+#' @param query string: (optional) query of the form field:value (e.g. "genus_s:Leuctra ") or a free text search ("Alaba vibex")
 #' @param fq string: character string or vector of strings, specifying filters to be applied to the original query. 
 #' These are of the form "INDEXEDFIELD:VALUE" e.g. "kingdom:Fungi". See \code{sbdi_fields("general",as_is=TRUE)} for all the 
 #' fields that are queryable. NOTE that fq matches are case-sensitive, but sometimes the entries in the fields are 
@@ -21,14 +21,12 @@
 #' @examples
 #' \dontrun{
 #' ## simplest usage
-#' x <- taxinfo_download("rk_genus:Macropus")
+#' x <- taxinfo_download("genus_s:Leuctra ")
 #' 
 #' ## Data for Fabaceae with specified fields
-#' x <- taxinfo_download("rk_family:Fabaceae",fields=c("guid","parentGuid","rk_kingdom","rk_phylum",
-#' "rk_class","rk_order","rk_family","rk_genus","scientificName"))
-#' # equivalent direct URL: https://species.bioatlas.se/ws/download?q=rk_family%3AFabaceae&fields=
-#' # guid%2CparentGuid%2Crk_kingdom%2Crk_phylum%2Crk_class%2Crk_order%2Crk_family%2Crk_genus%
-#' # 2CscientificName
+#' x <- taxinfo_download("family_s:Fabaceae",fields=c("guid","parentGuid","kingdom_s","phylum_s",
+#' "class_s","order_s","family_s","genus_s","scientificName"))
+#'  
 #' }
 #' @export taxinfo_download
 taxinfo_download <- function(query, fq, fields, verbose = sbdi_config()$verbose, use_data_table = TRUE) {
