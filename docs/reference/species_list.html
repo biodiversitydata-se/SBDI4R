@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Species lists — sbdi_list • SBDI4R</title>
+<title>Get list of taxa and their occurrence counts — species_list • SBDI4R</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Species lists — sbdi_list" />
-<meta property="og:description" content="Note that this refers to pre-generated lists of species stored on the SBDI servers. The similarly-named but different function specieslist provides a different function, namely listing the species matching a query or recorded as present in a search area." />
+<meta property="og:title" content="Get list of taxa and their occurrence counts — species_list" />
+<meta property="og:description" content="Retrieve a list of taxa matching a search query, within a spatial search area, or both." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,51 +111,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Species lists</h1>
-    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/sbdi_lists.R'><code>R/sbdi_lists.R</code></a></small>
-    <div class="hidden name"><code>sbdi_list.Rd</code></div>
+    <h1>Get list of taxa and their occurrence counts</h1>
+    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/specieslist.R'><code>R/specieslist.R</code></a></small>
+    <div class="hidden name"><code>species_list.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Note that this refers to pre-generated lists of species stored on the SBDI servers. The similarly-named but different function <code>specieslist</code> provides a different function, namely listing the species matching a query or recorded as present in a search area.</p>
+    <p>Retrieve a list of taxa matching a search query, within a spatial search area, or both.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sbdi_list</span>(<span class='no'>druid</span>, <span class='kw'>kvp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span>()$<span class='no'>verbose</span>)</pre>
+    <pre class="usage"><span class='fu'>species_list</span>(<span class='no'>taxon</span>, <span class='no'>wkt</span>, <span class='no'>fq</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>druid</th>
-      <td><p>string: data resource UID of the list (i.e. the list identifier)</p></td>
+      <th>taxon</th>
+      <td><p>string: (optional) query of the form field:value (e.g. "genus:Leuctra") or a free text search (e.g. "macropodidae").
+For reliable results it is recommended to use a specific field where possible (see <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_indexed")</a></code>
+for valid fields). It is also good practice to quote the taxon name if it contains multiple words, for example
+<code>taxon="taxon_name:Vulpes vulpes"</code> (noting, however, that multi-word names are unlikely in the context of a specieslist
+search, where one would typically be searching for all species within, say, a genus or family)</p></td>
     </tr>
     <tr>
-      <th>kvp</th>
-      <td><p>logical: include key-value pairs? Some lists contain information about the species in the form of key-value pairs</p></td>
+      <th>wkt</th>
+      <td><p>string: WKT (well-known text) defining a polygon within which to limit taxon search, e.g. "POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))"</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>logical: show additional progress information?</p></td>
+      <th>fq</th>
+      <td><p>string: character string or vector of strings, specifying filters to be applied to the original query. These are of the form "INDEXEDFIELD:VALUE" e.g. "kingdom:Fungi". See <code><a href='sbdi_fields.html'>sbdi_fields("occurrence_indexed",as_is=TRUE)</a></code> for all the fields that are queryable. NOTE that fq matches are case-sensitive, but sometimes the entries in the fields are not consistent in terms of case (e.g. kingdom names "Fungi" and "Plantae" but "ANIMALIA"). fq matches are ANDed by default (e.g. c("field1:abc","field2:def") will match records that have field1 value "abc" and field2 value "def"). To obtain OR behaviour, use the form c("field1:abc OR field2:def")</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame</p>
+    <p>data frame of results, where each row is a taxon, its classification information, and its occurrence count</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://lists.bioatlas.se'>https://lists.bioatlas.se</a> and the associated web services at <a href='https://lists.bioatlas.se/ws'>https://lists.bioatlas.se/ws</a></p>
+    <p>Associated SBDI web service: <a href='https://api.bioatlas.se/#ws78'>https://api.bioatlas.se/#ws78</a></p>
+<p><a href='http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html'>http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>specieslist</code> <code><a href='sbdi_lists.html'>sbdi_lists</a></code></p></div>
+    <div class='dont-index'><p><code><a href='sbdi_fields.html'>sbdi_fields</a></code> for occurrence fields that are queryable via the <code>fq</code> parameter</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='no'>all_lists</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sbdi_lists.html'>sbdi_lists</a></span>()
- <span class='co'>## find the "Field Guide apps species profiles" from Museum Victoria</span>
- <span class='no'>all_lists</span>[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span>(<span class='st'>"Field Guide"</span>,<span class='no'>all_lists</span>$<span class='no'>listName</span>),]
- <span class='co'>## download the vertebrates one</span>
- <span class='no'>l</span> <span class='kw'>&lt;-</span> <span class='fu'>sbdi_list</span>(<span class='kw'>druid</span><span class='kw'>=</span><span class='st'>"dr1146"</span>)
+<span class='no'>wkt</span> <span class='kw'>&lt;-</span> <span class='st'>"POLYGON((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
+18.3284 59.9611, 18.3284 58.9611))"</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>specieslist</span>(<span class='kw'>taxon</span><span class='kw'>=</span><span class='st'>"genus:Leuctra"</span>,
+                 <span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>)
+
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>species_list</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>, <span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"rank:species"</span>)
+
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>species_list</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>, <span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"genus:Leuctra"</span>)
+
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>species_list</span>(<span class='kw'>wkt</span><span class='kw'>=</span><span class='no'>wkt</span>, <span class='kw'>fq</span><span class='kw'>=</span><span class='st'>"kingdom:Plantae"</span>)
+<span class='co'>## NOTE that this response might include records with empty or NA kingdom, </span>
+<span class='co'>## phylum, or class values, as per the note above.</span>
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
