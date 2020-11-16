@@ -11,7 +11,7 @@ thischeck=function() {
     test_that("specieslist checks fq fields", {
         skip_on_cran()
         ## rk_genus is the BIE field name, but specieslist uses occurrence fields, which is just "genus"
-        x <- specieslist(wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))",fq="genus:Leuctra")
+        x <- species_list(wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))",fq="genus:Leuctra")
         expect_gt(nrow(x),0)
         skip("Not working on SBDI 500 status code error not warning")
         expect_warning(x <- species_list(wkt="POLYGON((-3 56,-4 56,-4 57,-3 57,-3 56))",fq="rk_genus:Leuctra"))
