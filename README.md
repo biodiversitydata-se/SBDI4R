@@ -26,20 +26,20 @@ install_github("biodiversitydata-se/SBDI4R")
 ```
 
 If you see an error about a missing package, you will need to install it manually, e.g.:
-```R
+```{r}
 install.packages(c("stringr","sp"))
 ```
 and then `install_github("biodiversitydata-se/SBDI4R")` again.
 
 If you see an error about "ERROR: lazy loading failed for package 'SBDI4R'", this may be due to you trying to install on a network location. 
-Try instead to install on a local location: first create the local location you want to use, and then specify this location for isntalling, and later loading the package:
-```R
+Try instead to install on a local location: first create the local location you want to use, and then specify this location for installing, and later loading the package:
+```{r}
 install_github("biodiversitydata-se/SBDI4R", lib = "C:/pathname/MyLibrary")
 library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")
 ```
 
 If you wish to use the `data.table` package for potentially faster loading of data matrices (optional), also do:
-```R
+```{r}
 install.packages("data.table")
 ```
 
@@ -74,14 +74,14 @@ install_github("biodiversitydata-se/SBDI4R")
 ```
 
 If you see an error about a missing package, you will need to install it manually, e.g.:
-```R
+```{r}
 install.packages(c("stringr","sp"))
 ```
 and then try installing SBDI4R again.
 
 
 If you wish to use the `data.table` package for potentially faster loading of data matrices (optional), also do:
-```R
+```{r}
 install.packages("data.table")
 ```
 
@@ -95,11 +95,11 @@ Various aspects of the SBDI4R package can be customized.
 ### Caching  
 SBDI4R can cache most results to local files. This means that if the same code is run multiple times, the second and subsequent iterations will be faster. This will also reduce load on the web servers.
 By default, this caching is session-based, meaning that the local files are stored in a temporary directory that is automatically deleted when the R session is ended. This behaviour can be altered so that caching is permanent, by setting the caching directory to a non-temporary location. For example, under Windows, use something like:
-```R
+```{r}
 sbdi_config(cache_directory = file.path("c:","mydata","sbdi_cache")) ## Windows
 ```
 or for Linux:
-```R
+```{r}
 sbdi_config(cache_directory = "~/mydata/sbdi_cache") ## Linux
 ```
 Note that this directory must exist (you need to create it yourself).
@@ -107,12 +107,12 @@ Note that this directory must exist (you need to create it yourself).
 All results will be stored in that cache directory and will be used from one session to the next. They won’t be re-downloaded from the server unless the user specifically deletes those files or changes the caching setting to “refresh”.
 
 If you change the cache_directory to a permanent location, you may wish to add something like this to your .Rprofile file, so that it happens automatically each time the SBDI4R package is loaded:
-```R
+```{r}
 setHook(packageEvent("SBDI4R", "onLoad"), 
         function(...) sbdi_config(cache_directory=file.path("~","mydata","sbdi_cache")))
 ```
 Caching can also be turned off entirely by:
-```R
+```{r}
 sbdi_config(caching="off")
 ```
 or set to “refresh”, meaning that the cached results will re-downloaded from the SBDI servers and the cache updated. (This will happen for as long as caching is set to “refresh” — so you may wish to switch back to normal “on” caching behaviour once you have updated your cache with the data you are working on).
@@ -122,24 +122,24 @@ Each request to SBDI servers is accompanied by a “user-agent” string that id
 
 ### E-mail address  
 Each request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field. You can provide your e-mail address as a parameter directly to each call of the function occurrences(), or you can set it once per session specifying it in the package configuration:
-```R
+```{r}
 sbdi_config(email="your.valid@emailaddress.com")
 ```
 
 *NO* other personal identification information is sent. You can see all configuration settings, including the the user-agent string that is being used, with the command:
-```R
+```{r}
 sbdi_config()
 ```
 
 ### Debugging  
 If things aren’t working as expected, more detail (particularly about web requests and caching behaviour) can be obtained by setting the verbose configuration option:
-```R
+```{r}
 sbdi_config(verbose=TRUE)
 ```
 
 ### Setting the download reason  
 SBDI requires that you provide a reason when downloading occurrence data (via the SBDI4R `occurrences()` function). You can provide this as a parameter directly to each call of `occurrences()`, or you can set it once per session using:
-```R
+```{r}
 sbdi_config(download_reason_id=your_reason_id)
 ```
 
@@ -150,7 +150,7 @@ e.g. download_reason_id=10 for "testing", or 7 for "ecological research", 8 for 
 ### Other options
 If you make a request that returns an empty result set (e.g. an un-matched name), by default you will simply get an empty data structure returned to you without any special notification. If you would like to be warned about empty result sets, you can use:
 
-```R
+```{r}
 sbdi_config(warn_on_empty=TRUE)
 ```
 
