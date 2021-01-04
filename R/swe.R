@@ -8,7 +8,7 @@
 #' @docType data
 #' @usage data(swe)
 #' @source Statistikmyndigheten SCB \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser}
-#' @format SpatialPolygons (package sp) CRS: EPSG:3006
+#' @format list of SpatialPolygons (package sp) CRS: EPSG:3006
 
 NULL
 
