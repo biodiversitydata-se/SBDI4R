@@ -6,7 +6,7 @@
 \alias{swe_wgs84}
 \title{Basic Sweden polygons for visualization}
 \format{
-SpatialPolygons (package sp) CRS: EPSG:3006
+list of SpatialPolygons (package sp) CRS: EPSG:3006
 }
 \source{
 Statistikmyndigheten SCB \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser}
