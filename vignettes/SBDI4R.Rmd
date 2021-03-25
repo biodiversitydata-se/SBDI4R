@@ -110,6 +110,15 @@ table(x$data$dataResourceName)
 ```  
 
 You can also search for a set of species simultaneously (only scientific names so far)...
+<!--
+The `occurrences` call fails:
+Error in check_status_code(status_code, on_redirect = on_redirect, on_client_error = on_client_error,  : 
+  HTTP status code 500 received.
+  Either there was an error with the
+                                       request, or the servers may be down
+                                       (try again later). If this problem persists please notify the SBDI4R maintainers 
+    by lodging an issue at SBDI4R github repo https://github.com/biodiversitydata-se/SBDI4R/issues
+-->
 
 ```{r, message=FALSE }
 taxa <- c("Callitriche", "Anarrhinum")
