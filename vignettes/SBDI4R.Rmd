@@ -24,20 +24,21 @@ Here we provide a collection of use-examples showing examples for a range of que
 
 The SBDI4R package is primarily for accessing data. It includes some filter functions that allow you to filter prior to download. It also includes some simple summary functions, and some function for some simple data exploration. The examples also show you how you can use the data by continued exploring and analysing using other R package.
 
+<!-- How are people supposed to get in touch? -->
 Please get in contact with us if you have questions regarding the use of the SBDI4R package.
 
+<!-- Any particular reason why you're not starting at the top level heading, i.e. a single hashmark? -->
 ## Using SBDI4R
 
 Let's assume you have already installed the package as shown in the [main site](https://biodiversitydata-se.github.io/SBDI4R). 
 
-The SBDI4R package must be loaded for each new R session:
+Load the SBDI4R package:
 ```{r, message=FALSE}
 library(SBDI4R)
 sbdi_config(caching="off")
 ```  
 
-However, the options you stored in .Rprofile if you did it so, will load automatically 
-with the package. Then, check that we have some additional packages that we'll 
+Then, check that we have some additional packages that we'll 
 use in the examples, and install them if necessary.
 ```{r, message=FALSE}
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
@@ -57,11 +58,12 @@ sx <- search_fulltext("parus")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```  
 
-But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
+But we see that some non-birds are also returned, e.g. insects (**Neuroctenus parus**). We want to restrict the search to Paridae.
 ```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="family_s:Paridae")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```
+<!-- The fq parameter was used also inte the call above -->
 To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see `sbdi_fields("general", as_is=TRUE)` for all the fields that are queryable), and increase page_size to include more records (default=10):
 ```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
@@ -97,7 +99,7 @@ head(x$data)
 table(x$data$dataResourceName)
 ```
 
-Similarly, we could search by common names
+Similarly, we could search by common name
 ```{r, message=FALSE, eval=FALSE }
 x <- occurrences(taxon="sommarlånke",
                  email="test@test.org", 
@@ -107,7 +109,7 @@ head(x$data)
 table(x$data$dataResourceName)
 ```  
 
-if you get to know what you are doing you could search a batch of species (only scientific names so far)...
+You can also search for a set of species simultaneously (only scientific names so far)...
 
 ```{r, message=FALSE }
 taxa <- c("Callitriche", "Anarrhinum")
@@ -124,9 +126,9 @@ table(xbatch$data$basisOfRecord)
 
 
 ### Search filters
-We see there are different data sources. Let´s assume you only need to see data 
-from one source, e.g. Artportalen. If you see on the data that Artportalen's 
-identifier is "dr5" you can directly filter the search by:
+There are different data sources. Let's assume you only need to see data 
+from one source, e.g. Artportalen. Artportalen's 
+identifier is "dr5" and you can directly filter the search by:
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = "data_resource_uid:dr5",
@@ -134,8 +136,8 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10, verbose = FALSE)
 table(xf$data$dataResourceName)
 ```
-Else, you can search available data resources, collections (and more) using the interactive function `pick_filter`.
-The `pick_filter` function lets you explore data collections, spatial layers, and soon more indexed fields.
+Otherwise, you can search available data resources, collections (and more) using the interactive function `pick_filter`.
+The `pick_filter` function lets you explore data collections, spatial layers. Soon there will be more indexed fields.
 ```{r, message=FALSE, eval= FALSE}
 fq_str <- pick_filter("resource") 
 ## follow the instructions
@@ -159,10 +161,11 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 ```
 
-Note that this is fundamentally different than filtering by `county:Uppsala` as this will search for the text `uppsala` in the field `county`, rather than spatially matching the observations.
+Note that this is fundamentally different than filtering by `county:Uppsala` as this will search for the text `Uppsala` in the field `county`, rather than spatially matching the observations.
 
 ### Other filters on queries
 Any search could be filtered by any indexed field (a.k.a. column or variable). You can find which 
+<!-- Something is missing after "`c". -->
 are the variables that are indexed with the command `c
 These filter strings require SOLR syntax, see [SOLR](https://blog.imaginea.com/solr-query-equivalent-to-the-database-query/)
 For example, let's filter observations with coordinate uncertainty smaller than or equal to 100 m. 
@@ -183,7 +186,7 @@ range(xf$data$coordinateUncertaintyInMetres)
 <!--                  download_reason_id=10) -->
 <!-- ``` -->
 
-One could search for observation in specific years:  
+One could search for observations in specific years:  
 ```{r, message=FALSE}
 # year = 2019
 x2019 <- occurrences(taxon="Reynoutria japonica", 
@@ -217,6 +220,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
 
 hist(xf$data$year, xlab = "Year", main = "")
 ```  
+<!-- Does "basis of record" need to be explained? -->
 or, occurrences could be filtered by the basis of record:  
 
 ```{r, message=FALSE}
@@ -360,7 +364,7 @@ if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 nObsInGrid <- sum(unlist(lapply(ObsInGridList, nrow)))
 ```
 
-The result 'ObsInGridList' is a 'list' object with a subset of the data on each grid. 
+The result `ObsInGridList` is a `list` object with a subset of the data on each grid. 
 
 ### Summarise
 Now summarise occurrences within grid cells:
@@ -510,8 +514,8 @@ It is clear from this image that there are observations outside the territorial 
 
 ## Example 4: Area search and report. What listed species exist in a given area?
 
-Vector spatial layers (eg. Polygons) can be imported  in a number of different ways. 
-Bioatlas' APIs take as search input polygons in the s.k. WKT 
+Vector spatial layers (eg. polygons) can be imported  in a number of different ways. 
+Bioatlas APIs take as search input polygons in the s.k. WKT 
 ([Well Known Text](https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html)). 
 So the first step is to load a vector layer and transform it into a WKT string. 
 First download a .zip file with different 
@@ -600,7 +604,7 @@ x <- occurrences(fq="family:Fabaceae",
                  extra=env_layers)
 ```
 
-Convert this to a sites-by-species data.frame:
+Convert this to a sites-by-species `data.frame`:
 ```{r, eval=FALSE}
 library(dplyr)
 library(tidyr)
