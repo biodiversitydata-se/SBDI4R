@@ -28,7 +28,7 @@ Please get in contact with us if you have questions regarding the use of the SBD
 
 ## Using SBDI4R
 
-Let's assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
+Let's assume you have already installed the package as shown in the [main site](https://biodiversitydata-se.github.io/SBDI4R). 
 
 The SBDI4R package must be loaded for each new R session:
 ```{r, message=FALSE}
@@ -62,7 +62,7 @@ But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want 
 sx <- search_fulltext("parus", fq="family_s:Paridae")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```
-To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
+To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see `sbdi_fields("general", as_is=TRUE)` for all the fields that are queryable), and increase page_size to include more records (default=10):
 ```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
 head(sx$data[,c( "name","species", "speciesGuid", "rank")])
@@ -134,8 +134,8 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10, verbose = FALSE)
 table(xf$data$dataResourceName)
 ```
-Else, you can search available data resources, collections (and more) using the interactive function \code{pick_filter}.
-The \code{pick_filter}function lets you explore data collections, spatial layers, and soon more indexed fields.
+Else, you can search available data resources, collections (and more) using the interactive function `pick_filter`.
+The `pick_filter` function lets you explore data collections, spatial layers, and soon more indexed fields.
 ```{r, message=FALSE, eval= FALSE}
 fq_str <- pick_filter("resource") 
 ## follow the instructions
@@ -159,7 +159,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 ```
 
-Note that this is fundamentally different than filtering by \dQuote{county:Uppsala} as this will search for the text \dQuote{uppsala} in the field \dQuote{county}, rather than spatially matching the observations.
+Note that this is fundamentally different than filtering by `county:Uppsala` as this will search for the text `uppsala` in the field `county`, rather than spatially matching the observations.
 
 ### Other filters on queries
 Any search could be filtered by any indexed field (a.k.a. column or variable). You can find which 
@@ -511,11 +511,13 @@ It is clear from this image that there are observations outside the territorial 
 ## Example 4: Area search and report. What listed species exist in a given area?
 
 Vector spatial layers (eg. Polygons) can be imported  in a number of different ways. 
-Bioatlas' APIs take as search input polygons in the s.k. WKT (Well Known Text \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}). 
+Bioatlas' APIs take as search input polygons in the s.k. WKT 
+([Well Known Text](https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html)). 
 So the first step is to load a vector layer and transform it into a WKT string. 
-First download a .zip file with different delimitations for Sweden \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser}
+First download a .zip file with different 
+[delimitations for Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser)
 and move it somewhere you like in your computer. We recommend you move it into your 
-working directory (\code{getwd()}). Extract the .zip file named KommunSweref99.zip.
+working directory (`getwd()`). Extract the .zip file named KommunSweref99.zip.
 <!-- We use the ALA4R's caching mechanism here, but you could equally download this file directly. -->
 
 ```{r, eval=FALSE}
@@ -524,7 +526,7 @@ shape <- readOGR(dsn=file.path("your/path/to/file", "Kommun_Sweref99TM_region.sh
 ```
 This will only work when you set a valid filepath, and will create an object of 
 class SpatialPolygon. You could instead use the data we kindly provided in this 
-package \code{data("swe")} 
+package `data("swe")`. 
 
 ```{r}
 shape <- swe$Municipalities
