@@ -42,4 +42,3 @@ NULL
 #' @usage data(Sweden_Grid_50km_Wgs84)
 
 NULL
-

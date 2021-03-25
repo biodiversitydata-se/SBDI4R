@@ -10,8 +10,7 @@ Authors@R: c(person("Debora","Arlt", email="debora.arlt@slu.se", role=c("aut","c
 	   person("Marcus","Lindh",role="aut"),
 	   person("Manash","Shah",role="ctb"),
 	   person("Sophia","Ratcliffe",role="ctb"),
-	   person("Tom","August",role="ctb"),
-	   person("XX","YY",role="ctb"))
+	   person("Tom","August",role="ctb"))
 Maintainer: Debora Arlt <debora.arlt@slu.se>
 Description: SBDI provides tools to enable users of biodiversity 
     information to find, access, combine and visualise Swedish data on
