@@ -28,7 +28,7 @@ Please get in contact with us if you have questions regarding the use of the SBD
 
 ## Using SBDI4R
 
-Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
+Let's assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
 
 The SBDI4R package must be loaded for each new R session:
 ```{r, message=FALSE}
@@ -41,7 +41,8 @@ with the package. Then, check that we have some additional packages that we'll
 use in the examples, and install them if necessary.
 ```{r, message=FALSE}
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
-                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan")
+                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan", 
+                "phytools", "BIRDS", "leaflet", "rgdal")
 to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
 if(length(to_install)>0)
     install.packages(to_install, repos="http://cran.us.r-project.org")
