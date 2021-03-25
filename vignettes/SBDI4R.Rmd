@@ -50,8 +50,8 @@ if(length(to_install)>0)
 
 
 ## Example 1: Name searching and taxonomic trees
-We want to look at the taxonomy of titmice, but we don’t know what the correct 
-scientific name is, so let’s search for it:
+We want to look at the taxonomy of titmice, but we don't know what the correct 
+scientific name is, so let's search for it:
 ```{r, warning=FALSE, message=FALSE}
 sx <- search_fulltext("parus")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
