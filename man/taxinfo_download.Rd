@@ -50,7 +50,7 @@ x <- taxinfo_download("family_s:Fabaceae",fields=c("guid","parentGuid","kingdom_
 }
 }
 \references{
-Associated SBDI web service: \url{https://api.bioatlas.se/#ws2}
+Associated SBDI web service: \url{https://api.biodiversitydata.se/#ws2}
 }
 \seealso{
 \code{\link{sbdi_fields}}, \code{\link{sbdi_config}}

@@ -27,7 +27,7 @@ Fetch a taxon profile given a scientific name or LSID (GUID)
 }
 }
 \references{
-Associated SBDI web service: \url{https://api.bioatlas.se/#ws80}
+Associated SBDI web service: \url{https://api.biodiversitydata.se/#ws80}
 }
 \seealso{
 \code{\link{sbdi_config}}

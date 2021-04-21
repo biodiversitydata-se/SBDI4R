@@ -24,7 +24,7 @@ str(s1,max.level=3)
 }
 }
 \references{
-Associated SBDI web service: \url{https://api.bioatlas.se/#ws102}
+Associated SBDI web service: \url{https://api.biodiversitydata.se/#ws102}
 }
 \seealso{
 \code{\link{occurrences}} \code{\link{sbdi_config}}

@@ -44,8 +44,8 @@ scatterplot(taxon="Ectocarpus siliculosus", download_reason_id=10)
 }
 \references{
 \itemize{
-\item Associated Bioatlas web service for record counts: \url{https://api.bioatlas.se/#ws3} # TODO UPDATE
-\item Associated Bioatlas web service for occurrence downloads: \url{https://api.bioatlas.se/#ws4} # TODO UPDATE
+\item Associated SBDI web service for record counts: \url{https://api.biodiversitydata.se/#ws3} 
+\item Associated SBDI web service for occurrence downloads: \url{https://api.biodiversitydata.se/#ws4} 
 \item Field definitions: \url{https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc}
 \item WKT reference: \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 }

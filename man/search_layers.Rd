@@ -9,7 +9,7 @@ search_layers(query, type = "all", output_format = "simple")
 \arguments{
 \item{query}{text string: optional search term against layer metadata. Only layers that include this term in their metadata will be returned.}
 
-\item{type}{string: either "all" (all possible layers; default), "grids" (gridded environmental layers), or "shapes" (contextual shapefile layers)}
+\item{type}{string: either "all" (all possible layers; default), "grids" (gridded environmental layers), or "shapes" (contextual shape file layers)}
 
 \item{output_format}{string: controls the print method for the returned object. Either "complete" (the complete data structure is displayed), or "simple" (a simplified version is displayed). Note that the complete data structure exists in both cases: this option only controls what is displayed when the object is printed to the console. The default output format is "simple"}
 }
@@ -27,7 +27,7 @@ search_layers(type="shapes",query="park",output_format="simple")
 }
 }
 \references{
-Associated SBDI web services: \url{https://api.bioatlas.se/#ws11} \url{https://api.bioatlas.se/#ws12} \url{https://api.bioatlas.se/#ws13}
+Associated SBDI web services: \url{https://api.biodiversitydata.se/#ws11} \url{https://api.biodiversitydata.se/#ws12} \url{https://api.biodiversitydata.se/#ws13}
 
-Descriptions of the spatial layers: \url{https://spatial.bioatlas.se/ws/layers})
+Descriptions of the spatial layers: \url{https://spatial.biodiversitydata.se/ws/layers})
 }

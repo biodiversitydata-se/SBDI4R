@@ -30,5 +30,5 @@ This provides a data.frame detailing the assertions that are found in a dataset 
 }
 }
 \references{
-\url{https://api.bioatlas.se/}, \url{http://records.bioatlas.se/ws/assertions/codes}
+\url{https://api.biodiversitydata.se/}, \url{http://records.biodiversitydata.se/ws/assertions/codes}
 }

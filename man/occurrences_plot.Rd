@@ -25,7 +25,7 @@ occurrences_plot(
 or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
 your dataset can be viewed using \code{check_assertions}.}
 
-\item{sweLyr}{string: layer of sweWGS84 to be ploted as background. Options are =\code{c("Border" [default],
+\item{sweLyr}{string: layer of sweWGS84 to be plotted as background. Options are =\code{c("Border" [default],
 "Counties","LA_regions","FA_regions","Municipalities")}}
 
 \item{grouped}{logical: TRUE creates a single plot for all observations; FALSE plots individual 
@@ -59,7 +59,7 @@ occurrences_plot(x,"obsPlot.pdf",qa="fatal",
 }
 }
 \references{
-\url{https://api.bioatlas.se/}
+\url{https://api.biodiversitydata.se/}
 }
 \seealso{
 \code{\link{swe_wgs84}}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/search_names.R
 \name{search_names}
 \alias{search_names}
-\title{Lookup of taxonomic names}
+\title{Look up of taxonomic names}
 \usage{
 search_names(
   taxa = c(),
@@ -53,5 +53,5 @@ search_names(c("Diatoma tenuis","Diatoma hyemale var. quadratum",
 }
 }
 \references{
-The associated SBDI web service: \url{https://api.bioatlas.se/#ws87}
+The associated SBDI web service: \url{https://api.biodiversitydata.se/#ws87}
 }
