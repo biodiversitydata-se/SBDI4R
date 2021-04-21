@@ -1,8 +1,8 @@
-# SBDI4R
+# SBDI4R <img src="https://github.com/biodiversitydata-se/SBDI4R/raw/master/man/figures/SBDI.png" align="right" alt="" width="120" />  
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
- [![R-CMD-check](https://github.com/biodiversitydata-se/SBDI4R/workflows/R-CMD-check/badge.svg)](https://github.com/biodiversitydata-se/SBDI4R/actions)
+[![R-CMD-check](https://github.com/biodiversitydata-se/SBDI4R/workflows/R-CMD-check/badge.svg)](https://github.com/biodiversitydata-se/SBDI4R/actions)
  
 R functionality for the SBDI data portal
 
@@ -154,4 +154,4 @@ If you make a request that returns an empty result set (e.g. an un-matched name)
 sbdi_config(warn_on_empty=TRUE)
 ```
 
-### see examples on how to use the package in the next [vignette](https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html)
+### See examples on how to use the package in the next [vignette](https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html)
