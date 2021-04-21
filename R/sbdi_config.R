@@ -1,7 +1,7 @@
-#' Get or set configuration options that control sbdi4R behaviour
+#' Get or set configuration options that control SBDI4R behaviour
 #'
-#' @references \url{https://api.bioatlas.se/}
-#' @references \url{https://spatial.bioatlas.se/layers/} this will eventually move to the api link
+#' @references \url{https://api.biodiversitydata.se/}
+#' @references \url{https://spatial.biodiversitydata.se/layers/} this will eventually move to the api link
 #'
 #' Invoking \code{sbdi_config()} with no arguments returns a list with the current values of the options.
 #'

@@ -2,7 +2,7 @@
 #' 
 #' Not yet implemented
 #'
-#' @references \url{http://fieldguide.bioatlas.se/}
+#' @references \url{http://fieldguide.biodiversitydata.se/}
 #' @param guids character: vector of GUIDs 
 #' @param title string: title to use in the field guide PDF 
 #' @param filename string: filename for the PDF document

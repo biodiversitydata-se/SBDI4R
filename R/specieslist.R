@@ -3,7 +3,7 @@
 #' Retrieve a list of taxa matching a search query, within a spatial search area, or both.
 #'
 #' 
-#' @references Associated SBDI web service: \url{https://api.bioatlas.se/#ws78}
+#' @references Associated SBDI web service: \url{https://api.biodiversitydata.se/#ws78}
 #' @references \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 #' 
 #' @param taxon string: (optional) query of the form field:value (e.g. "genus:Leuctra") or a free text search (e.g. "macropodidae").

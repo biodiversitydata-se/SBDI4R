@@ -174,7 +174,7 @@ x_afrows <- apply(x$data[,x_afcols], 1, any)
 ## which taxonIdentificationIssue assertions are present in this data?
 these_assertions <- names(x$data)[x_afcols]
 ## make a link to the web page for each occurrence
-popup_link <- paste0("<a href=\"https://records.bioatlas.se/occurrences/",
+popup_link <- paste0("<a href=\"https://records.biodiversitydata.se/occurrences/",
                       x$data$id,"\">Link to occurrence record</a>")
 ## colour palette
 pal <- c(sub("FF$","", heat.colors(length(these_assertions))))
@@ -428,8 +428,8 @@ library(vegan)
 #  wkt <- "MULTIPOLYGON(((14.94 58.88, 14.94 59.69, 18.92 59.69, 18.92 58.88, 14.94 58.88)))"
 #  
 #  ## define some environmental layers of interest [see sbdi_fields(fields_type = "occurrence")]
-#  # el10011 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_12
-#  # el10009 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_10
+#  # el10011 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_12
+#  # el10009 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_10
 #  env_layers <- c("el10009","el10011")
 #  
 #  ## Download the data.  We use the `occurrences()` function, adding environmental

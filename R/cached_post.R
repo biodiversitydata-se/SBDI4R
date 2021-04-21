@@ -10,10 +10,10 @@
 # @param ... additional arguments passed to curlPerform
 # @return for type=="text" the content is returned as text. For type=="json", the content is parsed using jsonlite::fromJSON. For "filename", the name of the stored file is returned.
 # @details Depending on the value of caching, the page is either retrieved from the cache or from the url, and stored in the cache if appropriate. The user-agent string is set according to sbdi_config()$user_agent. The returned response (if not from cached file) is also passed to check_status_code().
-# @references \url{https://api.bioatlas.se/}
+# @references \url{https://api.biodiversitydata.se/}
 # @examples
 #
-# out = cached_post(url="https://species.bioatlas.se/ws/species/lookup/bulk",body=jsonlite::toJSON(list(names=c("Vulpes vulpes","Lutra"))),type="json")
+# out = cached_post(url="https://species.biodiversitydata.se/ws/species/lookup/bulk",body=jsonlite::toJSON(list(names=c("Vulpes vulpes","Lutra"))),type="json")
 cached_post <- function(url,body,type="text",caching=sbdi_config()$caching,verbose=sbdi_config()$verbose,content_type,encoding=sbdi_config()$text_encoding,...) {
   ALA4R:::cached_post(url,body,type,caching,verbose,content_type,encoding,...)
 }

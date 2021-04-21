@@ -2,7 +2,7 @@
 #'
 #' Note that this makes a separate web request for each occurrence uuid, and so may not be wise to use on a large number of uuids.
 #' 
-#' @references Associated SBDI web service: \url{https://api.bioatlas.se/#ws102}
+#' @references Associated SBDI web service: \url{https://api.biodiversitydata.se/#ws102}
 #' 
 #' @param uuid string: one or more record ids, as returned by \code{\link{occurrences}} (in the \code{data$id} column)
 #' @param verbose logical: show additional progress information? [default is set by sbdi_config()]

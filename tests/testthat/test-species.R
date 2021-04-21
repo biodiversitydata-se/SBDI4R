@@ -42,11 +42,11 @@ thischeck=function() {
     test_that("species_info gives resolvable guids for known species", {
         skip_on_cran()
         
-        rsp <- httr::GET(paste0("https://species.bioatlas.se/species/", 
+        rsp <- httr::GET(paste0("https://species.biodiversitydata.se/species/", 
                                 as.character(species_info("Diatoma tenuis")$taxonConcept$guid)))
         expect_equal(rsp$status_code,200)
 
-        rsp <- httr::GET("https://species.bioatlas.se/species/tombombadil")
+        rsp <- httr::GET("https://species.biodiversitydata.se/species/tombombadil")
         expect_equal(rsp$status_code,404)
     })
 }

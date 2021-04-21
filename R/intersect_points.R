@@ -1,7 +1,7 @@
 #' Intersect environmental or contextual layers at a given a set of points (coordinates)
 #' 
-#' @references The associated SBDI web service: \url{https://api.bioatlas.se/#ws84}
-#' @references Descriptions of the spatial layers: \url{https://spatial.bioatlas.se/layers/}
+#' @references The associated SBDI web service: \url{https://api.biodiversitydata.se/#ws84}
+#' @references Descriptions of the spatial layers: \url{https://spatial.biodiversitydata.se/layers/}
 #'
 #' This function allows the user to sample environmental/contextual layers at arbitrary locations. It complements 
 #' the \code{\link{occurrences}} function, which allows values of the same set of layers to be downloaded at 
@@ -23,7 +23,7 @@
 #'  pnts <- c(51.5074,0.1278)
 #'  intersect_points(pnts,layers) 
 #'  # equivalent direct web service call:
-#'  # https://spatial.bioatlas.se/ws/intersect/el10016,el10009/51.5074/0.1278
+#'  # https://spatial.biodiversitydata.se/ws/intersect/el10016,el10009/51.5074/0.1278
 #' 
 #'  # multiple points as a grid sampling multiple layers
 #'  pnts <- data.frame(expand.grid(lat=seq(51.5074,52.5074),

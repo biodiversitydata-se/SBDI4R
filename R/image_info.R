@@ -1,7 +1,7 @@
 #' [Deprecated] Fetch information about an image, given its image ID
 #'
 #' Note that there is currently no web service that provides image information, 
-#' and so we are scraping results from pages of the form https://images.bioatlas.se/image/details?imageId=id. 
+#' and so we are scraping results from pages of the form https://images.biodiversitydata.se/image/details?imageId=id. 
 #' This web scraping may be fragile, and will be replaced by a web-service-based function when one becomes available.
 #' 
 #' @param id character: IDs of images (e.g. as returned by \code{\link{occurrences}} 

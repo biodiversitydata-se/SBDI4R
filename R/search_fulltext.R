@@ -2,7 +2,7 @@
 #' 
 #' Performs a search across all objects, and selects the closest matches. Generally, the user will provide the search term via the \code{query} parameter, with optional filtering via \code{fq}.
 #'
-#' @references Associated SBDI web service: \url{https://species.bioatlas.se/ws/}
+#' @references Associated SBDI web service: \url{https://species.biodiversitydata.se/ws/}
 #'  
 #' @param query string: the search term
 #' @param fq string: (optional) character string or vector of strings, specifying filters to be applied to the 

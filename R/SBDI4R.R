@@ -5,11 +5,11 @@
 #' to enable basic species and related information to be queried and output in 
 #' standard formats for R. 
 #' SBDI4R is based around the extensive web services provided 
-#' by the BioAtlas Sweden; see the API link below.
+#' by the Swedish Biodiversity Data Infrastructure; see the API link below.
 #' 
 #' @name SDBI4R
 #' @docType package
-#' @references \url{https://api.bioatlas.se/}
+#' @references \url{https://api.biodiversitydata.se/}
 #' @import assertthat digest httr jsonlite plyr RCurl sp
 #' @importFrom jsonlite fromJSON
 #' @importFrom stringr regex str_c str_detect str_extract str_locate str_match str_match_all
