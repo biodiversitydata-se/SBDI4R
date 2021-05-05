@@ -173,7 +173,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 
 range(xf$data$coordinateUncertaintyInMetres)
-```
+```  
 <!-- or being reported as within a a county (Note: this is what the observer says) -->
 <!-- ```{r} -->
 <!-- xf <- occurrences(taxon="Callitriche cophocarpa", -->
@@ -206,7 +206,8 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 
 hist(xf$data$year, xlab = "Year", main = "")
-```  
+``` 
+
 Likewise, search conditions can be accumulated and will be treated as AND conditions:  
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
@@ -216,6 +217,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
 
 hist(xf$data$year, xlab = "Year", main = "")
 ```  
+
 or, occurrences could be filtered by the basis of record:  
 
 ```{r, message=FALSE}
@@ -257,7 +259,7 @@ occurrences_plot(x, "obsPlot.pdf", qa="error",
 Note that the plot is saved to a pdf file in the current working directory. You can find that by `getwd()`.  
 
 <!-- <img src='https://github.com/biodiversitydata-se/SBDI4R/blob/master/man/figures/obsPlot_CallitricheCophocarpa.pdf' /> -->
-<img src='https://raw.githubusercontent.com/biodiversitydata-se/SBDI4R/2fe8a0223a293e4ef3d91bfb963531402319c985/man/figures/obsPlot_CallitricheCophocarpa.pdf' />
+<img src='https://github.com/biodiversitydata-se/SBDI4R/raw/master/man/figures/obsPlot_CallitricheCophocarpa.png'/>
 
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
 ```{r, message=FALSE}
@@ -564,7 +566,7 @@ species_list(wkt=wkt, fq="rank:species") %>%
     head(10)
 ```
 
-```{r message=FALSE, echo=FALSE}
+```{r message=FALSE, echo=FALSE, eval=FALSE}
 tryCatch({
   species_list(wkt=wkt, fq="rank:species") %>%
       dplyr::arrange(desc(occurrenceCount)) %>%
@@ -581,7 +583,7 @@ library(vegan)
 
 Define our area of interest as a transect running westwards from the Stockholm region, and download the occurrences of legumes (Fabaceae; a large family of flowering plants) in this area:  
 ```{r eval=FALSE}
-## A rough polygon aroun the Mällardalen
+## A rough polygon around the Mällardalen
 wkt <- "MULTIPOLYGON(((14.94 58.88, 14.94 59.69, 18.92 59.69, 18.92 58.88, 14.94 58.88)))"
 
 ## define some environmental layers of interest [see sbdi_fields(fields_type = "occurrence")]
@@ -829,7 +831,7 @@ write.csv(gridSummary, "Callitriche grid summary.csv")
 One could also think of agreggating the data temporally...  
 ```{r BIRDStemporal, message=FALSE, warning=FALSE}
 # There is a summary on SB
-SB$temporal$nObs
+head(SB$temporal$nObs)
 
 # But the function exportBIrds() offers planty of combinations
 yearlyXTS <- exportBirds(SB, 
