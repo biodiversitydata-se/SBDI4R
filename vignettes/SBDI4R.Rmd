@@ -34,6 +34,7 @@ The SBDI4R package must be loaded for each new R session:
 ```{r, message=FALSE}
 library(SBDI4R)
 sbdi_config(caching="off")
+# sbdi_config(cache_directory="Z:/mydir/sbdi-cache")
 ```  
 
 However, the options you stored in .Rprofile if you did it so, will load automatically 
@@ -70,18 +71,20 @@ head(sx$data[,c( "name","species", "speciesGuid", "rank")])
 Now we can download the taxonomic data (note that the search is case-sensitive):
 ```{r, message=FALSE, results=FALSE}
 tx <- taxinfo_download("family_s:Paridae", 
-                       fields=c("guid", "genus_s", "scientificName", "rank"), 
+                       fields = c("guid", "genus_s", "specificEpithet_s", "scientificName",  "canonicalName_s", "rank"), 
                        verbose = FALSE)
-tx <- tx[tx$rank == "species",] ## restrict to species
+tx <- tx[tx$rank == "species" & tx$genusS != "",] ## restrict to species and not hybrids
 ```
+
 We can make a taxonomic tree plot using the `phytools` package:
 ```{r, message=FALSE}
 library(phytools)
 ## as.phylo requires the taxonomic columns to be factors
 tx$genusS <- as.factor(tx$genusS)
 tx$scientificName <- as.factor(tx$scientificName)
-## create phylo object of Scientific.Name nested within Genus
-ax <- as.phylo(~genusS/scientificName, data=tx)
+tx$canonicalNameS <- as.factor(tx$canonicalNameS)
+## create phylo object of canonical name nested within Genus
+ax <- as.phylo(~genusS/canonicalNameS, data=tx[1:50,])
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
@@ -494,11 +497,11 @@ for(c in 1:length(ObsInCountyList)){
     wObs <- match(idsC, obs$id)
     obs$overId[wObs] <- rep(countiesLab[c], length(wObs))
   }
-  print(countiesLab[c])
+  # print(countiesLab[c])
 }
 
 # check if there are any observation that doesn't fall into the territory of any county
-obs[which(is.na(obs$overId)),]
+head(obs[which(is.na(obs$overId)),])
 
 oldpar <- par()
 par(mar = c(1,1,0,0))
@@ -548,14 +551,15 @@ which gives us a little more control over its format:
 library(sp)
 shape <- spTransform(shape, CRSobj = CRS("+init=epsg:4326")) ## the magic number for WGS84
 lonlat <- shape@polygons[[1]]@Polygons[[1]]@coords ## extract the polygon coordinates
+
 ## extract the convex hull of the polygon to reduce the length of the WKT string
 temp <- chull(lonlat)
 lonlat <- lonlat[c(temp, temp[1]), ]
 ## create WKT string
 ## first join each lon-lat coordinate pair
-temp <- apply(lonlat, 1, function(z) paste(z, collapse=" "))
+temp <- apply(lonlat, 1, function(z) paste(round(z,4), collapse=" "))
 ## now build the WKT string
-wkt <- paste("POLYGON((", paste(temp, collapse=","), "))", sep="")
+wkt <- paste("MULTIPOLYGON(((", paste(temp, collapse=","), ")))", sep="")
 ```
 
 Now extract the species list in this polygon:
@@ -595,6 +599,7 @@ env_layers <- c("el10009","el10011")
 ## data via the 'extra' parameter. 
 x <- occurrences(fq="family:Fabaceae", 
                  wkt=wkt, qa="none",
+                 email="test@test.org",
                  download_reason_id="testing", 
                  extra=env_layers)
 ```
@@ -607,9 +612,8 @@ xgridded <- x$data %>%
     ## discard genus- and higher-level records
     filter(rank %in%
                   c("species", "subspecies", "variety", "form", "cultivar")) %>%
-    ## bin into 0.5-degree bins
-    mutate(longitude=round(longitude*2)/2, 
-           latitude=round(latitude*2)/2, 
+    mutate(longitude=round(longitude*4)/4, 
+           latitude=round(latitude*4)/4, 
            worldClimMeanTemperatureOfWarmestQuarter = worldClimMeanTemperatureOfWarmestQuarter /10) %>%
     ## average environmental vars within each bin
     group_by(longitude,latitude) %>%
@@ -617,8 +621,8 @@ xgridded <- x$data %>%
            worldClimMeanTemperatureOfWarmestQuarter = mean(worldClimMeanTemperatureOfWarmestQuarter, na.rm=TRUE)) %>%
     ## subset to vars of interest
     select(longitude, latitude, species, 
-                  worldClimAnnualPrecipitation,
-                  worldClimMeanTemperatureOfWarmestQuarter) %>%
+            worldClimAnnualPrecipitation,
+            worldClimMeanTemperatureOfWarmestQuarter) %>%
     ## take one row per cell per species (presence)
     distinct() %>%
     ## calculate species richness
@@ -657,6 +661,9 @@ Now we can start to examine the patterns in the data. Let's plot richness as a f
 ```{r, warning=FALSE}
 library(ggplot2)
 ggplot(xgridded, aes(longitude, richness)) + 
+  labs(x = "Longitud (º)", 
+       y = "Species richness") +
+  lims(y = c(0,100)) +
   geom_point() + 
   theme_bw()
 ```
@@ -668,8 +675,11 @@ Species richness as a function of environment:
 ggplot(xgridded, aes(worldClimMeanTemperatureOfWarmestQuarter , 
                      worldClimAnnualPrecipitation, 
                      colour=richness)) +
+  labs(x = "Mean temperature of warmest quarter (ºC)" , 
+       y = "Annual precipitation (mm)",
+       colour = "Species \nrichness") + 
   scale_colour_distiller(palette="Spectral") +
-  geom_point(size=8) + 
+  geom_point(size=3) + 
   theme_bw()
 ```
 
@@ -697,19 +707,23 @@ xgridded$grp <- as.factor(grp)
 thiscol <- c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", 
              "#e377c2", "#7f7f7f", "#bcbd22", "#17becf")
 ggplot(xgridded, aes(longitude, latitude, colour=grp)) + 
-  geom_point(size=5) +
+  labs(x="Longitude", y="Latitude", colour="Group") + 
+  geom_point(size=3) +
   scale_colour_manual(values=thiscol) + 
   theme_bw()
 
 ## or a slightly nicer map plot
 library(maps)
 library(mapdata)
+oldpar <- par()
+par(mar = c(1,1,0,0))
 map("worldHires", "Sweden", 
-    # xlim=c(105, 155), ylim=c(-45, -10), 
+    xlim=c(14.5, 20), ylim=c(58.8, 59.95), 
     col="gray90", fill=TRUE)
 with(xgridded, points(longitude, latitude, 
                       pch=21, col=thiscol[grp], 
                       bg=thiscol[grp], cex=0.75))
+suppressWarnings(par(oldpar))
 ```
 
 ## Example 6: Handlig data in R after being downloaded
@@ -742,7 +756,7 @@ freq_year <- table(x$data$year)
 # no. obs across years:
 plot(freq_year, bty="n", ylab="Frequency")
 # or
-hist(x$data$year, 20)
+hist(x$data$year, 20, main = "", xlab = "Year")
 
 # Subsetting is done using '[ ]'
 x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
@@ -781,14 +795,17 @@ OB <- organiseBirds(x$data,
                     xyCols = c("longitude", "latitude"))
 
 SB <- summariseBirds(OB, grid = Sweden_Grid_25km_Wgs84)
+```
 
+```{r plotBIRDSspatial, message=FALSE, warning=FALSE}
 maxC <- max(SB$spatial@data$nObs, na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(4,0,4,0), mfrow=c(1,3))
-plot(SB$spatial, col=palBW(SB$spatial@data$nObs), main="All years") ## with palette
+plot(SB$spatial, col=palBW(SB$spatial@data$nObs),
+     border = "grey", main="All years") ## with palette
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
@@ -801,20 +818,30 @@ yearlySp <- exportBirds(SB,
                         variable = "nObs", 
                         method = "sum")
 
-maxC <- max(yearlySp@data, na.rm = TRUE)
+maxC <- max(yearlySp@data$'2005', na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 
-plot(yearlySp["2005"], col=palBW(yearlySp@data$'2005'), main="2005")
+plot(yearlySp["2005"], col=palBW(yearlySp@data$'2005'), 
+     border = "grey",main="2005")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
+       border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
-plot(yearlySp["2015"], col=palBW(yearlySp@data$'2015'), main="2015")
+
+maxC <- max(yearlySp@data$'2020', na.rm = TRUE)
+palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
+                               c(0, maxC), 
+                               na.color = "transparent")
+
+plot(yearlySp["2020"], col=palBW(yearlySp@data$'2020'), 
+     border = "grey",main="2020")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
+       border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
 par(oldpar)
 
@@ -828,7 +855,7 @@ write.csv(gridSummary, "Callitriche grid summary.csv")
 
 ```
   
-One could also think of agreggating the data temporally...  
+One could also think of aggregating the data temporally...  
 ```{r BIRDStemporal, message=FALSE, warning=FALSE}
 # There is a summary on SB
 head(SB$temporal$nObs)
