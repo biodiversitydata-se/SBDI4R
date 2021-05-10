@@ -17,9 +17,9 @@
 #' @seealso \code{\link{sbdi_fields}} for occurrence fields that are queryable via the \code{fq} parameter
 #' @examples
 #' \dontrun{
-#' wkt <- "POLYGON((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
-#' 18.3284 59.9611, 18.3284 58.9611))"
-#' x <- specieslist(taxon="genus:Leuctra", 
+#' wkt <- "MULTIPOLYGON(((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
+#'                        18.3284 59.9611, 18.3284 58.9611)))"
+#' x <- species_list(taxon="genus:Leuctra", 
 #'                  wkt=wkt)
 #' 
 #' x <- species_list(wkt=wkt, fq="rank:species")

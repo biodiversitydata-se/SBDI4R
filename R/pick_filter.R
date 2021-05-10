@@ -1,6 +1,6 @@
 #' List and pick existing filters
 #' 
-#' Lists and lets the user interactivelly pick a filter from lists.  
+#' Lists and lets the user interactively pick a filter from lists.  
 #' 
 #' @param type string: (optional) type of filter to create query string for. Options are \code{c("resource", "specieslist" , "layer")}. Species lists are waiting development from the API side.
 #' @return a string ready to be places in the argument \sQuote{fq} in function \code{\link{occurrences}}. 
@@ -32,7 +32,7 @@ pick_filter<-function(type = NULL){
       res <- c(res, inst_questionarie())
       continue <- FALSE
     }else if(type == "specieslist"){
-      message("not yet implemented")
+      res <- species_questionarie()
       continue <- FALSE
     } else if(type == "layer"){  
       res <- layer_questionarie()
@@ -119,6 +119,49 @@ inst_questionarie<-function(){
   
   return(res)
   
+}
+
+# auxiliary function for species lists
+species_questionarie<-function(){
+  continue <- TRUE
+  res <- c()
+  spplists <- sbdi_lists()
+  spplists <- spplists[order(spplists$dataResourceUid),]
+  
+  while(continue){
+    spplistsDisp <- data.frame("druid"=spplists$dataResourceUid,
+                             "name"=spplists$listName,
+                             "date created" = spplists$dateCreated,
+                             "last updated" = spplists$lastUpdated,
+                             "item count" = spplists$itemCount, 
+                             "region" = spplists$region, 
+                             "category" = spplists$category,
+                             "authority" = spplists$authority,
+                             "type" = spplists$sdsType,
+                             row.names=spplists$dataResourceUid)
+    
+    ## TODO if the message if longer that 4800 something "bytes" it will be cut in the console. 
+    ## Make it so that the tables gets cut and message divided in many messages
+    message("\nWhich layer do you want use as filter? Type the corresponding drui: \n")
+    message(paste0(capture.output(print(spplistsDisp, 
+                                        row.names = FALSE)), collapse = "\n"))
+    r <- readline()
+    if(r %in% spplistsDisp$druid){
+      res <- c(res, r)
+      if(continue("Filter added. Do you want to continue? Type 'y' for yes. ")){
+        type <- NULL
+      }else{
+        continue <- FALSE
+      }
+    }else{
+      if(continue("No species list with that druid was found. Do you want to start over? Type 'y' for yes. ")){
+        type <- NULL
+      }else{
+        continue <- FALSE
+      }
+    }
+  }
+  return(res)
 }
 
 # auxiliary function for layers

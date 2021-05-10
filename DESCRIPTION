@@ -53,6 +53,7 @@ Suggests:
     maps,
     maptools,
     phytools,
+    qpdf,
     rmarkdown,
     rgeos,
     testthat,
