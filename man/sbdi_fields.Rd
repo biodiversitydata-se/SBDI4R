@@ -14,8 +14,8 @@ field_info(field_id, maxrows = 50, record_count_only = FALSE)
 \itemize{
 \item "general" - for searching taxa, datasets, layers, and collections metadata
 \item "occurrence" - for species occurrence records
-\item "occurrence_stored" - can be returned as part of a species occurrence record search (equivalant to \code{subset(sbdi_fields("occurrences"),stored)})
-\item "occurrence_indexed" - can be queried as part of a species occurrence record search (equivalant to \code{subset(sbdi_fields("occurrences"),indexed)})
+\item "occurrence_stored" - can be returned as part of a species occurrence record search (equivalent to \code{subset(sbdi_fields("occurrences"),stored)})
+\item "occurrence_indexed" - can be queried as part of a species occurrence record search (equivalent to \code{subset(sbdi_fields("occurrences"),indexed)})
 \item "layers" - fields associated with the environmental and contextual layers. For additional information 
 on layers, including metadata and licensing, see \code{\link{search_layers}}
 \item "assertions" - potential issues flagged on one or more occurrence record fields
@@ -25,7 +25,7 @@ on layers, including metadata and licensing, see \code{\link{search_layers}}
 directly to the ALA's web services (e.g. parameter \code{fq} in \code{\link{occurrences}}) should use field names in this format. If \code{as_is} is FALSE, the returned $names entries will be modified to make them consistent with the corresponding column names in R data.frames returned by e.g. \code{\link{occurrences}}. \code{as_is=FALSE} has no effect when \code{fields_type} is "layers". Note that prior to v1.20, \code{as_is=FALSE} did not work correctly.}
 
 \item{field_id}{text: id of environmental/contextual layer field for which to look up information
-Prepend "el" for "environmental" (gridded) layers and "cl" for "contextual" (polygonal) layers}
+Prepend "el" for "environmental" (grided) layers and "cl" for "contextual" (polygonal) layers}
 
 \item{maxrows}{integer: maximum number of records to download. Some contextual layers (those with \code{field_id}s starting with "cl") have a very large number of records and attempting to download the full set can cause R to crash. Specifying -1 for maxrows will download the full set of records for that field}
 
@@ -51,10 +51,10 @@ Note for occurrence fields: only fields that are indexed in the SBDI database ca
 }
 \references{
 Relevant ALA web services: \itemize{
-\item for fields_type "occurrence": https://api.bioatlas.se/#ws72
-\item for fields_type "general": https://api.bioatlas.se/#ws88
-\item for fields_type "layers": https://api.bioatlas.se/#ws11 (see also descriptions of the spatial layers: \url{https://spatial.bioatlas.se/layers/})
-\item for fields_type "assertions": https://api.bioatlas.se/#ws81
+\item for fields_type "occurrence": https://api.biodiversitydata.se/#ws72
+\item for fields_type "general": https://api.biodiversitydata.se/#ws88
+\item for fields_type "layers": https://api.biodiversitydata.se/#ws11 (see also descriptions of the spatial layers: \url{https://spatial.biodiversitydata.se/layers/})
+\item for fields_type "assertions": https://api.biodiversitydata.se/#ws81
 }
 }
 \seealso{

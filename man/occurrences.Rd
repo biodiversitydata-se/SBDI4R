@@ -11,7 +11,9 @@ occurrences(
   fields,
   extra,
   qa,
+  generate_doi,
   email = sbdi_config()$email,
+  email_notify,
   method,
   download_reason_id = sbdi_config()$download_reason_id,
   reason,
@@ -68,8 +70,12 @@ download. Use \code{qa="all"} to include all available issues, or \code{qa="none
 to include none. Otherwise see \code{sbdi_fields("assertions",as_is=TRUE)} for
 valid values}
 
+\item{generate_doi}{logical: not inplemented in SBDI}
+
 \item{email}{(required) string: the email address of the user performing the 
 download  [default is set by sbdi_config()]}
+
+\item{email_notify}{logical: not implemented in SBDI}
 
 \item{method}{[Deprecated]}
 

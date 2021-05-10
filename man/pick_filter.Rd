@@ -13,7 +13,7 @@ pick_filter(type = NULL)
 a string ready to be places in the argument \sQuote{fq} in function \code{\link{occurrences}}.
 }
 \description{
-Lists and lets the user interactivelly pick a filter from lists.
+Lists and lets the user interactively pick a filter from lists.
 }
 \examples{
 \dontrun{

@@ -13,7 +13,8 @@ sbdi_config(caching="off")
 
 ## ---- message=FALSE---------------------------------------------------------------------------------------------------
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
-                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan")
+                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan", 
+                "phytools", "BIRDS", "leaflet", "rgdal")
 to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
 if(length(to_install)>0)
     install.packages(to_install, repos="http://cran.us.r-project.org")
@@ -176,7 +177,7 @@ x_afrows <- apply(x$data[,x_afcols], 1, any)
 ## which taxonIdentificationIssue assertions are present in this data?
 these_assertions <- names(x$data)[x_afcols]
 ## make a link to the web page for each occurrence
-popup_link <- paste0("<a href=\"https://records.bioatlas.se/occurrences/",
+popup_link <- paste0("<a href=\"https://records.biodiversitydata.se/occurrences/",
                       x$data$id,"\">Link to occurrence record</a>")
 ## colour palette
 pal <- c(sub("FF$","", heat.colors(length(these_assertions))))
@@ -197,21 +198,21 @@ m <- addProviderTiles(leaflet(),"Esri.WorldImagery") %>%
   addLegend(colors = pal, opacity = 1, labels = these_assertions)
 m
 
-## ---------------------------------------------------------------------------------------------------------------------
-# save as data.frame
-Callitriche <- as.data.frame(x$data)
-
-# simplyfy data frame
-calli <- data.frame(Callitriche$scientificName,
-                   Callitriche$latitude,
-                   Callitriche$longitude)
-# simplify column names
-colnames(calli) <- c("species","latitude","longitude")
-# remove rows with missing values (NAs)
-calli <- na.omit(calli)
-
-# save new dataframe
-write.csv(calli,"Callitriche.csv")
+## ---- eval=FALSE------------------------------------------------------------------------------------------------------
+#  # save as data.frame
+#  Callitriche <- as.data.frame(x$data)
+#  
+#  # simplyfy data frame
+#  calli <- data.frame(Callitriche$scientificName,
+#                     Callitriche$latitude,
+#                     Callitriche$longitude)
+#  # simplify column names
+#  colnames(calli) <- c("species","latitude","longitude")
+#  # remove rows with missing values (NAs)
+#  calli <- na.omit(calli)
+#  
+#  # save new dataframe
+#  write.csv(calli,"Callitriche.csv")
 
 ## ---- message=FALSE, warning=FALSE------------------------------------------------------------------------------------
 
@@ -431,8 +432,8 @@ library(vegan)
 #  wkt <- "MULTIPOLYGON(((14.94 58.88, 14.94 59.69, 18.92 59.69, 18.92 58.88, 14.94 58.88)))"
 #  
 #  ## define some environmental layers of interest [see sbdi_fields(fields_type = "occurrence")]
-#  # el10011 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_12
-#  # el10009 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_10
+#  # el10011 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_12
+#  # el10009 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_10
 #  env_layers <- c("el10009","el10011")
 #  
 #  ## Download the data.  We use the `occurrences()` function, adding environmental
