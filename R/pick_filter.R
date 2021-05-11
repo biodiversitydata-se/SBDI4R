@@ -74,7 +74,7 @@ inst_questionarie<-function(){
       institutionAll <- fromJSON(content(GET(uri), "text"))
       collections <- institutionAll$collections
       dataResource <- institutionAll$linkedRecordProviders
-      message("\nBy which collection or data resourcedo you want to filter? Type the corresponding uid or write 'all': \n")
+      message("\nBy which collection or data resource do you want to filter? Type the corresponding uid or write 'all': \n")
       message("\nCollections: \n")
       message(paste0(capture.output(print(collections[order(collections$uid),c("uid","name")],
                                           row.names = FALSE)), collapse = "\n"))
@@ -142,13 +142,13 @@ species_questionarie<-function(){
     
     ## TODO if the message if longer that 4800 something "bytes" it will be cut in the console. 
     ## Make it so that the tables gets cut and message divided in many messages
-    message("\nWhich layer do you want use as filter? Type the corresponding drui: \n")
+    message("\nWhich species list do you want use as filter? Type the corresponding drui: \n")
     message(paste0(capture.output(print(spplistsDisp, 
                                         row.names = FALSE)), collapse = "\n"))
     r <- readline()
     if(r %in% spplistsDisp$druid){
-      res <- c(res, r)
-      if(continue("Filter added. Do you want to continue? Type 'y' for yes. ")){
+      res <- c(res, paste0("data_resource_uid:", r))
+      if(continue("Filter added. Do you want to continue? Type 'y' for yes. Else hit 'Enter'")){
         type <- NULL
       }else{
         continue <- FALSE
