@@ -4,6 +4,7 @@ author: "Alejandro Ruete and Debora Arlt"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
+    highlight: tango
     fig_caption: TRUE
 vignette: >
   %\VignetteIndexEntry{Introduction to SBDI4R}
