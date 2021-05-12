@@ -4,7 +4,6 @@ author: "Alejandro Ruete and Debora Arlt"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
-    highlight: tango
     fig_caption: TRUE
 vignette: >
   %\VignetteIndexEntry{Introduction to SBDI4R}
@@ -391,7 +390,7 @@ dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
 
 dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "gridID"))
 
-res[wNonEmpty,] <- dataRes
+res[wNonEmpty,] <- dataRes[,-1]
 
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 ```  

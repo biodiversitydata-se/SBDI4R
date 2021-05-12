@@ -134,7 +134,9 @@ valid query.</p>
   <span class='va'>fields</span>,
   <span class='va'>extra</span>,
   <span class='va'>qa</span>,
+  <span class='va'>generate_doi</span>,
   email <span class='op'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>email</span>,
+  <span class='va'>email_notify</span>,
   <span class='va'>method</span>,
   download_reason_id <span class='op'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>download_reason_id</span>,
   <span class='va'>reason</span>,
@@ -206,9 +208,17 @@ to include none. Otherwise see <code><a href='sbdi_fields.html'>sbdi_fields("ass
 valid values</p></td>
     </tr>
     <tr>
+      <th>generate_doi</th>
+      <td><p>logical: not inplemented in SBDI</p></td>
+    </tr>
+    <tr>
       <th>email</th>
       <td><p>(required) string: the email address of the user performing the 
 download  [default is set by sbdi_config()]</p></td>
+    </tr>
+    <tr>
+      <th>email_notify</th>
+      <td><p>logical: not implemented in SBDI</p></td>
     </tr>
     <tr>
       <th>method</th>

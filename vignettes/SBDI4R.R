@@ -258,6 +258,7 @@ nCells <- length(ObsInGridList)
 
 res <- data.frame("nObs"=as.numeric(rep(NA,nCells)),
                   "nYears"=as.numeric(rep(NA,nCells)),
+                  row.names = row.names(grid),
                   stringsAsFactors = FALSE)
 
 cols2use <- c("scientificName", "year")
@@ -271,16 +272,9 @@ dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
   ))
 })
 
-dataRes <- data.frame(matrix(unlist(dataRes),
-                             nrow=length(dataRes), 
-                             byrow=TRUE),
-                    stringsAsFactors = FALSE)
+dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "gridID"))
 
-dataRes$X1 <- as.numeric(dataRes$X1)
-dataRes$X2 <- as.numeric(dataRes$X2)
-
-res[wNonEmpty,] <- dataRes
-rownames(res) <- row.names(grid)
+res[wNonEmpty,] <- dataRes[,-1]
 
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 
