@@ -3,13 +3,10 @@
 #' Retrieve SBDI occurrence data via the "occurrence download" web service. At 
 #' least one of \code{taxon}, \code{wkt}, or \code{fq} must be supplied for a 
 #' valid query. 
-# Note that there is a limit of 500000 records per request when 
-# using \code{method="indexed"}. Use the \code{method="offline"} for larger 
-# requests. For small requests, \code{method="indexed"} likely to be faster.
 #' 
 #' @references \itemize{
-#' \item Associated SBDI web service for record counts: \url{https://api.bioatlas.se/#ws3}
-#' \item Associated SBDI web service for occurence downloads: \url{https://api.bioatlas.se/#ws4}
+#' \item Associated SBDI web service for record counts: \url{https://api.biodiversitydata.se/#ws3}
+#' \item Associated SBDI web service for occurrence downloads: \url{https://api.biodiversitydata.se/#ws4}
 #' \item Field definitions: \url{https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc}
 #' \item WKT reference: \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 #' }
@@ -53,9 +50,11 @@
 #' download. Use \code{qa="all"} to include all available issues, or \code{qa="none"} 
 #' to include none. Otherwise see \code{sbdi_fields("assertions",as_is=TRUE)} for
 #' valid values
-#' @param method [Deprecated]
+#' @param generate_doi logical: not inplemented in SBDI
 #' @param email (required) string: the email address of the user performing the 
 #' download  [default is set by sbdi_config()]
+#' @param email_notify logical: not implemented in SBDI
+#' @param method [Deprecated]
 #' @param download_reason_id numeric or string: (required unless record_count_only is TRUE) 
 #' a reason code for the download, either as a numeric ID (currently 0--11) or a 
 #' string (see \code{\link{sbdi_reasons}} for a list of valid ID codes and names). 
@@ -122,7 +121,9 @@
 #' @export occurrences
 
 occurrences <- function(taxon, wkt, fq, fields, extra, qa, 
+                        generate_doi,
                         email = sbdi_config()$email, 
+                        email_notify,
                         method,
                         download_reason_id = sbdi_config()$download_reason_id,
                         reason,
@@ -133,11 +134,6 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
   
   assert_that(is.flag(record_count_only))
   
-  # if (!missing(method)) {
-  #   warning("Method is a deprecated field. All queries use offline method,
-  #               unless record_count_only == TRUE, when indexed method is used")
-  # }
-
   # if (missing(email) || !is.notempty.string(email)) {
   assert_that(is.notempty.string(email), msg = "email is required")
 
@@ -221,8 +217,7 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
     fields <- fields_name_to_id(fields=fields,fields_type="occurrence")
     unknown <- setdiff(fields,valid_fields$name)
     if (length(unknown)>0) {
-      stop("invalid fields requested: ", str_c(unknown,collapse=", "),
-           ". See ",getOption("ALA4R_server_config")$fields_function,
+      stop("invalid fields requested: ", str_c(unknown,collapse=", "), ". See ",getOption("ALA4R_server_config")$fields_function,
            "(\"",valid_fields_type,"\",as_is=TRUE)")
     }
     this_query$fields <- str_c(fields,collapse=",")

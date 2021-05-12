@@ -53,7 +53,7 @@ Performs a search across all objects, and selects the closest matches. Generally
 }
 }
 \references{
-Associated SBDI web service: \url{https://species.bioatlas.se/ws/}
+Associated SBDI web service: \url{https://species.biodiversitydata.se/ws/}
 }
 \seealso{
 \code{\link{sbdi_fields}}

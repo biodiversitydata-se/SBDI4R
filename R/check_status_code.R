@@ -12,7 +12,7 @@
 # @examples
 # \dontrun{
 # require(httr)
-# out <- GET(url="https://bioatlas.se/")
+# out <- GET(url="https://biodiversitydata.se/")
 # check_status_code(out) ## pass the whole response object
 # check_status_code(out$headers$status) ## or pass the status code explicitly
 # }

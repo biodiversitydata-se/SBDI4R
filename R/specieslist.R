@@ -3,7 +3,7 @@
 #' Retrieve a list of taxa matching a search query, within a spatial search area, or both.
 #'
 #' 
-#' @references Associated SBDI web service: \url{https://api.bioatlas.se/#ws78}
+#' @references Associated SBDI web service: \url{https://api.biodiversitydata.se/#ws78}
 #' @references \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 #' 
 #' @param taxon string: (optional) query of the form field:value (e.g. "genus:Leuctra") or a free text search (e.g. "macropodidae").
@@ -17,9 +17,9 @@
 #' @seealso \code{\link{sbdi_fields}} for occurrence fields that are queryable via the \code{fq} parameter
 #' @examples
 #' \dontrun{
-#' wkt <- "POLYGON((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
-#' 18.3284 59.9611, 18.3284 58.9611))"
-#' x <- specieslist(taxon="genus:Leuctra", 
+#' wkt <- "MULTIPOLYGON(((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
+#'                        18.3284 59.9611, 18.3284 58.9611)))"
+#' x <- species_list(taxon="genus:Leuctra", 
 #'                  wkt=wkt)
 #' 
 #' x <- species_list(wkt=wkt, fq="rank:species")

@@ -10,7 +10,7 @@ thischeck=function(){
         expect_is(empty_result,"list")
         expect_equal(length(empty_result),1)
         expect_true(is_empty_list(empty_result[[1]]))
-        mixed_result=occurrence_details(c("f31e5f0e-f964-4bc3-b8f3-78f2ad520563",""))
+        mixed_result=occurrence_details(c("53f1691f-1db8-4555-9461-704a351dd207",""))
         expect_is(mixed_result,"list")
         expect_equal(length(mixed_result),2)        
         expect_false(is_empty_list(mixed_result[[1]]))
@@ -26,12 +26,12 @@ thischeck=function() {
         # core_names=c("processed","raw","userAssertions","systemAssertions","consensus")
         core_names=c("processed","raw","userAssertions","systemAssertions")
         ## no images
-        result=occurrence_details("f31e5f0e-f964-4bc3-b8f3-78f2ad520563")
+        result=occurrence_details("53f1691f-1db8-4555-9461-704a351dd207")
         expect_true(all(core_names %in% names(result[[1]])))
         expect_false("images" %in% names(result[[1]]))
         skip("need to find record with image")
         ## this one has images, so also images in the names
-        expect_true(all(c("images",core_names) %in% names(occurrence_details("f31e5f0e-f964-4bc3-b8f3-78f2ad520563")[[1]])))
+        expect_true(all(c("images",core_names) %in% names(occurrence_details("53f1691f-1db8-4555-9461-704a351dd207")[[1]])))
     })
 }
 check_caching(thischeck)

@@ -4,7 +4,7 @@
 \alias{sbdi_config}
 \alias{ala_config}
 \alias{sbdi_reasons}
-\title{Get or set configuration options that control sbdi4R behaviour}
+\title{Get or set configuration options that control SBDI4R behaviour}
 \usage{
 sbdi_config(...)
 
@@ -39,7 +39,7 @@ For sbdi_config(), a list of all options. When sbdi_config(...) is
 called with arguments, nothing is returned but the configuration is set.
 }
 \description{
-Get or set configuration options that control sbdi4R behaviour
+Get or set configuration options that control SBDI4R behaviour
 
 List valid download reasons
 }
@@ -53,9 +53,9 @@ List valid download reasons
 }
 }
 \references{
-\url{https://api.bioatlas.se/}
+\url{https://api.biodiversitydata.se/}
 
-\url{https://spatial.bioatlas.se/layers/} this will eventually move to the api link
+\url{https://spatial.biodiversitydata.se/layers/} this will eventually move to the api link
 
 Invoking \code{sbdi_config()} with no arguments returns a list with the current values of the options.
 

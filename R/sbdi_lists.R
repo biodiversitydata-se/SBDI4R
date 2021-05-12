@@ -1,8 +1,9 @@
 #' Species lists
 #'
-#' Note that this refers to pre-generated lists of species stored on the SBDI servers. The similarly-named but different function \code{\link{specieslist}} provides a different function, namely listing the species matching a query or recorded as present in a search area.
+#' Note that this refers to pre-generated lists of species stored on the SBDI servers. T
+#' he similarly-named but different function \code{\link{species_list}} provides a different function, namely listing the species matching a query or recorded as present in a search area.
 #'
-#' @references \url{https://lists.bioatlas.se} and the associated web services at \url{https://lists.bioatlas.se/ws}
+#' @references \url{https://lists.biodiversitydata.se} and the associated web services at \url{https://lists.biodiversitydata.se/ws}
 #' @param druid string: data resource UID of the list (i.e. the list identifier)
 #' @param kvp logical: include key-value pairs? Some lists contain information about the species in the form of key-value pairs
 #' @param verbose logical: show additional progress information? 
@@ -21,7 +22,7 @@
 #' }
 #'
 #' @export
-sbdi_list <- function(druid,kvp=TRUE,verbose=sbdi_config()$verbose){
+sbdi_list <- function(druid, kvp=TRUE, verbose=sbdi_config()$verbose){
   
   ALA4R::ala_list(druid,kvp,verbose)
 }
@@ -29,7 +30,7 @@ sbdi_list <- function(druid,kvp=TRUE,verbose=sbdi_config()$verbose){
 
 #' Find SBDI species lists
 #'
-#' @references \url{https://lists.bioatlas.se} and the associated web services at \url{https://lists.bioatlas.se/ws}
+#' @references \url{https://lists.biodiversitydata.se} and the associated web services at \url{https://lists.biodiversitydata.se/ws}
 #' @param guid string: (optional) if provided, return only lists in which this GUID appears
 #' @param offset integer: the number of lists to skip. This supports paging
 #' @param max integer: the maximum number of lists to return. This supports paging
@@ -47,7 +48,7 @@ sbdi_list <- function(druid,kvp=TRUE,verbose=sbdi_config()$verbose){
 #' }
 #'
 #' @export
-sbdi_lists <- function(guid,offset=0,max=500,verbose=sbdi_config()$verbose) {
+sbdi_lists <- function(guid, offset=0, max=500, verbose=sbdi_config()$verbose) {
   
  ALA4R::ala_lists(guid,offset,max,verbose) 
   

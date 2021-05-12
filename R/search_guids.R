@@ -2,7 +2,7 @@
 #' 
 #' Provides names, taxonomic classification, and other information for a list of GUIDs.
 #'
-#' @references The associated SBDI web service: \url{https://api.bioatlas.se/#ws110}
+#' @references The associated SBDI web service: \url{https://api.biodiversitydata.se/#ws110}
 #' 
 #' @param guids string: a single GUID or vector of GUIDs
 #' @param occurrence_count logical: if TRUE then also return the number of occurrences of each matched GUID.

@@ -27,17 +27,17 @@
     temp$occurrences_function = "occurrences" ## the occurrences or equivalent function name
     temp$config_function = "sbdi_config" ## the ala_config or equivalent function name
     temp$biocache_version = "2.2.3" 
-    temp$base_url_spatial = "https://spatial.bioatlas.se/ws/" ## the base url for spatial web services
-    temp$base_url_bie = "https://species.bioatlas.se/ws/" ## the base url for BIE web services
-    temp$base_url_biocache = "https://records.bioatlas.se/ws/" ## Services for mapping occurrence data, and species breakdowns for geographic areas.
-    temp$base_url_biocache_download = "https://records.bioatlas.se/ws/biocache-download/"
-    # temp$base_url_alaspatial = "https://spatial.bioatlas.se/ws/" ## the base url for older ALA spatial services
-    temp$base_url_alaspatial = "https://spatial.bioatlas.se/alaspatial/ws" ## the base url for older ALA spatial services
-    temp$base_url_images = "https://images.bioatlas.se/" ## the base url for the images database. Set to NULL or empty string if not available
-    temp$base_url_logger = "https://logger.bioatlas.se/service/logger/" ## the base url for usage logging webservices
-    temp$base_url_lists = "https://lists.bioatlas.se/ws/" ## base url for services for creating & editing lists of taxa
-    # temp$base_url_collections = "https://collections.bioatlas.se/ws/" ## ADDED BY SBDI base url for listing dataresources and Institutions    
-    temp$base_url_collectory = "https://collections.bioatlas.se/ws/"
+    temp$base_url_spatial = "https://spatial.biodiversitydata.se/ws/" ## the base url for spatial web services
+    temp$base_url_bie = "https://species.biodiversitydata.se/ws/" ## the base url for BIE web services
+    temp$base_url_biocache = "https://records.biodiversitydata.se/ws/" ## Services for mapping occurrence data, and species breakdowns for geographic areas.
+    temp$base_url_biocache_download = "https://records.biodiversitydata.se/ws/biocache-download/"
+    # temp$base_url_alaspatial = "https://spatial.biodiversitydata.se/ws/" ## the base url for older ALA spatial services
+    temp$base_url_alaspatial = "https://spatial.biodiversitydata.se/alaspatial/ws" ## the base url for older ALA spatial services
+    temp$base_url_images = "https://images.biodiversitydata.se/" ## the base url for the images database. Set to NULL or empty string if not available
+    temp$base_url_logger = "https://logger.biodiversitydata.se/service/logger/" ## the base url for usage logging webservices
+    temp$base_url_lists = "https://lists.biodiversitydata.se/ws/" ## base url for services for creating & editing lists of taxa
+    # temp$base_url_collections = "https://collections.biodiversitydata.se/ws/" ## ADDED BY SBDI base url for listing dataresources and Institutions    
+    temp$base_url_collectory = "https://collections.biodiversitydata.se/ws/"
     
     ## override any other settings here
     options(ALA4R_server_config = temp)

@@ -10,8 +10,8 @@ Swedish Biodiversity Data Infrastructure (SBDI). The goal of the project is
 to enable basic species and related information to be queried and output in 
 standard formats for R. 
 SBDI4R is based around the extensive web services provided 
-by the BioAtlas Sweden; see the API link below.
+by the Swedish Biodiversity Data Infrastructure; see the API link below.
 }
 \references{
-\url{https://api.bioatlas.se/}
+\url{https://api.biodiversitydata.se/}
 }

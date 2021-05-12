@@ -25,9 +25,9 @@ Retrieve a list of taxa matching a search query, within a spatial search area, o
 }
 \examples{
 \dontrun{
-wkt <- "POLYGON((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
-18.3284 59.9611, 18.3284 58.9611))"
-x <- specieslist(taxon="genus:Leuctra", 
+wkt <- "MULTIPOLYGON(((18.3284 58.9611, 17.3284 58.9611, 17.3284 59.9611, 
+                       18.3284 59.9611, 18.3284 58.9611)))"
+x <- species_list(taxon="genus:Leuctra", 
                  wkt=wkt)
 
 x <- species_list(wkt=wkt, fq="rank:species")
@@ -40,7 +40,7 @@ x <- species_list(wkt=wkt, fq="kingdom:Plantae")
 }
 }
 \references{
-Associated SBDI web service: \url{https://api.bioatlas.se/#ws78}
+Associated SBDI web service: \url{https://api.biodiversitydata.se/#ws78}
 
 \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 }

@@ -11,7 +11,9 @@ occurrences(
   fields,
   extra,
   qa,
+  generate_doi,
   email = sbdi_config()$email,
+  email_notify,
   method,
   download_reason_id = sbdi_config()$download_reason_id,
   reason,
@@ -68,8 +70,12 @@ download. Use \code{qa="all"} to include all available issues, or \code{qa="none
 to include none. Otherwise see \code{sbdi_fields("assertions",as_is=TRUE)} for
 valid values}
 
+\item{generate_doi}{logical: not inplemented in SBDI}
+
 \item{email}{(required) string: the email address of the user performing the 
 download  [default is set by sbdi_config()]}
+
+\item{email_notify}{logical: not implemented in SBDI}
 
 \item{method}{[Deprecated]}
 
@@ -149,8 +155,8 @@ occurrence_plot(z)
 }
 \references{
 \itemize{
-\item Associated SBDI web service for record counts: \url{https://api.bioatlas.se/#ws3}
-\item Associated SBDI web service for occurence downloads: \url{https://api.bioatlas.se/#ws4}
+\item Associated SBDI web service for record counts: \url{https://api.biodiversitydata.se/#ws3}
+\item Associated SBDI web service for occurrence downloads: \url{https://api.biodiversitydata.se/#ws4}
 \item Field definitions: \url{https://docs.google.com/spreadsheet/ccc?key=0AjNtzhUIIHeNdHhtcFVSM09qZ3c3N3ItUnBBc09TbHc}
 \item WKT reference: \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 }

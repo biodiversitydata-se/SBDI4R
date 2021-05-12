@@ -1,7 +1,7 @@
 #' Retrieve image information using image ids, with an option to download
 #' 
 #' @references \itemize{
-#' \item Associated SBDI web service for images \url{https://images.bioatlas.se/ws}
+#' \item Associated SBDI web service for images \url{https://images.biodiversitydata.se/ws}
 #' }
 #' 
 #' @param id character: IDs of images to be downloaded as single string or

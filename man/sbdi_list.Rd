@@ -17,7 +17,8 @@ sbdi_list(druid, kvp = TRUE, verbose = sbdi_config()$verbose)
 data.frame
 }
 \description{
-Note that this refers to pre-generated lists of species stored on the SBDI servers. The similarly-named but different function \code{\link{specieslist}} provides a different function, namely listing the species matching a query or recorded as present in a search area.
+Note that this refers to pre-generated lists of species stored on the SBDI servers. T
+he similarly-named but different function \code{\link{species_list}} provides a different function, namely listing the species matching a query or recorded as present in a search area.
 }
 \examples{
 \dontrun{
@@ -30,7 +31,7 @@ Note that this refers to pre-generated lists of species stored on the SBDI serve
 
 }
 \references{
-\url{https://lists.bioatlas.se} and the associated web services at \url{https://lists.bioatlas.se/ws}
+\url{https://lists.biodiversitydata.se} and the associated web services at \url{https://lists.biodiversitydata.se/ws}
 }
 \seealso{
 \code{\link{specieslist}} \code{\link{sbdi_lists}}

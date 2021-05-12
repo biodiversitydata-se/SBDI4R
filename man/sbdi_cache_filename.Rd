@@ -7,22 +7,22 @@
 sbdi_cache_filename(url)
 }
 \arguments{
-\item{url}{string: the URL e.g. \url{https://spatial.bioatlas.se/}}
+\item{url}{string: the URL e.g. \url{https://spatial.biodiversitydata.se/}}
 }
 \value{
 string: the file path and name
 }
 \description{
-Note that this file may not actually exist, this function just provides the mapping from URL to filename
+Note that this file may not actually exist, this function just provides the mapping from URL to file name
 }
 \examples{
 \dontrun{
-sbdi_cache_filename("https://spatial.bioatlas.se/")
+sbdi_cache_filename("https://spatial.biodiversitydata.se/")
 }
 
 }
 \references{
-\url{https://api.bioatlas.se/}
+\url{https://api.biodiversitydata.se/}
 }
 \seealso{
 \code{sbdi_config} for cache settings, particularly the cache directory

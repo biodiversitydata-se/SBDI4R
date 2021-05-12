@@ -27,5 +27,5 @@ search_guids(c("5219963",
 }
 }
 \references{
-The associated SBDI web service: \url{https://api.bioatlas.se/#ws110}
+The associated SBDI web service: \url{https://api.biodiversitydata.se/#ws110}
 }

@@ -22,26 +22,27 @@ options(width = 120)
 
 Here we provide a collection of use-examples showing examples for a range of queries that we think a typical use of the biodiversity infrastructure may want to perform. The examples are extended from a basic set for ALA4R presented at the [2014 ALA Science Symposium](http://www.ala.org.au/blogs-news/2014-atlas-of-living-australia-science-symposium/). 
 
-The SBDI4R package is primarily for accessing data. It includes some filter functions that allow you to filter prior to download. It also includes some simple summary functions, and some function for some simple data exploration. The examples also show you how you can use the data by continued exploring and analysing using other R package.
+The SBDI4R package is primarily for accessing data. It includes some filter functions that allow you to filter prior to download. It also includes some simple summary functions, and some function for some simple data exploration. The examples also show you how you can use the data by continued exploring and analyzing using other R package.
 
 Please get in contact with us if you have questions regarding the use of the SBDI4R package.
 
 ## Using SBDI4R
 
-Lets assume you have already installed the package as shown in the main site \url{https://biodiversitydata-se.github.io/SBDI4R}. 
+Let's assume you have already installed the package as shown in the [main site](https://biodiversitydata-se.github.io/SBDI4R). 
 
-The SBDI4R package must be loaded for each new R session:
+Load the SBDI4R package:
 ```{r, message=FALSE}
 library(SBDI4R)
 sbdi_config(caching="off")
+# sbdi_config(cache_directory="Z:/mydir/sbdi-cache")
 ```  
 
-However, the options you stored in .Rprofile if you did it so, will load automatically 
-with the package. Then, check that we have some additional packages that we'll 
-use in the examples, and install them if necessary.
+Then, check that we have some additional packages that we'll use in the examples,
+and install them if necessary.
 ```{r, message=FALSE}
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
-                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan")
+                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan", 
+                "phytools", "BIRDS", "leaflet", "rgdal")
 to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
 if(length(to_install)>0)
     install.packages(to_install, repos="http://cran.us.r-project.org")
@@ -49,19 +50,19 @@ if(length(to_install)>0)
 
 
 ## Example 1: Name searching and taxonomic trees
-We want to look at the taxonomy of titmice, but we don’t know what the correct 
-scientific name is, so let’s search for it:
+We want to look at the taxonomy of titmice, but we don't know what the correct 
+scientific name is, so let's search for it:
 ```{r, warning=FALSE, message=FALSE}
 sx <- search_fulltext("parus")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```  
 
-But we see some e.g. insects (**Neuroctenus parus**) are also returned. We want to restrict the search to Paridae.
+But we see that some non-birds are also returned, e.g. insects (**Neuroctenus parus**). We want to restrict the search to Paridae.
 ```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="family_s:Paridae")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
 ```
-To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see \code{sbdi_fields("general", as_is=TRUE)} for all the fields that are queryable), and increase page_size to include more records (default=10):
+To restrict the query specifically to birds we can also use the 'fq' argument to filter the query (see `sbdi_fields("general", as_is=TRUE)` for all the fields that are queryable), and increase page_size to include more records (default=10):
 ```{r, message=FALSE}
 sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
 head(sx$data[,c( "name","species", "speciesGuid", "rank")])
@@ -70,18 +71,20 @@ head(sx$data[,c( "name","species", "speciesGuid", "rank")])
 Now we can download the taxonomic data (note that the search is case-sensitive):
 ```{r, message=FALSE, results=FALSE}
 tx <- taxinfo_download("family_s:Paridae", 
-                       fields=c("guid", "genus_s", "scientificName", "rank"), 
+                       fields = c("guid", "genus_s", "specificEpithet_s", "scientificName",  "canonicalName_s", "rank"), 
                        verbose = FALSE)
-tx <- tx[tx$rank == "species",] ## restrict to species
+tx <- tx[tx$rank == "species" & tx$genusS != "",] ## restrict to species and not hybrids
 ```
+
 We can make a taxonomic tree plot using the `phytools` package:
 ```{r, message=FALSE}
 library(phytools)
 ## as.phylo requires the taxonomic columns to be factors
 tx$genusS <- as.factor(tx$genusS)
 tx$scientificName <- as.factor(tx$scientificName)
-## create phylo object of Scientific.Name nested within Genus
-ax <- as.phylo(~genusS/scientificName, data=tx)
+tx$canonicalNameS <- as.factor(tx$canonicalNameS)
+## create phylo object of canonical name nested within Genus
+ax <- as.phylo(~genusS/canonicalNameS, data=tx[1:50,])
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 ```
 
@@ -96,7 +99,7 @@ head(x$data)
 table(x$data$dataResourceName)
 ```
 
-Similarly, we could search by common names
+Similarly, we could search by common name
 ```{r, message=FALSE, eval=FALSE }
 x <- occurrences(taxon="sommarlånke",
                  email="test@test.org", 
@@ -106,7 +109,7 @@ head(x$data)
 table(x$data$dataResourceName)
 ```  
 
-if you get to know what you are doing you could search a batch of species (only scientific names so far)...
+You can also search for a set of species simultaneously (only scientific names so far)...
 
 ```{r, message=FALSE }
 taxa <- c("Callitriche", "Anarrhinum")
@@ -123,9 +126,9 @@ table(xbatch$data$basisOfRecord)
 
 
 ### Search filters
-We see there are different data sources. Let´s assume you only need to see data 
-from one source, e.g. Artportalen. If you see on the data that Artportalen's 
-identifier is "dr5" you can directly filter the search by:
+There are different data sources. Let's assume you only need to see data 
+from one source, e.g. Artportalen. Artportalen's identifier is "dr5" and you can 
+directly filter the search by:
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = "data_resource_uid:dr5",
@@ -133,8 +136,8 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10, verbose = FALSE)
 table(xf$data$dataResourceName)
 ```
-Else, you can search available data resources, collections (and more) using the interactive function \code{pick_filter}.
-The \code{pick_filter}function lets you explore data collections, spatial layers, and soon more indexed fields.
+Otherwise, you can search available data resources, collections (and more) using the interactive function `pick_filter`.
+The `pick_filter` function lets you explore data collections, spatial layers. Soon there will be more indexed fields.
 ```{r, message=FALSE, eval= FALSE}
 fq_str <- pick_filter("resource") 
 ## follow the instructions
@@ -158,7 +161,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 ```
 
-Note that this is fundamentally different than filtering by \dQuote{county:Uppsala} as this will search for the text \dQuote{uppsala} in the field \dQuote{county}, rather than spatially matching the observations.
+Note that this is fundamentally different than filtering by `county:Uppsala` as this will search for the text `Uppsala` in the field `county`, rather than spatially matching the observations.
 
 ### Other filters on queries
 Any search could be filtered by any indexed field (a.k.a. column or variable). You can find which 
@@ -173,7 +176,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 
 range(xf$data$coordinateUncertaintyInMetres)
-```
+```  
 <!-- or being reported as within a a county (Note: this is what the observer says) -->
 <!-- ```{r} -->
 <!-- xf <- occurrences(taxon="Callitriche cophocarpa", -->
@@ -182,7 +185,7 @@ range(xf$data$coordinateUncertaintyInMetres)
 <!--                  download_reason_id=10) -->
 <!-- ``` -->
 
-One could search for observation in specific years:  
+One could search for observations in specific years:  
 ```{r, message=FALSE}
 # year = 2019
 x2019 <- occurrences(taxon="Reynoutria japonica", 
@@ -206,7 +209,8 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 
 hist(xf$data$year, xlab = "Year", main = "")
-```  
+``` 
+
 Likewise, search conditions can be accumulated and will be treated as AND conditions:  
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
@@ -216,7 +220,8 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
 
 hist(xf$data$year, xlab = "Year", main = "")
 ```  
-or, occurrences could be filtered by the basis of record:  
+
+or, occurrences could be filtered by the basis of record (that is how was the observation recorded):  
 
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
@@ -257,7 +262,7 @@ occurrences_plot(x, "obsPlot.pdf", qa="error",
 Note that the plot is saved to a pdf file in the current working directory. You can find that by `getwd()`.  
 
 <!-- <img src='https://github.com/biodiversitydata-se/SBDI4R/blob/master/man/figures/obsPlot_CallitricheCophocarpa.pdf' /> -->
-<img src='https://raw.githubusercontent.com/biodiversitydata-se/SBDI4R/2fe8a0223a293e4ef3d91bfb963531402319c985/man/figures/obsPlot_CallitricheCophocarpa.pdf' />
+<img src='https://github.com/biodiversitydata-se/SBDI4R/raw/master/man/figures/obsPlot_CallitricheCophocarpa.png'/>
 
 There are many other ways of producing spatial plots in R. The `leaflet` package provides a simple method of producing browser-based maps with panning, zooming, and background layers:
 ```{r, message=FALSE}
@@ -272,7 +277,7 @@ x_afrows <- apply(x$data[,x_afcols], 1, any)
 ## which taxonIdentificationIssue assertions are present in this data?
 these_assertions <- names(x$data)[x_afcols]
 ## make a link to the web page for each occurrence
-popup_link <- paste0("<a href=\"https://records.bioatlas.se/occurrences/",
+popup_link <- paste0("<a href=\"https://records.biodiversitydata.se/occurrences/",
                       x$data$id,"\">Link to occurrence record</a>")
 ## colour palette
 pal <- c(sub("FF$","", heat.colors(length(these_assertions))))
@@ -295,7 +300,7 @@ m
 ```  
 
 ### Save data
-```{r}
+```{r, eval=FALSE}
 # save as data.frame
 Callitriche <- as.data.frame(x$data)
 
@@ -359,7 +364,7 @@ if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 nObsInGrid <- sum(unlist(lapply(ObsInGridList, nrow)))
 ```
 
-The result 'ObsInGridList' is a 'list' object with a subset of the data on each grid. 
+The result `ObsInGridList` is a `list` object with a subset of the data on each grid. 
 
 ### Summarise
 Now summarise occurrences within grid cells:
@@ -369,6 +374,7 @@ nCells <- length(ObsInGridList)
 
 res <- data.frame("nObs"=as.numeric(rep(NA,nCells)),
                   "nYears"=as.numeric(rep(NA,nCells)),
+                  row.names = row.names(grid),
                   stringsAsFactors = FALSE)
 
 cols2use <- c("scientificName", "year")
@@ -382,16 +388,9 @@ dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
   ))
 })
 
-dataRes <- data.frame(matrix(unlist(dataRes),
-                             nrow=length(dataRes), 
-                             byrow=TRUE),
-                    stringsAsFactors = FALSE)
-
-dataRes$X1 <- as.numeric(dataRes$X1)
-dataRes$X2 <- as.numeric(dataRes$X2)
+dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "gridID"))
 
 res[wNonEmpty,] <- dataRes
-rownames(res) <- row.names(grid)
 
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 ```  
@@ -492,11 +491,11 @@ for(c in 1:length(ObsInCountyList)){
     wObs <- match(idsC, obs$id)
     obs$overId[wObs] <- rep(countiesLab[c], length(wObs))
   }
-  print(countiesLab[c])
+  # print(countiesLab[c])
 }
 
 # check if there are any observation that doesn't fall into the territory of any county
-obs[which(is.na(obs$overId)),]
+head(obs[which(is.na(obs$overId)),])
 
 oldpar <- par()
 par(mar = c(1,1,0,0))
@@ -509,12 +508,12 @@ It is clear from this image that there are observations outside the territorial 
 
 ## Example 4: Area search and report. What listed species exist in a given area?
 
-Vector spatial layers (eg. Polygons) can be imported  in a number of different ways. 
-Bioatlas' APIs take as search input polygons in the s.k. WKT (Well Known Text \url{https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}). 
+Vector spatial layers (eg. polygons) can be imported  in a number of different ways. 
+biodiversitydata APIs take as search input polygons in the s.k. WKT [Well Known Text](https://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html). 
 So the first step is to load a vector layer and transform it into a WKT string. 
-First download a .zip file with different delimitations for Sweden \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser}
+First download a .zip file with different [delimitation for Sweden](https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser)
 and move it somewhere you like in your computer. We recommend you move it into your 
-working directory (\code{getwd()}). Extract the .zip file named KommunSweref99.zip.
+working directory (`getwd()`). Extract the .zip file named KommunSweref99.zip.
 <!-- We use the ALA4R's caching mechanism here, but you could equally download this file directly. -->
 
 ```{r, eval=FALSE}
@@ -523,7 +522,7 @@ shape <- readOGR(dsn=file.path("your/path/to/file", "Kommun_Sweref99TM_region.sh
 ```
 This will only work when you set a valid filepath, and will create an object of 
 class SpatialPolygon. You could instead use the data we kindly provided in this 
-package \code{data("swe")} 
+package `data("swe")`. 
 
 ```{r}
 shape <- swe$Municipalities
@@ -546,14 +545,15 @@ which gives us a little more control over its format:
 library(sp)
 shape <- spTransform(shape, CRSobj = CRS("+init=epsg:4326")) ## the magic number for WGS84
 lonlat <- shape@polygons[[1]]@Polygons[[1]]@coords ## extract the polygon coordinates
+
 ## extract the convex hull of the polygon to reduce the length of the WKT string
 temp <- chull(lonlat)
 lonlat <- lonlat[c(temp, temp[1]), ]
 ## create WKT string
 ## first join each lon-lat coordinate pair
-temp <- apply(lonlat, 1, function(z) paste(z, collapse=" "))
+temp <- apply(lonlat, 1, function(z) paste(round(z,4), collapse=" "))
 ## now build the WKT string
-wkt <- paste("POLYGON((", paste(temp, collapse=","), "))", sep="")
+wkt <- paste("MULTIPOLYGON(((", paste(temp, collapse=","), ")))", sep="")
 ```
 
 Now extract the species list in this polygon:
@@ -564,7 +564,7 @@ species_list(wkt=wkt, fq="rank:species") %>%
     head(10)
 ```
 
-```{r message=FALSE, echo=FALSE}
+```{r message=FALSE, echo=FALSE, eval=FALSE}
 tryCatch({
   species_list(wkt=wkt, fq="rank:species") %>%
       dplyr::arrange(desc(occurrenceCount)) %>%
@@ -581,23 +581,24 @@ library(vegan)
 
 Define our area of interest as a transect running westwards from the Stockholm region, and download the occurrences of legumes (Fabaceae; a large family of flowering plants) in this area:  
 ```{r eval=FALSE}
-## A rough polygon aroun the Mällardalen
+## A rough polygon around the Mällardalen
 wkt <- "MULTIPOLYGON(((14.94 58.88, 14.94 59.69, 18.92 59.69, 18.92 58.88, 14.94 58.88)))"
 
 ## define some environmental layers of interest [see sbdi_fields(fields_type = "occurrence")]
-# el10011 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_12
-# el10009 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_10
+# el10011 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_12
+# el10009 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_10
 env_layers <- c("el10009","el10011") 
 
 ## Download the data.  We use the `occurrences()` function, adding environmental
 ## data via the 'extra' parameter. 
 x <- occurrences(fq="family:Fabaceae", 
                  wkt=wkt, qa="none",
+                 email="test@test.org",
                  download_reason_id="testing", 
                  extra=env_layers)
 ```
 
-Convert this to a sites-by-species data.frame:
+Convert this to a sites-by-species `data.frame`:
 ```{r, eval=FALSE}
 library(dplyr)
 library(tidyr)
@@ -605,9 +606,8 @@ xgridded <- x$data %>%
     ## discard genus- and higher-level records
     filter(rank %in%
                   c("species", "subspecies", "variety", "form", "cultivar")) %>%
-    ## bin into 0.5-degree bins
-    mutate(longitude=round(longitude*2)/2, 
-           latitude=round(latitude*2)/2, 
+    mutate(longitude=round(longitude*4)/4, 
+           latitude=round(latitude*4)/4, 
            worldClimMeanTemperatureOfWarmestQuarter = worldClimMeanTemperatureOfWarmestQuarter /10) %>%
     ## average environmental vars within each bin
     group_by(longitude,latitude) %>%
@@ -615,8 +615,8 @@ xgridded <- x$data %>%
            worldClimMeanTemperatureOfWarmestQuarter = mean(worldClimMeanTemperatureOfWarmestQuarter, na.rm=TRUE)) %>%
     ## subset to vars of interest
     select(longitude, latitude, species, 
-                  worldClimAnnualPrecipitation,
-                  worldClimMeanTemperatureOfWarmestQuarter) %>%
+            worldClimAnnualPrecipitation,
+            worldClimMeanTemperatureOfWarmestQuarter) %>%
     ## take one row per cell per species (presence)
     distinct() %>%
     ## calculate species richness
@@ -655,6 +655,9 @@ Now we can start to examine the patterns in the data. Let's plot richness as a f
 ```{r, warning=FALSE}
 library(ggplot2)
 ggplot(xgridded, aes(longitude, richness)) + 
+  labs(x = "Longitud (º)", 
+       y = "Species richness") +
+  lims(y = c(0,100)) +
   geom_point() + 
   theme_bw()
 ```
@@ -666,8 +669,11 @@ Species richness as a function of environment:
 ggplot(xgridded, aes(worldClimMeanTemperatureOfWarmestQuarter , 
                      worldClimAnnualPrecipitation, 
                      colour=richness)) +
+  labs(x = "Mean temperature of warmest quarter (ºC)" , 
+       y = "Annual precipitation (mm)",
+       colour = "Species \nrichness") + 
   scale_colour_distiller(palette="Spectral") +
-  geom_point(size=8) + 
+  geom_point(size=3) + 
   theme_bw()
 ```
 
@@ -695,19 +701,23 @@ xgridded$grp <- as.factor(grp)
 thiscol <- c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", 
              "#e377c2", "#7f7f7f", "#bcbd22", "#17becf")
 ggplot(xgridded, aes(longitude, latitude, colour=grp)) + 
-  geom_point(size=5) +
+  labs(x="Longitude", y="Latitude", colour="Group") + 
+  geom_point(size=3) +
   scale_colour_manual(values=thiscol) + 
   theme_bw()
 
 ## or a slightly nicer map plot
 library(maps)
 library(mapdata)
+oldpar <- par()
+par(mar = c(1,1,0,0))
 map("worldHires", "Sweden", 
-    # xlim=c(105, 155), ylim=c(-45, -10), 
+    xlim=c(14.5, 20), ylim=c(58.8, 59.95), 
     col="gray90", fill=TRUE)
 with(xgridded, points(longitude, latitude, 
                       pch=21, col=thiscol[grp], 
                       bg=thiscol[grp], cex=0.75))
+suppressWarnings(par(oldpar))
 ```
 
 ## Example 6: Handlig data in R after being downloaded
@@ -740,7 +750,7 @@ freq_year <- table(x$data$year)
 # no. obs across years:
 plot(freq_year, bty="n", ylab="Frequency")
 # or
-hist(x$data$year, 20)
+hist(x$data$year, 20, main = "", xlab = "Year")
 
 # Subsetting is done using '[ ]'
 x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
@@ -779,14 +789,17 @@ OB <- organiseBirds(x$data,
                     xyCols = c("longitude", "latitude"))
 
 SB <- summariseBirds(OB, grid = Sweden_Grid_25km_Wgs84)
+```
 
+```{r plotBIRDSspatial, message=FALSE, warning=FALSE}
 maxC <- max(SB$spatial@data$nObs, na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(4,0,4,0), mfrow=c(1,3))
-plot(SB$spatial, col=palBW(SB$spatial@data$nObs), main="All years") ## with palette
+plot(SB$spatial, col=palBW(SB$spatial@data$nObs),
+     border = "grey", main="All years") ## with palette
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
@@ -799,20 +812,30 @@ yearlySp <- exportBirds(SB,
                         variable = "nObs", 
                         method = "sum")
 
-maxC <- max(yearlySp@data, na.rm = TRUE)
+maxC <- max(yearlySp@data$'2005', na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 
-plot(yearlySp["2005"], col=palBW(yearlySp@data$'2005'), main="2005")
+plot(yearlySp["2005"], col=palBW(yearlySp@data$'2005'), 
+     border = "grey",main="2005")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
+       border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
-plot(yearlySp["2015"], col=palBW(yearlySp@data$'2015'), main="2015")
+
+maxC <- max(yearlySp@data$'2020', na.rm = TRUE)
+palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
+                               c(0, maxC), 
+                               na.color = "transparent")
+
+plot(yearlySp["2020"], col=palBW(yearlySp@data$'2020'), 
+     border = "grey",main="2020")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
+       border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
 par(oldpar)
 
@@ -826,10 +849,10 @@ write.csv(gridSummary, "Callitriche grid summary.csv")
 
 ```
   
-One could also think of agreggating the data temporally...  
+One could also think of aggregating the data temporally...  
 ```{r BIRDStemporal, message=FALSE, warning=FALSE}
 # There is a summary on SB
-SB$temporal$nObs
+head(SB$temporal$nObs)
 
 # But the function exportBIrds() offers planty of combinations
 yearlyXTS <- exportBirds(SB, 
@@ -846,7 +869,7 @@ plot(yearlyXTS, col = "darkblue",
 ```  
 
 <!-- ## Example 8: Getting species taxonomic data with DynTaxa -->
-<!-- [dyntaxa](https://github.com/bioatlas/dyntaxa) is an R package that provides -->
+<!-- [dyntaxa](https://github.com/biodiversitydata/dyntaxa) is an R package that provides -->
 <!-- a read-only interface with Dyntaxa - the taxonomic database of organisms in Sweden. -->
 <!-- This package can be used to automate the following tasks: -->
 
@@ -862,7 +885,7 @@ plot(yearlyXTS, col = "darkblue",
 <!-- This package can only be installed from GitHub. -->
 <!-- ```{r , eval=FALSE} -->
 <!-- library(remotes) -->
-<!-- install_github("bioatlas/dyntaxa", build_opts = c("--no-resave-data", "--no-manual"))   -->
+<!-- install_github("biodiversitydata/dyntaxa", build_opts = c("--no-resave-data", "--no-manual"))   -->
 <!-- ```   -->
 
 <!-- Next, we copy and adapt some of the examples from the 'dyntaxa' webpage to complement  -->

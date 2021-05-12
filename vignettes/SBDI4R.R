@@ -9,10 +9,12 @@ options(width = 120)
 ## ---- message=FALSE---------------------------------------------------------------------------------------------------
 library(SBDI4R)
 sbdi_config(caching="off")
+# sbdi_config(cache_directory="Z:/mydir/sbdi-cache")
 
 ## ---- message=FALSE---------------------------------------------------------------------------------------------------
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
-                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan")
+                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan", 
+                "phytools", "BIRDS", "leaflet", "rgdal")
 to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
 if(length(to_install)>0)
     install.packages(to_install, repos="http://cran.us.r-project.org")
@@ -31,17 +33,18 @@ head(sx$data[,c( "name","species", "speciesGuid", "rank")])
 
 ## ---- message=FALSE, results=FALSE------------------------------------------------------------------------------------
 tx <- taxinfo_download("family_s:Paridae", 
-                       fields=c("guid", "genus_s", "scientificName", "rank"), 
+                       fields = c("guid", "genus_s", "specificEpithet_s", "scientificName",  "canonicalName_s", "rank"), 
                        verbose = FALSE)
-tx <- tx[tx$rank == "species",] ## restrict to species
+tx <- tx[tx$rank == "species" & tx$genusS != "",] ## restrict to species and not hybrids
 
 ## ---- message=FALSE---------------------------------------------------------------------------------------------------
 library(phytools)
 ## as.phylo requires the taxonomic columns to be factors
 tx$genusS <- as.factor(tx$genusS)
 tx$scientificName <- as.factor(tx$scientificName)
-## create phylo object of Scientific.Name nested within Genus
-ax <- as.phylo(~genusS/scientificName, data=tx)
+tx$canonicalNameS <- as.factor(tx$canonicalNameS)
+## create phylo object of canonical name nested within Genus
+ax <- as.phylo(~genusS/canonicalNameS, data=tx[1:50,])
 plotTree(ax, fsize=0.7, ftype="i") ## plot it
 
 ## ---- message=FALSE, eval=FALSE---------------------------------------------------------------------------------------
@@ -174,7 +177,7 @@ x_afrows <- apply(x$data[,x_afcols], 1, any)
 ## which taxonIdentificationIssue assertions are present in this data?
 these_assertions <- names(x$data)[x_afcols]
 ## make a link to the web page for each occurrence
-popup_link <- paste0("<a href=\"https://records.bioatlas.se/occurrences/",
+popup_link <- paste0("<a href=\"https://records.biodiversitydata.se/occurrences/",
                       x$data$id,"\">Link to occurrence record</a>")
 ## colour palette
 pal <- c(sub("FF$","", heat.colors(length(these_assertions))))
@@ -195,21 +198,21 @@ m <- addProviderTiles(leaflet(),"Esri.WorldImagery") %>%
   addLegend(colors = pal, opacity = 1, labels = these_assertions)
 m
 
-## ---------------------------------------------------------------------------------------------------------------------
-# save as data.frame
-Callitriche <- as.data.frame(x$data)
-
-# simplyfy data frame
-calli <- data.frame(Callitriche$scientificName,
-                   Callitriche$latitude,
-                   Callitriche$longitude)
-# simplify column names
-colnames(calli) <- c("species","latitude","longitude")
-# remove rows with missing values (NAs)
-calli <- na.omit(calli)
-
-# save new dataframe
-write.csv(calli,"Callitriche.csv")
+## ---- eval=FALSE------------------------------------------------------------------------------------------------------
+#  # save as data.frame
+#  Callitriche <- as.data.frame(x$data)
+#  
+#  # simplyfy data frame
+#  calli <- data.frame(Callitriche$scientificName,
+#                     Callitriche$latitude,
+#                     Callitriche$longitude)
+#  # simplify column names
+#  colnames(calli) <- c("species","latitude","longitude")
+#  # remove rows with missing values (NAs)
+#  calli <- na.omit(calli)
+#  
+#  # save new dataframe
+#  write.csv(calli,"Callitriche.csv")
 
 ## ---- message=FALSE, warning=FALSE------------------------------------------------------------------------------------
 
@@ -368,11 +371,11 @@ for(c in 1:length(ObsInCountyList)){
     wObs <- match(idsC, obs$id)
     obs$overId[wObs] <- rep(countiesLab[c], length(wObs))
   }
-  print(countiesLab[c])
+  # print(countiesLab[c])
 }
 
 # check if there are any observation that doesn't fall into the territory of any county
-obs[which(is.na(obs$overId)),]
+head(obs[which(is.na(obs$overId)),])
 
 oldpar <- par()
 par(mar = c(1,1,0,0))
@@ -397,14 +400,15 @@ shape <- shape[shape$KnNamn=="Örebro", ]
 library(sp)
 shape <- spTransform(shape, CRSobj = CRS("+init=epsg:4326")) ## the magic number for WGS84
 lonlat <- shape@polygons[[1]]@Polygons[[1]]@coords ## extract the polygon coordinates
+
 ## extract the convex hull of the polygon to reduce the length of the WKT string
 temp <- chull(lonlat)
 lonlat <- lonlat[c(temp, temp[1]), ]
 ## create WKT string
 ## first join each lon-lat coordinate pair
-temp <- apply(lonlat, 1, function(z) paste(z, collapse=" "))
+temp <- apply(lonlat, 1, function(z) paste(round(z,4), collapse=" "))
 ## now build the WKT string
-wkt <- paste("POLYGON((", paste(temp, collapse=","), "))", sep="")
+wkt <- paste("MULTIPOLYGON(((", paste(temp, collapse=","), ")))", sep="")
 
 ## ----eval=FALSE-------------------------------------------------------------------------------------------------------
 #  species_list(wkt=wkt, fq="rank:species") %>%
@@ -412,30 +416,31 @@ wkt <- paste("POLYGON((", paste(temp, collapse=","), "))", sep="")
 #      dplyr::select(speciesName, species, family, occurrenceCount) %>%
 #      head(10)
 
-## ----message=FALSE, echo=FALSE----------------------------------------------------------------------------------------
-tryCatch({
-  species_list(wkt=wkt, fq="rank:species") %>%
-      dplyr::arrange(desc(occurrenceCount)) %>%
-      dplyr::select(speciesName, species, family, occurrenceCount) %>%
-      head(20)
-}, error = function(e) { print(e$message)})
+## ----message=FALSE, echo=FALSE, eval=FALSE----------------------------------------------------------------------------
+#  tryCatch({
+#    species_list(wkt=wkt, fq="rank:species") %>%
+#        dplyr::arrange(desc(occurrenceCount)) %>%
+#        dplyr::select(speciesName, species, family, occurrenceCount) %>%
+#        head(20)
+#  }, error = function(e) { print(e$message)})
 
 ## ----message=FALSE, warning=FALSE-------------------------------------------------------------------------------------
 library(vegan)
 
 ## ----eval=FALSE-------------------------------------------------------------------------------------------------------
-#  ## A rough polygon aroun the Mällardalen
+#  ## A rough polygon around the Mällardalen
 #  wkt <- "MULTIPOLYGON(((14.94 58.88, 14.94 59.69, 18.92 59.69, 18.92 58.88, 14.94 58.88)))"
 #  
 #  ## define some environmental layers of interest [see sbdi_fields(fields_type = "occurrence")]
-#  # el10011 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_12
-#  # el10009 https://spatial.bioatlas.se/ws/layers/view/more/worldclim_bio_10
+#  # el10011 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_12
+#  # el10009 https://spatial.biodiversitydata.se/ws/layers/view/more/worldclim_bio_10
 #  env_layers <- c("el10009","el10011")
 #  
 #  ## Download the data.  We use the `occurrences()` function, adding environmental
 #  ## data via the 'extra' parameter.
 #  x <- occurrences(fq="family:Fabaceae",
 #                   wkt=wkt, qa="none",
+#                   email="test@test.org",
 #                   download_reason_id="testing",
 #                   extra=env_layers)
 
@@ -446,9 +451,8 @@ library(vegan)
 #      ## discard genus- and higher-level records
 #      filter(rank %in%
 #                    c("species", "subspecies", "variety", "form", "cultivar")) %>%
-#      ## bin into 0.5-degree bins
-#      mutate(longitude=round(longitude*2)/2,
-#             latitude=round(latitude*2)/2,
+#      mutate(longitude=round(longitude*4)/4,
+#             latitude=round(latitude*4)/4,
 #             worldClimMeanTemperatureOfWarmestQuarter = worldClimMeanTemperatureOfWarmestQuarter /10) %>%
 #      ## average environmental vars within each bin
 #      group_by(longitude,latitude) %>%
@@ -456,8 +460,8 @@ library(vegan)
 #             worldClimMeanTemperatureOfWarmestQuarter = mean(worldClimMeanTemperatureOfWarmestQuarter, na.rm=TRUE)) %>%
 #      ## subset to vars of interest
 #      select(longitude, latitude, species,
-#                    worldClimAnnualPrecipitation,
-#                    worldClimMeanTemperatureOfWarmestQuarter) %>%
+#              worldClimAnnualPrecipitation,
+#              worldClimMeanTemperatureOfWarmestQuarter) %>%
 #      ## take one row per cell per species (presence)
 #      distinct() %>%
 #      ## calculate species richness
@@ -491,6 +495,9 @@ xgridded[, 1:10]
 ## ---- warning=FALSE---------------------------------------------------------------------------------------------------
 library(ggplot2)
 ggplot(xgridded, aes(longitude, richness)) + 
+  labs(x = "Longitud (º)", 
+       y = "Species richness") +
+  lims(y = c(0,100)) +
   geom_point() + 
   theme_bw()
 
@@ -498,8 +505,11 @@ ggplot(xgridded, aes(longitude, richness)) +
 ggplot(xgridded, aes(worldClimMeanTemperatureOfWarmestQuarter , 
                      worldClimAnnualPrecipitation, 
                      colour=richness)) +
+  labs(x = "Mean temperature of warmest quarter (ºC)" , 
+       y = "Annual precipitation (mm)",
+       colour = "Species \nrichness") + 
   scale_colour_distiller(palette="Spectral") +
-  geom_point(size=8) + 
+  geom_point(size=3) + 
   theme_bw()
 
 ## ----fig.width=6, fig.height=6----------------------------------------------------------------------------------------
@@ -522,19 +532,23 @@ xgridded$grp <- as.factor(grp)
 thiscol <- c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", 
              "#e377c2", "#7f7f7f", "#bcbd22", "#17becf")
 ggplot(xgridded, aes(longitude, latitude, colour=grp)) + 
-  geom_point(size=5) +
+  labs(x="Longitude", y="Latitude", colour="Group") + 
+  geom_point(size=3) +
   scale_colour_manual(values=thiscol) + 
   theme_bw()
 
 ## or a slightly nicer map plot
 library(maps)
 library(mapdata)
+oldpar <- par()
+par(mar = c(1,1,0,0))
 map("worldHires", "Sweden", 
-    # xlim=c(105, 155), ylim=c(-45, -10), 
+    xlim=c(14.5, 20), ylim=c(58.8, 59.95), 
     col="gray90", fill=TRUE)
 with(xgridded, points(longitude, latitude, 
                       pch=21, col=thiscol[grp], 
                       bg=thiscol[grp], cex=0.75))
+suppressWarnings(par(oldpar))
 
 ## ----Datahangling, message=FALSE--------------------------------------------------------------------------------------
 x <- occurrences(taxon="Callitriche cophocarpa",
@@ -564,7 +578,7 @@ freq_year <- table(x$data$year)
 # no. obs across years:
 plot(freq_year, bty="n", ylab="Frequency")
 # or
-hist(x$data$year, 20)
+hist(x$data$year, 20, main = "", xlab = "Year")
 
 # Subsetting is done using '[ ]'
 x10yr <- x$data[(x$data$year>=2010 & x$data$year<=2019),] 
@@ -596,13 +610,15 @@ OB <- organiseBirds(x$data,
 
 SB <- summariseBirds(OB, grid = Sweden_Grid_25km_Wgs84)
 
+## ----plotBIRDSspatial, message=FALSE, warning=FALSE-------------------------------------------------------------------
 maxC <- max(SB$spatial@data$nObs, na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(4,0,4,0), mfrow=c(1,3))
-plot(SB$spatial, col=palBW(SB$spatial@data$nObs), main="All years") ## with palette
+plot(SB$spatial, col=palBW(SB$spatial@data$nObs),
+     border = "grey", main="All years") ## with palette
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
@@ -615,20 +631,30 @@ yearlySp <- exportBirds(SB,
                         variable = "nObs", 
                         method = "sum")
 
-maxC <- max(yearlySp@data, na.rm = TRUE)
+maxC <- max(yearlySp@data$'2005', na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 
-plot(yearlySp["2005"], col=palBW(yearlySp@data$'2005'), main="2005")
+plot(yearlySp["2005"], col=palBW(yearlySp@data$'2005'), 
+     border = "grey",main="2005")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
+       border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
-plot(yearlySp["2015"], col=palBW(yearlySp@data$'2015'), main="2015")
+
+maxC <- max(yearlySp@data$'2020', na.rm = TRUE)
+palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
+                               c(0, maxC), 
+                               na.color = "transparent")
+
+plot(yearlySp["2020"], col=palBW(yearlySp@data$'2020'), 
+     border = "grey",main="2020")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
+       border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
 par(oldpar)
 
@@ -641,7 +667,7 @@ par(oldpar)
 
 ## ----BIRDStemporal, message=FALSE, warning=FALSE----------------------------------------------------------------------
 # There is a summary on SB
-SB$temporal$nObs
+head(SB$temporal$nObs)
 
 # But the function exportBIrds() offers planty of combinations
 yearlyXTS <- exportBirds(SB, 

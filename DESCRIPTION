@@ -1,7 +1,7 @@
 Package: SBDI4R
 Type: Package
 Title: Swedish Biodiversity Data Infrastructure Data and Resources in R
-Version: 0.0.1
+Version: 1.0.0
 URL: https://github.com/biodiversitydata-se/SBDI4R/
 BugReports: https://github.com/biodiversitydata-se/SBDI4R/issues
 Authors@R: c(person("Debora","Arlt", email="debora.arlt@slu.se", role=c("aut","cre")),
@@ -15,7 +15,7 @@ Maintainer: Debora Arlt <debora.arlt@slu.se>
 Description: SBDI provides tools to enable users of biodiversity 
     information to find, access, combine and visualise Swedish data on
     plants, animals and fungi; these have been made available from
-    <https://bioatlas.se/>. SBDI4R provides a subset of the tools based on the 
+    <https://biodiversitydata.se/>. SBDI4R provides a subset of the tools based on the 
     ALA4R package, and a few functions custom made for Sweden, which can be 
     directly used within R. It enables the R community to directly access data 
     and resources hosted by the SBDI. Our goal is to enable observations 
@@ -53,6 +53,7 @@ Suggests:
     maps,
     maptools,
     phytools,
+    qpdf,
     rmarkdown,
     rgeos,
     testthat,

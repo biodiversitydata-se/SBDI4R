@@ -2,7 +2,7 @@
 #' 
 #' A data.frame is returned as grid cells by species with values in each cell being the number of occurrences of each species. No null (all zero) species should be returned. The coordinates returned are the TOP-LEFT corner of the grid cell.
 #'
-#' @references Associated web services: \url{https://spatial.bioatlas.se/ws/capabilities} 
+#' @references Associated web services: \url{https://spatial.biodiversitydata.se/ws/capabilities} 
 #' see PointsToGrid/sitesBySpecies
 #' @references \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
 #' 

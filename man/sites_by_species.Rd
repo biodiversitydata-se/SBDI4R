@@ -49,7 +49,7 @@ attr(ss,"guid")[1]
 }
 }
 \references{
-Associated web services: \url{https://spatial.bioatlas.se/ws/capabilities} 
+Associated web services: \url{https://spatial.biodiversitydata.se/ws/capabilities} 
 see PointsToGrid/sitesBySpecies
 
 \url{http://www.geoapi.org/3.0/javadoc/org/opengis/referencing/doc-files/WKT.html}
