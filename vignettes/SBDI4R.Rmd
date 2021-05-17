@@ -479,7 +479,7 @@ legend("bottomleft",
        legend = round(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
        col = palBW(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
        title = "Number of \nobservations", pch = 15, bty="n")
-par(oldpar)
+suppressWarnings(par(oldpar))
 ```
 
 ### Add the county name to each observation
@@ -506,7 +506,7 @@ oldpar <- par()
 par(mar = c(1,1,0,0))
 plot(counties, border=1, lwd=1)
 plot(obs[which(is.na(obs$overId)),], pch=19, cex=.5, col="red", add=T)
-par(oldpar)
+suppressWarnings(par(oldpar))
 ```  
 It is clear from this image that there are observations outside the territorial extent of the county but that may be within the counties water bodies or coastal areas.
 
@@ -548,7 +548,8 @@ a geodesic coordinate system WGS84. Instead, let's construct the WKT string dire
 which gives us a little more control over its format:
 ```{r, warning=FALSE}
 library(sp)
-shape <- spTransform(shape, CRSobj = CRS("+init=epsg:4326")) ## the magic number for WGS84
+wkt <- sf::st_crs(4326)[[2]]
+shape <- spTransform(shape, CRSobj = CRS(wkt)) ## the magic number for WGS84
 lonlat <- shape@polygons[[1]]@Polygons[[1]]@coords ## extract the polygon coordinates
 
 ## extract the convex hull of the polygon to reduce the length of the WKT string
@@ -842,7 +843,7 @@ legend("topleft", inset = c(0,0.05),
        col = palBW(seq(0, maxC, length.out = 5)),
        border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
-par(oldpar)
+suppressWarnings(par(oldpar))
 
 ```
 

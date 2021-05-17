@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lookup of species identifiers — search_guids • SBDI4R</title>
+<title>Check HTTP status code — check_status_code • SBDI4R</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Lookup of species identifiers — search_guids" />
-<meta property="og:description" content="Provides names, taxonomic classification, and other information for a list of GUIDs." />
+<meta property="og:title" content="Check HTTP status code — check_status_code" />
+<meta property="og:description" content="Generic check function that checks HTTP status codes coming back from nbn requests." />
 
 
 
@@ -114,45 +114,61 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lookup of species identifiers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/search_guids.R'><code>R/search_guids.R</code></a></small>
-    <div class="hidden name"><code>search_guids.Rd</code></div>
+    <h1>Check HTTP status code</h1>
+    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/check_status_code.R'><code>R/check_status_code.R</code></a></small>
+    <div class="hidden name"><code>check_status_code.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Provides names, taxonomic classification, and other information for a list of GUIDs.</p>
+    <p>Generic check function that checks HTTP status codes coming back from nbn requests.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>search_guids</span><span class='op'>(</span>guids <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>, occurrence_count <span class='op'>=</span> <span class='cn'>FALSE</span>, output_format <span class='op'>=</span> <span class='st'>"simple"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>check_status_code</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  on_redirect <span class='op'>=</span> <span class='cn'>NULL</span>,
+  on_client_error <span class='op'>=</span> <span class='cn'>NULL</span>,
+  on_server_error <span class='op'>=</span> <span class='cn'>NULL</span>,
+  extra_info <span class='op'>=</span> <span class='st'>""</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>guids</th>
-      <td><p>string: a single GUID or vector of GUIDs</p></td>
+      <th>x</th>
+      <td><p>string: a status code, or an object of class "response" (from e.g. httr's GET)</p></td>
     </tr>
     <tr>
-      <th>occurrence_count</th>
-      <td><p>logical: if TRUE then also return the number of occurrences of each matched GUID.
-Note that this requires one extra web call for each GUID, and so may be slow.</p></td>
+      <th>on_redirect</th>
+      <td><p>function: optional function to evaluate in the case of a redirect (3xx) code. By default a warning is issued.</p></td>
     </tr>
     <tr>
-      <th>output_format</th>
-      <td><p>string: controls the print method for the returned object. Either "complete" (the complete data structure is displayed), or "simple" (a simplified version is displayed). Note that the complete data structure exists in both cases: this option only controls what is displayed when the object is printed to the console. The default output format is "simple"</p></td>
+      <th>on_client_error</th>
+      <td><p>function: optional function to evaluate in the case of a client error (4xx) code. By default an error is thrown.</p></td>
+    </tr>
+    <tr>
+      <th>on_server_error</th>
+      <td><p>function: optional function to evaluate in the case of a server error (5xx) code. By default an error is thrown.</p></td>
+    </tr>
+    <tr>
+      <th>extra_info</th>
+      <td><p>string: additional diagnostic info that will be shown to the user for 4xx or 5xx codes, where x is not a full response object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame, which should include one entry (i.e. one data.frame row or one list element) per input GUID. The columns in the data.frame output may vary depending on the results returned by the SBDI server, but should include searchTerm, name, rank, and guid.</p>
+    <p>integer: simplified status code (0=success (2xx codes), 1=warning (3xx codes))</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The associated SBDI web service: <a href='https://api.biodiversitydata.se/#ws110'>https://api.biodiversitydata.se/#ws110</a></p>
+    <p><a href='http://www.w3.org/Protocols/HTTP/HTRESP.html'>http://www.w3.org/Protocols/HTTP/HTRESP.html</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>search_guids</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"5219963"</span>,<span class='st'>"5219961"</span>,<span class='st'>"this_is_not_a_valid_guid"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://httr.r-lib.org/'>httr</a></span><span class='op'>)</span>
+<span class='va'>out</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://httr.r-lib.org/reference/GET.html'>GET</a></span><span class='op'>(</span>url<span class='op'>=</span><span class='st'>"https://biodiversitydata.se/"</span><span class='op'>)</span>
+<span class='fu'>check_status_code</span><span class='op'>(</span><span class='va'>out</span><span class='op'>)</span> <span class='co'>## pass the whole response object</span>
+<span class='fu'>check_status_code</span><span class='op'>(</span><span class='va'>out</span><span class='op'>$</span><span class='va'>headers</span><span class='op'>$</span><span class='va'>status</span><span class='op'>)</span> <span class='co'>## or pass the status code explicitly</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

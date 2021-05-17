@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lookup of species identifiers — search_guids • SBDI4R</title>
+<title>HTTP POST with caching — cached_post • SBDI4R</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Lookup of species identifiers — search_guids" />
-<meta property="og:description" content="Provides names, taxonomic classification, and other information for a list of GUIDs." />
+<meta property="og:title" content="HTTP POST with caching — cached_post" />
+<meta property="og:description" content="Convenience wrapper for web POST operations. Caching, setting the user-agent string, and basic checking of the result are handled." />
 
 
 
@@ -114,47 +114,73 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Lookup of species identifiers</h1>
-    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/search_guids.R'><code>R/search_guids.R</code></a></small>
-    <div class="hidden name"><code>search_guids.Rd</code></div>
+    <h1>HTTP POST with caching</h1>
+    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/cached_post.R'><code>R/cached_post.R</code></a></small>
+    <div class="hidden name"><code>cached_post.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Provides names, taxonomic classification, and other information for a list of GUIDs.</p>
+    <p>Convenience wrapper for web POST operations. Caching, setting the user-agent string, and basic checking of the result are handled.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>search_guids</span><span class='op'>(</span>guids <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>)</span>, occurrence_count <span class='op'>=</span> <span class='cn'>FALSE</span>, output_format <span class='op'>=</span> <span class='st'>"simple"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>cached_post</span><span class='op'>(</span>
+  <span class='va'>url</span>,
+  <span class='va'>body</span>,
+  type <span class='op'>=</span> <span class='st'>"text"</span>,
+  caching <span class='op'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>caching</span>,
+  verbose <span class='op'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>verbose</span>,
+  <span class='va'>content_type</span>,
+  encoding <span class='op'>=</span> <span class='fu'><a href='sbdi_config.html'>sbdi_config</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>text_encoding</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>guids</th>
-      <td><p>string: a single GUID or vector of GUIDs</p></td>
+      <th>url</th>
+      <td><p>string: the url of the page to retrieve</p></td>
     </tr>
     <tr>
-      <th>occurrence_count</th>
-      <td><p>logical: if TRUE then also return the number of occurrences of each matched GUID.
-Note that this requires one extra web call for each GUID, and so may be slow.</p></td>
+      <th>body</th>
+      <td><p>string: the body to POST</p></td>
     </tr>
     <tr>
-      <th>output_format</th>
-      <td><p>string: controls the print method for the returned object. Either "complete" (the complete data structure is displayed), or "simple" (a simplified version is displayed). Note that the complete data structure exists in both cases: this option only controls what is displayed when the object is printed to the console. The default output format is "simple"</p></td>
+      <th>type</th>
+      <td><p>string: the expected content type. Either "text" (default), "json", or "filename" (this caches the content directly to a file and returns the filename without attempting to read it in)</p></td>
+    </tr>
+    <tr>
+      <th>caching</th>
+      <td><p>string: caching behaviour, by default from sbdi_config()$caching</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>string: verbose behaviour, by default from sbdi_config()$verbose</p></td>
+    </tr>
+    <tr>
+      <th>content_type</th>
+      <td><p>string: set the Content-Type header to a specific value (needed for e.g. search_names), default is unset</p></td>
+    </tr>
+    <tr>
+      <th>encoding</th>
+      <td><p>encoding</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments passed to curlPerform</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame, which should include one entry (i.e. one data.frame row or one list element) per input GUID. The columns in the data.frame output may vary depending on the results returned by the SBDI server, but should include searchTerm, name, rank, and guid.</p>
+    <p>for type=="text" the content is returned as text. For type=="json", the content is parsed using jsonlite::fromJSON. For "filename", the name of the stored file is returned.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Depending on the value of caching, the page is either retrieved from the cache or from the url, and stored in the cache if appropriate. The user-agent string is set according to sbdi_config()$user_agent. The returned response (if not from cached file) is also passed to check_status_code().</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The associated SBDI web service: <a href='https://api.biodiversitydata.se/#ws110'>https://api.biodiversitydata.se/#ws110</a></p>
+    <p><a href='https://api.biodiversitydata.se/'>https://api.biodiversitydata.se/</a></p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>search_guids</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"5219963"</span>,<span class='st'>"5219961"</span>,<span class='st'>"this_is_not_a_valid_guid"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
