@@ -29,8 +29,7 @@ ALA share similar Application Protocol Interface (API) web services.
 Use-examples are available in the package [vignette
 here](https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html),
 or via (in R): `vignette("SBDI4R")`. If you have any questions please
-contact the author and maintainer Debora Arlt via
-[email](mailto:debora.arlt@slu.se?subject=%5BGitHub%5D%20SBDI4R).
+get in contact with us via the [support center](https://docs.biodiversitydata.se/support/).
 
 ## Installing SBDI4R
 
