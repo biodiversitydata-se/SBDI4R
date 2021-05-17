@@ -395,11 +395,7 @@ dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
 dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "gridID"))
 
 res[wNonEmpty,] <- dataRes[,-1]
-<<<<<<< HEAD
-=======
 res$nObs <- as.numeric(res$nObs)
->>>>>>> migration_url
-
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 ```  
 

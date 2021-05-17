@@ -3,9 +3,4 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   SBDI4R: SBDI4R.html
-<<<<<<< HEAD
-last_built: 2021-05-12T13:44Z
-=======
 last_built: 2021-05-17T09:20Z
->>>>>>> migration_url
-
