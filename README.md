@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # SBDI4R <img src="https://github.com/biodiversitydata-se/SBDI4R/raw/master/man/figures/sbdi-logo-orginal-large.png" align="right" width="120"/>
+=======
+# SBDI4R <img src="https://github.com/biodiversitydata-se/SBDI4R/raw/master/man/figures/SBDI.png" align="right" width="120"/>
+>>>>>>> migration_url
 
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -29,8 +33,12 @@ ALA share similar Application Protocol Interface (API) web services.
 Use-examples are available in the package [vignette
 here](https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html),
 or via (in R): `vignette("SBDI4R")`. If you have any questions please
+<<<<<<< HEAD
 contact the author and maintainer Debora Arlt via
 [email](mailto:debora.arlt@slu.se?subject=%5BGitHub%5D%20SBDI4R).
+=======
+get in contact with us via the [support center](https://docs.biodiversitydata.se/support/).
+>>>>>>> migration_url
 
 ## Installing SBDI4R
 

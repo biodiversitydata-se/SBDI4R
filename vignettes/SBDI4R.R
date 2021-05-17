@@ -231,7 +231,7 @@ data("swe_wgs84", package="SBDI4R", envir=environment())
 data("Sweden_Grid_50km_Wgs84", package="SBDI4R", envir=environment()) 
 
 grid <- Sweden_Grid_50km_Wgs84
-grid <- spTransform(grid, CRS("+init=epsg:4326")) ## it has the same CRS 
+# grid <- spTransform(grid, CRS("+init=epsg:4326")) ## it has the same CRS 
 # but changes are undergoing in the sp package and this step is needed
 
 # make the observations spatial
@@ -240,7 +240,8 @@ grid <- spTransform(grid, CRS("+init=epsg:4326")) ## it has the same CRS
 
 obs <- as.data.frame(x$data)
 coordinates(obs) <- obs[,c("longitude","latitude")]
-proj4string(obs) <- CRS("+init=epsg:4326")
+wkt <- sf::st_crs(4326)[[2]]
+proj4string(obs) <- sp::CRS(wkt)
 
 nObs <- nrow(obs)
 
@@ -267,7 +268,7 @@ dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
   x <- x[,cols2use]
   colnames(x) <- c("scientificName", "year")
   
-  return(c("nObs" = length(x[,"scientificName"]),
+  return(c("nObs" = as.numeric(length(x[,"scientificName"])),
            "nYears" = length(unique(x[,"year"]))
   ))
 })
@@ -275,12 +276,16 @@ dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
 dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "gridID"))
 
 res[wNonEmpty,] <- dataRes[,-1]
+<<<<<<< HEAD
+=======
+res$nObs <- as.numeric(res$nObs)
+>>>>>>> migration_url
 
 resSp <- sp::SpatialPolygonsDataFrame(grid, res)
 
 ## ----grid, warning=FALSE, fig.width=6, fig.height=6, message=FALSE----------------------------------------------------
-palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
-                               c(0, max(resSp@data$nObs, na.rm = TRUE)), 
+palBW <- leaflet::colorNumeric(palette = c("white", "navyblue"),
+                               domain = c(0, max(resSp@data$nObs, na.rm = TRUE)), 
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(1,1,0,0))
@@ -290,7 +295,7 @@ legend("bottomleft",
        legend = round(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
        col = palBW(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
        title = "Number of \nobservations", pch = 15, bty="n")
-par(oldpar)
+suppressWarnings(par(oldpar))
 
 ## ---- message=FALSE, warning=FALSE------------------------------------------------------------------------------------
 counties <- swe_wgs84$Counties

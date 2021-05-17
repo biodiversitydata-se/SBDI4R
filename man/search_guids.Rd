@@ -22,8 +22,7 @@ Provides names, taxonomic classification, and other information for a list of GU
 }
 \examples{
 \dontrun{
-search_guids(c("5219963",
-"5219961","this_is_not_a_valid_guid"))
+search_guids(c("5219963","5219961","this_is_not_a_valid_guid"))
 }
 }
 \references{

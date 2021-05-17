@@ -11,8 +11,7 @@
 #' @return A data frame, which should include one entry (i.e. one data.frame row or one list element) per input GUID. The columns in the data.frame output may vary depending on the results returned by the SBDI server, but should include searchTerm, name, rank, and guid.
 #' @examples
 #' \dontrun{
-#' search_guids(c("5219963",
-#' "5219961","this_is_not_a_valid_guid"))
+#' search_guids(c("5219963","5219961","this_is_not_a_valid_guid"))
 #' }
 #' @export
 search_guids <- function(guids = c(), occurrence_count = FALSE, output_format = "simple") {
