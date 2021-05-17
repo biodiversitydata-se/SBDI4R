@@ -21,8 +21,7 @@
 image_info <- function(id, verbose = sbdi_config()$verbose) {
   
   if (as.character(match.call()[[1]]) == "image_info") {
-    warning("image_info() has been renmaed to images() and now can also 
-download images. Please use images() instead of image_info()", 
+    warning("image_info() has been renmaed to images() and now can also download images. Please use images() instead of image_info()", 
             call. = FALSE)
   }
   

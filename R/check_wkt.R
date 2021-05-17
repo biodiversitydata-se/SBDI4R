@@ -3,6 +3,5 @@
 ## as of v1.25 we rely on wellknown::lint
 check_wkt <- function(wkt) {
   ALA4R:::check_wkt(wkt)
-  
 }
 

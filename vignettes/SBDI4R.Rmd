@@ -423,7 +423,8 @@ Any other set of polygons could also be used to summarise, for example, the coun
 counties <- swe_wgs84$Counties
 ## again, even both the obs and the polygon have the same CRS 
 ## changes are undergoing in the sp package and this step is needed
-counties <- spTransform(counties, CRS("+init=epsg:4326")) 
+wkt <- sf::st_crs(4326)[[2]]
+counties <- spTransform(counties, CRS(wkt)) 
 
 ## overlay the data with the counties
 ObsInCountyList <- over(counties, obs, returnList=TRUE)
