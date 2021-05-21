@@ -100,6 +100,7 @@ x <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10)
 head(x$data)
 table(x$data$dataResourceName)
+table(x$data$dataResourceID)
 ```
 
 Similarly, we could search by common name
@@ -110,6 +111,7 @@ x <- occurrences(taxon="sommarlånke",
                  verbose = FALSE)
 head(x$data)
 table(x$data$dataResourceName)
+table(x$data$dataResourceID)
 ```  
 
 You can also search for a set of species simultaneously (only scientific names so far)...
@@ -124,6 +126,7 @@ xbatch <- occurrences(fq=fq_str,
                  verbose = FALSE)
 head(xbatch$data)
 table(xbatch$data$dataResourceName)
+table(xbatch$data$dataResourceID)
 table(xbatch$data$basisOfRecord)
 ```  
 
@@ -138,6 +141,7 @@ xf <- occurrences(taxon="Callitriche cophocarpa",
                  email="test@test.org", 
                  download_reason_id=10, verbose = FALSE)
 table(xf$data$dataResourceName)
+table(xf$data$dataResourceID)
 ```
 Otherwise, you can search available data resources, collections (and more) using the interactive function `pick_filter`.
 The `pick_filter` function lets you explore data collections, spatial layers. Soon there will be more indexed fields.

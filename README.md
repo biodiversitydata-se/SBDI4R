@@ -11,10 +11,10 @@ experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https:/
 
 The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to
 enable users of biodiversity information to find, access, combine and
-visualize data on Swedish plants and animals; available through [Swedish
-Biodiversity Data Infrastructure](https://biodiversitydata.se/). The R
-package SBDI4R provides a subset of the tools, and some extension tools
-(found previously in Analysportalen.se), to be directly used within R.
+visualize data on Swedish plants and animals; available through 
+[SBDI](https://biodiversitydata.se/). The R package SBDI4R provides a subset of 
+the tools, and some extension tools (found previously in Analysportalen.se), 
+to be directly used within R.
 
 SBDI4R enables the R community to directly access data and resources
 hosted by SBDI. Our goal is to enable observations of species to be
