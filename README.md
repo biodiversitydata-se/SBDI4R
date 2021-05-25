@@ -135,7 +135,7 @@ The SBDI4R package must be loaded for each new R session with
 
 Various aspects of the SBDI4R package can be customized.
 
-### Email{.unnumbered}
+### Email
 To download occurrence records, you will need to provide an email address 
 registered with the SBDI. You can create an account [here](https://auth.biodiversitydata.se/cas/login). 
 Once an email is registered with the SBDI, it should be stored in the config:
