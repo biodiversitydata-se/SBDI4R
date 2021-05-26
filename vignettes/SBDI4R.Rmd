@@ -603,7 +603,7 @@ env_layers <- c("el10009","el10011")
 ## data via the 'extra' parameter. 
 x <- occurrences(fq="family:Fabaceae", 
                  wkt=wkt, qa="none",
-                 email="test@test.org",
+                 email="sbdi4r-test@biodiversitydata.se",
                  download_reason_id="testing", 
                  extra=env_layers)
 ```
@@ -687,7 +687,7 @@ ggplot(xgridded, aes(worldClimMeanTemperatureOfWarmestQuarter ,
   theme_bw()
 ```
 
-Higher species richness in hottest areas.
+It seem like there is higher species richness in hottest areas.
 
 How does the community composition change along the transect? Use clustering:
 
