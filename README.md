@@ -184,6 +184,21 @@ long as caching is set to "refresh" — so you may wish to switch back to
 normal "on" caching behaviour once you have updated your cache with the
 data you are working on).
 
+### E-mail address
+
+Each download request to SBDI servers is also accompanied by an "e-mail address"
+string that identifies the user making the request. You will need to provide an 
+email address registered with the SBDI. You can create an account 
+[here](https://auth.biodiversitydata.se/cas/login). Once an email is registered 
+with the SBDI, it should be stored in the config:
+
+```{r}
+sbdi_config(email="your.valid@emailaddress.com")
+```
+
+Else you can provide this e-mail address as a parameter directly to
+each call of the function occurrences().
+
 ### User-agent string
 
 Each request to SBDI servers is accompanied by a "user-agent" string
@@ -193,27 +208,6 @@ user requests to SBDI, helping SBDI to adapt and enhance the services
 that it provides. By default, the SBDI4R user-agent string is set to
 "SBDI4R" plus the SBDI4R version number (e.g. "SBDI4R 1.0").
 
-### E-mail address
-
-Each download request to SBDI servers is also accompanied by an "e-mail address"
-string that identifies the user making the request. You will need to provide an 
-email address registered with the SBDI. You can create an account 
-[here](https://auth.biodiversitydata.se/cas/login). Once an email is registered 
-with the SBDI, it should be stored in the config:
-
-```{r, eval=FALSE}
-sbdi_config(email="myemail@gmail.com")
-``` 
-Else you can provide this e-mail address as a parameter directly to
-each call of the function occurrences().
-
-### Email
-
-
-
-```{r}
-sbdi_config(email="your.valid@emailaddress.com")
-```
 
 *NO* other personal identification information is sent. You can see all
 configuration settings, including the the user-agent string that is
