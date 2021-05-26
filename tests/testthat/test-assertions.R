@@ -26,11 +26,11 @@ check_caching(thischeck)
 #         x=occurrences(taxon="Otis tarda", 
 #                       download_reason_id=10,
 #                       qa=sbdi_fields("assertions",as_is=TRUE)$name,
-#                       email = "test@test.com")    
+#                       email = "sbdi4r-test@biodiversitydata.se")    
 #         expect_equal(length(setdiff(check_assertions(x)$name, sbdi_fields("assertions",as_is=TRUE)$name)),0) ## expect all assertion fields in object to be in the list of master assertion fields 
 #         x=occurrences(taxon="Otis tarda", 
 #                       download_reason_id=10,
-#                       qa="none", email = "test@test.com")
+#                       qa="none", email = "sbdi4r-test@biodiversitydata.se")
 #         expect_null(check_assertions(x)$name)
 #     })
 # }

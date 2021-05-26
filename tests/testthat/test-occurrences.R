@@ -23,7 +23,7 @@ thischeck <- function() {
         occ <- occurrences(taxon="Leuctra digitata", 
                          download_reason_id=10,
                          qa="none",
-                         email = "test@test.com")
+                         email = "sbdi4r-test@biodiversitydata.se")
         if(exists("occ")){ ## if API didnt fail
           expect_output(summary(occ),
                         "no assertion issues")  
@@ -38,7 +38,7 @@ thischeck <- function() {
         skip_on_cran()
         occ <- occurrences(taxon="Leuctra digitata",
                            download_reason_id=10,
-                           email = "test@test.com")
+                           email = "sbdi4r-test@biodiversitydata.se")
         ## expect_output(summary(occ),"^number of original names")
         ## check that names required for summary.occurrences method are present
         expect_true(all(c("scientificName","scientificNameOriginal") %in% names(occ$data)) 
@@ -59,12 +59,12 @@ thischeck <- function() {
                                             qa="none",
                                             # fq="basis_of_record:LivingSpecimen",
                                             download_reason_id=10,
-                                            email = "test@test.com")$data)),
+                                            email = "sbdi4r-test@biodiversitydata.se")$data)),
                      c("latitude","longitude"))
         expect_error(occurrences(taxon="Leuctra digitata",
                                  fields=c("blahblahblah"),
                                  download_reason_id=10,
-                                 email = "test@test.com"))
+                                 email = "sbdi4r-test@biodiversitydata.se"))
     })
 }
 check_caching(thischeck)
@@ -75,7 +75,7 @@ thischeck <- function() {
         skip_on_cran()
         x <- occurrences(taxon="Leuctra digitata",
                          download_reason_id=10,
-                         email = "test@test.com")
+                         email = "sbdi4r-test@biodiversitydata.se")
         xu <- unique(x, spatial=0.1)
         expect_is(xu,"list")
         expect_named(xu,c("data","meta"))
@@ -93,7 +93,7 @@ thischeck <- function() {
         skip_on_cran()
         x <- occurrences(taxon="Otis tarda",
                          download_reason_id=10,
-                         email = "test@test.com")
+                         email = "sbdi4r-test@biodiversitydata.se")
         xs <- subset(x)
         expect_is(xs,"list")
         expect_named(xs,c("data","meta"))

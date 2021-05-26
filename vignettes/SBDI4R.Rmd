@@ -358,7 +358,7 @@ grid <- Sweden_Grid_50km_Wgs84
 
 obs <- as.data.frame(x$data)
 coordinates(obs) <- obs[,c("longitude","latitude")]
-wkt <- sf::st_crs(4326)[[2]]
+wkt <- sf::st_crs(4326)$wkt
 proj4string(obs) <- sp::CRS(wkt)
 
 nObs <- nrow(obs)
@@ -426,8 +426,13 @@ Any other set of polygons could also be used to summarise, for example, the coun
 counties <- swe_wgs84$Counties
 ## again, even both the obs and the polygon have the same CRS 
 ## changes are undergoing in the sp package and this step is needed
-wkt <- sf::st_crs(4326)[[2]]
-counties <- spTransform(counties, CRS(wkt)) 
+wkt <- sf::st_crs(4326)$wkt
+# spTransform(counties, rgdal::CRS(wkt)) 
+counties <- sf::as_Spatial(
+                sf::st_transform(
+                  sf::st_as_sf(counties), 
+                  crs = wkt) )
+
 
 ## overlay the data with the counties
 ObsInCountyList <- over(counties, obs, returnList=TRUE)
@@ -551,9 +556,11 @@ the coordinate system SWEREF99 TM, and the web service only accepts coordinates 
 a geodesic coordinate system WGS84. Instead, let's construct the WKT string directly, 
 which gives us a little more control over its format:
 ```{r, warning=FALSE}
-library(sp)
-wkt <- sf::st_crs(4326)[[2]]
-shape <- spTransform(shape, CRSobj = CRS(wkt)) ## the magic number for WGS84
+shape <- sf::as_Spatial(
+                sf::st_transform(
+                  sf::st_as_sf(counties), 
+                  crs = sf::st_crs(4326)$wkt) )
+
 lonlat <- shape@polygons[[1]]@Polygons[[1]]@coords ## extract the polygon coordinates
 
 ## extract the convex hull of the polygon to reduce the length of the WKT string
@@ -609,7 +616,7 @@ x <- occurrences(fq="family:Fabaceae",
 ```
 
 Convert this to a sites-by-species `data.frame`:
-```{r, eval=FALSE}
+```{r, eval=FALSE, warning=FALSE}
 library(dplyr)
 library(tidyr)
 xgridded <- x$data %>%
@@ -855,7 +862,7 @@ Perhaps one needs to save many summaries over each grid cell.
 ```{r BIRDSsave, message=FALSE, warning=FALSE, eval=FALSE}
 
 gridSummary <- SB$spatial@data
-write.csv(gridSummary, "Callitriche grid summary.csv")
+write.csv(gridSummary, "Callitriche_grid_summary.csv")
 
 ```
   
