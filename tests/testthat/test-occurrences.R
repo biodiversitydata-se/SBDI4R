@@ -122,7 +122,7 @@ thischeck <- function() {
         skip_on_cran()
         expect_error(expect_warning(occurrences(taxon="data_resource_uid:dr5",
                                                 download_reason_id="testing",
-                                                email="testing@test.org",
+                                                email="sbdi4r-test@biodiversitydata.se",
                                                 fields="all"))) ## url string too long, 414 error and warning
     })
 }
@@ -134,7 +134,7 @@ thischeck <- function() {
         skip("offline method not working on SBDI?")
         x1 <- occurrences(taxon="taxon_name:\"Leuctra digitata\"", #method="offline",
                           download_reason_id="testing",
-                          email="ala4rtesting@test.org")
+                          email="sbdi4r-test@biodiversitydata.se")
         x2 <- occurrences(taxon="taxon_name:\"Leuctra digitata\"",
                           download_reason_id="testing")
         expect_identical(arrange(x1$data,id),arrange(x2$data,id))
@@ -146,7 +146,7 @@ thischeck <- function() {
     test_that("occurrences works with records_count_only", {
         skip_on_cran()
         x1 <- occurrences(taxon="data_resource_uid:dr5",
-                          email = "test@test.com",
+                          email = "sbdi4r-test@biodiversitydata.se",
                           record_count_only=TRUE)
         expect_true(is.numeric(x1))
         expect_gt(x1,100)

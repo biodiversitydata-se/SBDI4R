@@ -96,7 +96,7 @@ plotTree(ax, fsize=0.7, ftype="i") ## plot it
 Download occurrence data for the "Sommarlånke" and view top of the data table:
 ```{r, message=FALSE, eval=FALSE}
 x <- occurrences(taxon="Callitriche cophocarpa",
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10)
 head(x$data)
 table(x$data$dataResourceName)
@@ -106,7 +106,7 @@ table(x$data$dataResourceID)
 Similarly, we could search by common name
 ```{r, message=FALSE, eval=FALSE }
 x <- occurrences(taxon="sommarlånke",
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10, 
                  verbose = FALSE)
 head(x$data)
@@ -121,7 +121,7 @@ taxa <- c("Callitriche", "Anarrhinum")
 fq_str <- paste0("raw_name:&quot;", taxa, "&quot;")
 fq_str <- paste0(fq_str, collapse = " OR ")
 xbatch <- occurrences(fq=fq_str, 
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10, 
                  verbose = FALSE)
 head(xbatch$data)
@@ -138,7 +138,7 @@ directly filter the search by:
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = "data_resource_uid:dr5",
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10, verbose = FALSE)
 table(xf$data$dataResourceName)
 table(xf$data$dataResourceID)
@@ -151,7 +151,7 @@ fq_str <- pick_filter("resource")
 
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = fq_str,
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10)
 ```
 
@@ -164,7 +164,7 @@ fq_str <- "cl10097:Uppsala"
 
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq = fq_str,
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10)
 ```
 
@@ -179,7 +179,7 @@ For example, let's filter observations with coordinate uncertainty smaller than 
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq="coordinate_uncertainty:[0 TO 100]",
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10)
 
 range(xf$data$coordinateUncertaintyInMetres)
@@ -188,7 +188,7 @@ range(xf$data$coordinateUncertaintyInMetres)
 <!-- ```{r} -->
 <!-- xf <- occurrences(taxon="Callitriche cophocarpa", -->
 <!--                  fq="county:Uppsala", -->
-<!--                  email="test@test.org", -->
+<!--                  email="sbdi4r-test@biodiversitydata.se", -->
 <!--                  download_reason_id=10) -->
 <!-- ``` -->
 
@@ -197,13 +197,13 @@ One could search for observations in specific years:
 # year = 2019
 x2019 <- occurrences(taxon="Reynoutria japonica", 
                      fq="year:2019",
-                     email="test@test.org", 
+                     email="sbdi4r-test@biodiversitydata.se", 
                      download_reason_id=10)
 nrow(x2019$data)
 
 x2yr <- occurrences(taxon="Reynoutria japonica", 
                     fq=c("year:2018 OR year:2019"),
-                    email="test@test.org", 
+                    email="sbdi4r-test@biodiversitydata.se", 
                     download_reason_id=10)
 nrow(x2yr$data)
 ```  
@@ -212,7 +212,7 @@ In the same way, one could search for observations *between* two years:
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq="year:[2010 TO 2020]",
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10)
 
 hist(xf$data$year, xlab = "Year", main = "")
@@ -222,7 +222,7 @@ Likewise, search conditions can be accumulated and will be treated as AND condit
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq=c("year:[2010 TO 2020]", "month:[06 TO 08]"),
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10)
 
 hist(xf$data$year, xlab = "Year", main = "")
@@ -233,7 +233,7 @@ or, occurrences could be filtered by the basis of record (that is how was the ob
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
                  fq="basis_of_record:HumanObservation",
-                 email="test@test.org", 
+                 email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10)
 
 unique(xf$data$basisOfRecord)
@@ -244,7 +244,7 @@ Data quality assertions are a suite of fields that are the result of a set of te
 ```{r, message=FALSE}
 x <- occurrences(taxon="Callitriche cophocarpa",
                  fq = "data_resource_uid:dr5",
-                 email="test@test.org",
+                 email="sbdi4r-test@biodiversitydata.se",
                  download_reason_id=10, 
                  verbose = FALSE)
 summary(x)
@@ -336,7 +336,7 @@ Coordinate Reference System = WGS84, EPSG:4326).
 
 x <- occurrences(taxon="Callitriche cophocarpa",
                  fq = "data_resource_uid:dr5",
-                 email="test@test.org",
+                 email="sbdi4r-test@biodiversitydata.se",
                  download_reason_id=10, 
                  verbose = FALSE)
 
@@ -735,7 +735,7 @@ R is pretty powerful when it comes to cleaning, selecting and filtering data
 ```{r Datahangling, message=FALSE}
 x <- occurrences(taxon="Callitriche cophocarpa",
                   fq = "data_resource_uid:dr5",
-                  email="test@test.org",
+                  email="sbdi4r-test@biodiversitydata.se",
                   download_reason_id=10, 
                   verbose = FALSE)
 #keep spatially unique data at 0.01 degrees (latitude and longitude)
@@ -778,7 +778,7 @@ In the following examples you will learn to aggregate statistics over space and 
 library(BIRDS)
 x <- occurrences(taxon="Callitriche cophocarpa",
                   fq = "data_resource_uid:dr5",
-                  email="test@test.org",
+                  email="sbdi4r-test@biodiversitydata.se",
                   download_reason_id=10, 
                   verbose = FALSE)
 # we need to temporally create fake month data as it is not being retrieved from the database

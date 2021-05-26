@@ -36,7 +36,7 @@
 #' summary(tt)
 #'
 #' #keep spatially unique data that is also unique year/month for the collection date
-#' tt <- unique(x, spatial=0,temporal='yearmonth')
+#' tt <- unique(x, spatial=0, temporal='yearmonth')
 #' summary(tt)
 #'
 #' #keep only information for which fatal or "error" assertions do not exist

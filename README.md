@@ -135,15 +135,6 @@ The SBDI4R package must be loaded for each new R session with
 
 Various aspects of the SBDI4R package can be customized.
 
-### Email
-To download occurrence records, you will need to provide an email address 
-registered with the SBDI. You can create an account [here](https://auth.biodiversitydata.se/cas/login). 
-Once an email is registered with the SBDI, it should be stored in the config:
-
-```{r, eval=FALSE}
-sbdi_config(email="myemail@gmail.com")
-```
-
 ### Caching
 
 SBDI4R can cache most results to local files. This means that if the
@@ -204,12 +195,21 @@ that it provides. By default, the SBDI4R user-agent string is set to
 
 ### E-mail address
 
-Each request to SBDI servers is also accompanied by an "e-mail address"
-string that identifies the user making the request. This is a standard
-behaviour used by web browsers as well. There is no default for this
-field. You can provide your e-mail address as a parameter directly to
-each call of the function occurrences(), or you can set it once per
-session specifying it in the package configuration:
+Each download request to SBDI servers is also accompanied by an "e-mail address"
+string that identifies the user making the request. You will need to provide an 
+email address registered with the SBDI. You can create an account 
+[here](https://auth.biodiversitydata.se/cas/login). Once an email is registered 
+with the SBDI, it should be stored in the config:
+
+```{r, eval=FALSE}
+sbdi_config(email="myemail@gmail.com")
+``` 
+Else you can provide this e-mail address as a parameter directly to
+each call of the function occurrences().
+
+### Email
+
+
 
 ```{r}
 sbdi_config(email="your.valid@emailaddress.com")

@@ -70,7 +70,7 @@ download. Use \code{qa="all"} to include all available issues, or \code{qa="none
 to include none. Otherwise see \code{sbdi_fields("assertions",as_is=TRUE)} for
 valid values}
 
-\item{generate_doi}{logical: not inplemented in SBDI}
+\item{generate_doi}{logical: not implemented in SBDI}
 
 \item{email}{(required) string: the email address of the user performing the 
 download  [default is set by sbdi_config()]}
