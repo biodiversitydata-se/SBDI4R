@@ -81,13 +81,13 @@
   <div class="contents col-md-9">
 <div id="sbdi4r-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#sbdi4r-" class="anchor"></a>SBDI4R <img src="https://github.com/biodiversitydata-se/SBDI4R/raw/master/man/figures/SBDI.png" align="right" width="120">
+<a href="#sbdi4r-" class="anchor"></a>SBDI4R <img src="https://github.com/biodiversitydata-se/SBDI4R/raw/master/man/figures/sbdi-logo-orginal-large.png" align="right" width="120">
 </h1></div>
 
 <div id="r-functionality-for-the-sbdi-data-portal" class="section level3">
 <h3 class="hasAnchor">
 <a href="#r-functionality-for-the-sbdi-data-portal" class="anchor"></a>R functionality for the SBDI data portal</h3>
-<p>The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualize data on Swedish plants and animals; available through <a href="https://biodiversitydata.se/">Swedish Biodiversity Data Infrastructure</a>. The R package SBDI4R provides a subset of the tools, and some extension tools (found previously in Analysportalen.se), to be directly used within R.</p>
+<p>The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to enable users of biodiversity information to find, access, combine and visualize data on Swedish plants and animals; available through <a href="https://biodiversitydata.se/">SBDI</a>. The R package SBDI4R provides a subset of the tools, and some extension tools (found previously in Analysportalen.se), to be directly used within R.</p>
 <p>SBDI4R enables the R community to directly access data and resources hosted by SBDI. Our goal is to enable observations of species to be queried and output in a range of standard formats. This tool is built on the Atlas of Living Australia <a href="https://github.com/AtlasOfLivingAustralia/ALA4R">ALA4R</a> package which provides similar services for the ALA. Similar to the <a href="https://github.com/fozy81/NBN4R">NBN4R</a> package SBDI4R wraps ALA4R functions but redirects requests to local web servers. All SBDI, NBN and ALA share similar Application Protocol Interface (API) web services.</p>
 <p>Use-examples are available in the package <a href="https://biodiversitydata-se.github.io/SBDI4R/articles/SBDI4R.html">vignette here</a>, or via (in R): <code><a href="articles/SBDI4R.html">vignette("SBDI4R")</a></code>. If you have any questions please get in contact with us via the <a href="https://docs.biodiversitydata.se/support/">support center</a>.</p>
 </div>
@@ -161,16 +161,17 @@ library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")</code></pre>
 <pre class="{r}"><code><a href="reference/sbdi_config.html">sbdi_config(caching="off")</a></code></pre>
 <p>or set to “refresh”, meaning that the cached results will re-downloaded from the SBDI servers and the cache updated. (This will happen for as long as caching is set to “refresh” — so you may wish to switch back to normal “on” caching behaviour once you have updated your cache with the data you are working on).</p>
 </div>
+<div id="e-mail-address" class="section level3">
+<h3 class="hasAnchor">
+<a href="#e-mail-address" class="anchor"></a>E-mail address</h3>
+<p>Each download request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. You will need to provide an email address registered with the SBDI. You can create an account <a href="https://auth.biodiversitydata.se/cas/login">here</a>. Once an email is registered with the SBDI, it should be stored in the config:</p>
+<pre class="{r}"><code><a href="reference/sbdi_config.html">sbdi_config(email="your.valid@emailaddress.com")</a></code></pre>
+<p>Else you can provide this e-mail address as a parameter directly to each call of the function occurrences().</p>
+</div>
 <div id="user-agent-string" class="section level3">
 <h3 class="hasAnchor">
 <a href="#user-agent-string" class="anchor"></a>User-agent string</h3>
 <p>Each request to SBDI servers is accompanied by a “user-agent” string that identifies the software making the request. This is a standard behaviour used by web browsers as well. The user-agent identifies the user requests to SBDI, helping SBDI to adapt and enhance the services that it provides. By default, the SBDI4R user-agent string is set to “SBDI4R” plus the SBDI4R version number (e.g. “SBDI4R 1.0”).</p>
-</div>
-<div id="e-mail-address" class="section level3">
-<h3 class="hasAnchor">
-<a href="#e-mail-address" class="anchor"></a>E-mail address</h3>
-<p>Each request to SBDI servers is also accompanied by an “e-mail address” string that identifies the user making the request. This is a standard behaviour used by web browsers as well. There is no default for this field. You can provide your e-mail address as a parameter directly to each call of the function occurrences(), or you can set it once per session specifying it in the package configuration:</p>
-<pre class="{r}"><code><a href="reference/sbdi_config.html">sbdi_config(email="your.valid@emailaddress.com")</a></code></pre>
 <p><em>NO</em> other personal identification information is sent. You can see all configuration settings, including the the user-agent string that is being used, with the command:</p>
 <pre class="{r}"><code><a href="reference/sbdi_config.html">sbdi_config()</a></code></pre>
 </div>
