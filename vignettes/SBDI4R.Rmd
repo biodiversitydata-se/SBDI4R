@@ -558,7 +558,7 @@ which gives us a little more control over its format:
 ```{r, warning=FALSE}
 shape <- sf::as_Spatial(
                 sf::st_transform(
-                  sf::st_as_sf(counties), 
+                  sf::st_as_sf(shape), 
                   crs = sf::st_crs(4326)$wkt) )
 
 lonlat <- shape@polygons[[1]]@Polygons[[1]]@coords ## extract the polygon coordinates
