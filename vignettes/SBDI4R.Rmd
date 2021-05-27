@@ -195,13 +195,13 @@ range(xf$data$coordinateUncertaintyInMetres)
 One could search for observations in specific years:  
 ```{r, message=FALSE}
 # year = 2019
-x2019 <- occurrences(taxon="Reynoutria japonica", 
+x2019 <- occurrences(taxon="Callitriche cophocarpa", 
                      fq="year:2019",
                      email="sbdi4r-test@biodiversitydata.se", 
                      download_reason_id=10)
 nrow(x2019$data)
 
-x2yr <- occurrences(taxon="Reynoutria japonica", 
+x2yr <- occurrences(taxon="Callitriche cophocarpa", 
                     fq=c("year:2018 OR year:2019"),
                     email="sbdi4r-test@biodiversitydata.se", 
                     download_reason_id=10)
