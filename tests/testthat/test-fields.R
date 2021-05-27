@@ -5,7 +5,7 @@ thischeck <- function() {
     test_that("sbdi_fields works as expected", {
         skip_on_cran()
         # print(nrow(sbdi_fields(fields_type="occurrence")))
-        expect_gt(nrow(sbdi_fields(fields_type="occurrence")),350)
+        expect_gt(nrow(sbdi_fields(fields_type="occurrence")),250)
         expect_lt(nrow(sbdi_fields(fields_type="occurrence_indexed")), 
                   nrow(sbdi_fields(fields_type="occurrence")))
         expect_lt(nrow(sbdi_fields(fields_type="occurrence_stored")), 
