@@ -788,15 +788,15 @@ x <- occurrences(taxon="Callitriche cophocarpa",
                   email="sbdi4r-test@biodiversitydata.se",
                   download_reason_id=10, 
                   verbose = FALSE)
-# we need to temporally create fake month data as it is not being retrieved from the database
-# x$data$month <- floor(runif(n = nrow(x$data), min = 1, max = 13))
-x$data$month <- ifelse(x$data$day==31, 
-                       sample(c(1,3,5,7,8,10,12), 1, replace = TRUE),
-                       ifelse(x$data$day>=28, 
-                              sample(c(1,3:12), 1, replace = TRUE), #not February
-                              sample(c(1:12), 1, replace = TRUE)
-                              )
-                       )
+# # we need to temporally create fake month data as it is not being retrieved from the database
+# # x$data$month <- floor(runif(n = nrow(x$data), min = 1, max = 13))
+# x$data$month <- ifelse(x$data$day==31, 
+#                        sample(c(1,3,5,7,8,10,12), 1, replace = TRUE),
+#                        ifelse(x$data$day>=28, 
+#                               sample(c(1,3:12), 1, replace = TRUE), #not February
+#                               sample(c(1:12), 1, replace = TRUE)
+#                               )
+#                        )
 
 ## Define the visit
 OB <- organiseBirds(x$data, 
