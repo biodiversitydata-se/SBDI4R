@@ -48,7 +48,7 @@ Then, check that we have some additional packages that we'll use in the examples
 and install them if necessary.
 ```{r, message=FALSE}
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
-                "maptools", "phytools", "sp", "rgeos", "tidyr", "vegan", 
+                "maptools", "phytools", "sf", "rgeos", "tidyr", "vegan", 
                 "phytools", "BIRDS", "leaflet", "rgdal")
 to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
 if(length(to_install)>0)
@@ -336,8 +336,7 @@ x <- occurrences(taxon="Callitriche cophocarpa",
                  download_reason_id=10, 
                  verbose = FALSE)
 
-library(sp) # the function coordinates() and proj4string() are in sp
-library(rgeos) #  the function over() is in package rgeos
+library(sf)
 # load some shapes over Sweden
 # Political borders
 data("swe_wgs84", package="SBDI4R", envir=environment()) 
@@ -345,27 +344,35 @@ data("swe_wgs84", package="SBDI4R", envir=environment())
 data("Sweden_Grid_50km_Wgs84", package="SBDI4R", envir=environment()) 
 
 grid <- Sweden_Grid_50km_Wgs84
-# grid <- spTransform(grid, CRS("+init=epsg:4326")) ## it has the same CRS 
-# but changes are undergoing in the sp package and this step is needed
 
 # make the observations spatial
 # NOTE: make sure there are no NAs on either column defining the coordinates 
 # see example 2 for cleaning your dataset.
 
-obs <- as.data.frame(x$data)
-coordinates(obs) <- obs[,c("longitude","latitude")]
-wkt <- sf::st_crs(4326)$wkt
-proj4string(obs) <- sp::CRS(wkt)
-
+obs <- st_as_sf(x = x$data, 
+                coords = c("longitude","latitude"))
+st_crs(obs) <- st_crs(4326)
 nObs <- nrow(obs)
 
 ## overlay the data with the grid
-ObsInGridList <- over(grid, obs, returnList=TRUE)
-wNonEmpty <- unname( which( unlist(lapply(ObsInGridList, nrow)) != 0) )
+listGrid <- st_intersects(grid, obs)
+
+ObsInGridList <- list()
+for(i in seq(length(listGrid))){
+  if(length(listGrid[[i]]) == 0){
+    ObsInGridList[[i]] <- NA
+  } else {
+    df <- st_drop_geometry(obs[listGrid[[i]],])
+    ObsInGridList[[i]] <- df
+  }
+}
+wNonEmpty <- which( lengths(ObsInGridList) > 1)
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 
 ## check nObs
-nObsInGrid <- sum(unlist(lapply(ObsInGridList, nrow)))
+sum(unlist(lapply(ObsInGridList, nrow))) == nObs
+length(ObsInGridList) == nrow(grid)
+
 ```
 
 The result `ObsInGridList` is a `list` object with a subset of the data on each grid. 
@@ -376,8 +383,8 @@ Now summarise occurrences within grid cells:
 ## apply a summary over the grid
 nCells <- length(ObsInGridList)
 
-res <- data.frame("nObs"=as.numeric(rep(NA,nCells)),
-                  "nYears"=as.numeric(rep(NA,nCells)),
+res <- data.frame("nObs" = as.numeric(rep(NA, nCells)),
+                  "nYears" = as.numeric(rep(NA, nCells)),
                   row.names = row.names(grid),
                   stringsAsFactors = FALSE)
 
@@ -392,26 +399,27 @@ dataRes <- lapply(ObsInGridList[wNonEmpty], function(x){
   ))
 })
 
-dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "gridID"))
+dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "id"))
 
 res[wNonEmpty,] <- dataRes[,-1]
 res$nObs <- as.numeric(res$nObs)
-resSp <- sp::SpatialPolygonsDataFrame(grid, res)
+resSf <- st_as_sf(cbind(res, st_geometry(grid)) )
+rownames(resSf) <- grid$id
 ```  
 
 ### Plotting data on a map
 Finally plot the grid summary as a map:
 ```{r grid, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
 palBW <- leaflet::colorNumeric(palette = c("white", "navyblue"),
-                               domain = c(0, max(resSp@data$nObs, na.rm = TRUE)), 
+                               domain = c(0, max(resSf$nObs, na.rm = TRUE)), 
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(1,1,0,0))
-plot(resSp, col=palBW(resSp@data$nObs), border = NA)
+plot(resSf$geometry, col=palBW(resSf$nObs), border = NA)
 plot(swe_wgs84$Border, border=1, lwd=1, add=T)
 legend("bottomleft", 
-       legend = round(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
-       col = palBW(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
+       legend = round(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
+       col = palBW(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
        title = "Number of \nobservations", pch = 15, bty="n")
 par(oldpar)
 ```
@@ -420,29 +428,32 @@ par(oldpar)
 Any other set of polygons could also be used to summarise, for example, the counties. 
 ```{r, message=FALSE, warning=FALSE}
 counties <- swe_wgs84$Counties
-## again, even both the obs and the polygon have the same CRS 
-## changes are undergoing in the sp package and this step is needed
-wkt <- sf::st_crs(4326)$wkt
-# spTransform(counties, rgdal::CRS(wkt)) 
-counties <- sf::as_Spatial(
-                sf::st_transform(
-                  sf::st_as_sf(counties), 
-                  crs = wkt) )
-
 
 ## overlay the data with the counties
-ObsInCountyList <- over(counties, obs, returnList=TRUE)
-wNonEmpty <- unname( which( unlist(lapply(ObsInCountyList, nrow)) != 0) )
+listGrid <- st_intersects(counties, obs)
+
+ObsInCountyList <- list()
+for(i in seq(length(listGrid))){
+  if(length(listGrid[[i]]) == 0){
+    ObsInCountyList[[i]] <- NA
+  } else {
+    df <- st_drop_geometry(obs[listGrid[[i]],])
+    ObsInCountyList[[i]] <- df
+  }
+}
+wNonEmpty <- which( lengths(ObsInCountyList) > 1)
+# ObsInCountyList <- over(counties, obs, returnList=TRUE)
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 
 ## check nObs
-nObsInCounty <- sum(unlist(lapply(ObsInCountyList, nrow)))
+sum(unlist(lapply(ObsInCountyList, nrow))) == nObs # some observations are not in the counties territory
+length(ObsInCountyList) == nrow(counties)
 
 ## apply a summary over the grid
 nCells <- length(ObsInCountyList)
 
-res <- data.frame("nObs"=as.numeric(rep(NA,nCells)),
-                  "nYears"=as.numeric(rep(NA,nCells)),
+res <- data.frame("nObs" = as.numeric(rep(NA, nCells)),
+                  "nYears" = as.numeric(rep(NA, nCells)),
                   stringsAsFactors = FALSE)
 
 cols2use <- c("scientificName", "year")
@@ -456,33 +467,29 @@ dataRes <- lapply(ObsInCountyList[wNonEmpty], function(x){
   ))
 })
 
-dataRes <- data.frame(matrix(unlist(dataRes),
-                             nrow=length(dataRes), 
-                             byrow=TRUE),
-                    stringsAsFactors = FALSE)
 
-dataRes$X1 <- as.numeric(dataRes$X1)
-dataRes$X2 <- as.numeric(dataRes$X2)
+dataRes <- as.data.frame(dplyr::bind_rows(dataRes, .id = "id"))
+res[wNonEmpty,] <- dataRes[,-1]
+res$nObs <- as.numeric(res$nObs)
 
-res[wNonEmpty,] <- dataRes
-rownames(res) <- row.names(counties)
-
-resSp <- sp::SpatialPolygonsDataFrame(counties, res)
+resSf <- st_as_sf(cbind(res, st_geometry(counties)))
+rownames(resSf) <- counties$LnNamn
 ```
 
 and again plotting as a map:
 ```{r counties, warning=FALSE, fig.width=6, fig.height=6}
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
-                               c(0, max(resSp@data$nObs, na.rm = TRUE)), 
+                               c(0, max(resSf$nObs, na.rm = TRUE)), 
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(1,1,0,0))
-plot(resSp, col=palBW(resSp@data$nObs), border = NA)
+plot(resSf$geometry, col=palBW(resSf$nObs), border = NA)
 plot(swe_wgs84$Border, border=1, lwd=1, add=T)
-text(coordinates(counties), as.character(counties$LnNamn), font = 2, cex=.5 )
+text(st_coordinates(st_centroid(counties)), 
+    labels = as.character(counties$LnNamn), font = 2, cex=.5 )
 legend("bottomleft", 
-       legend = round(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
-       col = palBW(seq(0, max(resSp@data$nObs, na.rm = TRUE), length.out = 5)),
+       legend = round(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
+       col = palBW(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
        title = "Number of \nobservations", pch = 15, bty="n")
 suppressWarnings(par(oldpar))
 ```
@@ -492,7 +499,8 @@ suppressWarnings(par(oldpar))
 countiesLab <- as.character(counties$LnNamn)
 
 ## Add a column to the obs data.frame to hold the id of the overlapped polygon, 
-## in this case, Län (county)
+## in this case, Län (county) and plot which observation didn't fall with any 
+## territory.
 obs$overId <- NA 
 
 for(c in 1:length(ObsInCountyList)){
@@ -505,7 +513,7 @@ for(c in 1:length(ObsInCountyList)){
 
 oldpar <- par()
 par(mar = c(1,1,0,0))
-plot(counties, border=1, lwd=1)
+plot(counties$geometry, border=1, lwd=1)
 plot(obs[which(is.na(obs$overId)),], 
      pch=19, cex=.5, col="red", add=T)
 par(oldpar)
@@ -524,8 +532,7 @@ working directory (`getwd()`). Extract the .zip file named KommunSweref99.zip.
 <!-- We use the ALA4R's caching mechanism here, but you could equally download this file directly. -->
 
 ```{r, eval=FALSE}
-library(rgdal)
-shape <- readOGR(dsn=file.path("your/path/to/file", "Kommun_Sweref99TM_region.shp"))
+shape <- st_read(dsn=file.path("your/path/to/file", "Kommun_Sweref99TM_region.shp"))
 ```
 This will only work when you set a valid filepath, and will create an object of 
 class SpatialPolygon. You could instead use the data we kindly provided in this 
@@ -540,7 +547,7 @@ shape <- shape[shape$KnNamn=="Örebro", ]
 We could create the WKT string using the `rgeos` library:
 ```{r, eval=FALSE}
 library(rgeos)
-wkt <- writeWKT(shape)
+wkt <- writeWKT(as_Spatial(st_transform(shape, crs = st_crs(4326))))
 ```
 
 Unfortunately, in this instance this gives a WKT string that is too long and won't
@@ -549,21 +556,20 @@ the coordinate system SWEREF99 TM, and the web service only accepts coordinates 
 a geodesic coordinate system WGS84. Instead, let's construct the WKT string directly, 
 which gives us a little more control over its format:
 ```{r, warning=FALSE}
-shape <- sf::as_Spatial(
-                sf::st_transform(
-                  sf::st_as_sf(shape), 
-                  crs = sf::st_crs(4326)$wkt) )
-
-lonlat <- shape@polygons[[1]]@Polygons[[1]]@coords ## extract the polygon coordinates
+shape <- st_transform(shape,
+                      crs = st_crs(4326)
+                      )
+lonlat <- st_coordinates(shape)[,c("X", "Y")] ## extract the polygon coordinates
 
 ## extract the convex hull of the polygon to reduce the length of the WKT string
-temp <- chull(lonlat)
-lonlat <- lonlat[c(temp, temp[1]), ]
+chullXY <- chull(lonlat)
+## reorder
+lonlat <- lonlat[c(chullXY, chullXY[1]), ]
 ## create WKT string
 ## first join each lon-lat coordinate pair
-temp <- apply(lonlat, 1, function(z) paste(round(z,4), collapse=" "))
+chullCollapse <- apply(lonlat, 1, function(z) paste(round(z,4), collapse=" "))
 ## now build the WKT string
-wkt <- paste("MULTIPOLYGON(((", paste(temp, collapse=","), ")))", sep="")
+wkt <- paste("MULTIPOLYGON(((", paste(chullCollapse, collapse=","), ")))", sep="")
 ```
 
 Now extract the species list in this polygon:
@@ -797,13 +803,14 @@ SB <- summariseBirds(OB, grid = Sweden_Grid_25km_Wgs84)
 ```
 
 ```{r plotBIRDSspatial, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
-maxC <- max(SB$spatial@data$nObs, na.rm = TRUE)
+SBspatial <- st_as_sf(SB$spatial)
+maxC <- max(SBspatial$nObs, na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(4,0,4,0), mfrow=c(1,3))
-plot(SB$spatial, col=palBW(SB$spatial@data$nObs),
+plot(SBspatial$geometry, col=palBW(SBspatial$nObs),
      border = "grey", main="All years") ## with palette
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
@@ -817,25 +824,27 @@ yearlySp <- exportBirds(SB,
                         variable = "nObs", 
                         method = "sum")
 
-maxC <- max(yearlySp@data$'2005', na.rm = TRUE)
+yearlySf <- st_as_sf(yearlySp)
+
+maxC <- max(yearlySf$'2005', na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 
-plot(yearlySp["2005"], col=palBW(yearlySp@data$'2005'), 
-     border = "grey",main="2005")
+plot(yearlySf$geometry, col=palBW(yearlySf$'2005'), 
+     border = "grey", main="2005")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
        border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
 
-maxC <- max(yearlySp@data$'2020', na.rm = TRUE)
+maxC <- max(yearlySf$'2020', na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 
-plot(yearlySp["2020"], col=palBW(yearlySp@data$'2020'), 
+plot(yearlySf$geometry, col=palBW(yearlySf$'2020'), 
      border = "grey",main="2020")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
