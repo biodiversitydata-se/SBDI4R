@@ -123,7 +123,7 @@ You can also search for a set of species simultaneously (only scientific names s
 ```{r, message=FALSE }
 taxa <- c("Callitriche", "Anarrhinum")
 fq_str <- paste0("raw_name:&quot;", taxa, "&quot;")
-fq_str <- paste0(fq_str, collapse = " OR ")
+# fq_str <- paste0(fq_str, collapse = " OR ")
 xbatch <- occurrences(fq=fq_str, 
                  email="sbdi4r-test@biodiversitydata.se", 
                  download_reason_id=10, 
@@ -344,6 +344,7 @@ data("swe_wgs84", package="SBDI4R", envir=environment())
 data("Sweden_Grid_50km_Wgs84", package="SBDI4R", envir=environment()) 
 
 grid <- Sweden_Grid_50km_Wgs84
+grid <- st_transform(grid, crs = st_crs(3006))
 
 # make the observations spatial
 # NOTE: make sure there are no NAs on either column defining the coordinates 
@@ -352,6 +353,8 @@ grid <- Sweden_Grid_50km_Wgs84
 obs <- st_as_sf(x = x$data, 
                 coords = c("longitude","latitude"))
 st_crs(obs) <- st_crs(4326)
+obs <- st_transform(obs, crs = st_crs(grid))
+
 nObs <- nrow(obs)
 
 ## overlay the data with the grid
@@ -421,13 +424,14 @@ legend("bottomleft",
        legend = round(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
        col = palBW(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
        title = "Number of \nobservations", pch = 15, bty="n")
-par(oldpar)
+suppressWarnings(par(oldpar))
 ```
 
 ### Other polygons
 Any other set of polygons could also be used to summarise, for example, the counties. 
 ```{r, message=FALSE, warning=FALSE}
-counties <- swe_wgs84$Counties
+counties <- swe_wgs$Counties
+obs <- st_transform(obs, crs = st_crs(counties))
 
 ## overlay the data with the counties
 listGrid <- st_intersects(counties, obs)
@@ -514,9 +518,9 @@ for(c in 1:length(ObsInCountyList)){
 oldpar <- par()
 par(mar = c(1,1,0,0))
 plot(counties$geometry, border=1, lwd=1)
-plot(obs[which(is.na(obs$overId)),], 
+plot(obs$geometry[which(is.na(obs$overId)),], 
      pch=19, cex=.5, col="red", add=T)
-par(oldpar)
+suppressWarnings(par(oldpar))
 ```  
 It is clear from this image that there are observations outside the territorial extent of the county but that may be within the counties water bodies or coastal areas.
 
@@ -731,7 +735,7 @@ map("worldHires", "Sweden",
 with(xgridded, points(longitude, latitude, 
                       pch=21, col=thiscol[grp], 
                       bg=thiscol[grp], cex=0.75))
-par(oldpar)
+suppressWarnings(par(oldpar))
 ```
 
 ## Example 6: Handlig data in R after being downloaded
@@ -851,7 +855,7 @@ legend("topleft", inset = c(0,0.05),
        col = palBW(seq(0, maxC, length.out = 5)),
        border = "grey",
        title = "Number of \nobservations", pch = 15, bty="n")
-par(oldpar)
+suppressWarnings(par(oldpar))
 ```
 
 Perhaps one needs to save many summaries over each grid cell.

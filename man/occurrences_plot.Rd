@@ -54,8 +54,8 @@ according to parameters
 x <- occurrences(taxon="Lutra lutra", download_reason_id=10) ## remember to configure your email
 occurrences_plot(x)
 x <- occurrences(taxon="Mayfly", download_reason_id=10)
-occurrences_plot(x,"obsPlot.pdf",qa="fatal", 
-                 grouped=FALSE, taxon_level="species",pch='+')
+occurrences_plot(x,"obsPlot.pdf", qa="fatal", 
+                 grouped=FALSE, taxon_level="species", pch='+')
 }
 }
 \references{
