@@ -368,7 +368,7 @@ for(i in seq(length(listGrid))){
     ObsInGridList[[i]] <- st_drop_geometry(obs[listGrid[[i]],])
   }
 }
-wNonEmpty <- which( lengths(ObsInGridList) > 1)
+wNonEmpty <- which( unlist(lapply(ObsInGridList, function(x) !all(is.na(x)))) )
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 
 ## check nObs
@@ -443,8 +443,7 @@ for(i in seq(length(listGrid))){
     ObsInCountyList[[i]] <- st_drop_geometry(obs[listGrid[[i]],])
   }
 }
-wNonEmpty <- which( lengths(ObsInCountyList) > 1)
-# ObsInCountyList <- over(counties, obs, returnList=TRUE)
+wNonEmpty <- which( unlist(lapply(ObsInCountyList, function(x) !all(is.na(x)))) )
 if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
 
 ## check nObs
