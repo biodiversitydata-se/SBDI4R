@@ -365,8 +365,7 @@ for(i in seq(length(listGrid))){
   if(length(listGrid[[i]]) == 0){
     ObsInGridList[[i]] <- NA
   } else {
-    df <- st_drop_geometry(obs[listGrid[[i]],])
-    ObsInGridList[[i]] <- df
+    ObsInGridList[[i]] <- st_drop_geometry(obs[listGrid[[i]],])
   }
 }
 wNonEmpty <- which( lengths(ObsInGridList) > 1)
@@ -441,8 +440,7 @@ for(i in seq(length(listGrid))){
   if(length(listGrid[[i]]) == 0){
     ObsInCountyList[[i]] <- NA
   } else {
-    df <- st_drop_geometry(obs[listGrid[[i]],])
-    ObsInCountyList[[i]] <- df
+    ObsInCountyList[[i]] <- st_drop_geometry(obs[listGrid[[i]],])
   }
 }
 wNonEmpty <- which( lengths(ObsInCountyList) > 1)
