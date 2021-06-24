@@ -4,11 +4,15 @@
 \alias{tplot}
 \title{Plot function to be used in PDF}
 \usage{
-tplot(xx, sweLyr = "Border", main, coi = c("fatal", "error"), pch, cex)
+tplot(x, sweLyr = "Border", main, coi = c("fatal", "error"), pch, cex)
 }
 \arguments{
+\item{x}{list: a list object that has been downloaded using \code{\link{occurrences}}}
+
 \item{sweLyr}{string: layer of sweWGS84 to be plotted as background. Options are =\code{c("Border" [default],
 "Counties","LA_regions","FA_regions","Municipalities")}}
+
+\item{main}{string: a title}
 
 \item{coi}{string vector: list of record issues to be mapped; these can be assertion columnnames, 
 or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
@@ -17,8 +21,6 @@ your dataset can be viewed using \code{check_assertions}.}
 \item{pch}{single number or character representing point type. See description of \code{pch} in \code{\link{points}}.}
 
 \item{cex}{numeric: character (or symbol) expansion. See description of \code{cex} in \code{\link{points}}.}
-
-\item{x}{list: a list object that has been downloaded using \code{\link{occurrences}}}
 }
 \description{
 Plot function to be used in PDF

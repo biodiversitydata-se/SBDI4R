@@ -3,13 +3,15 @@
 #' @param x list: a list object that has been downloaded using \code{\link{occurrences}}
 #' @param sweLyr string: layer of sweWGS84 to be plotted as background. Options are =\code{c("Border" [default],
 #' "Counties","LA_regions","FA_regions","Municipalities")}
+#' @param main string: a title
 #' @param coi string vector: list of record issues to be mapped; these can be assertion columnnames, 
 #' or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
 #' your dataset can be viewed using \code{check_assertions}. 
 #' @param pch single number or character representing point type. See description of \code{pch} in \code{\link{points}}.
 #' @param cex numeric: character (or symbol) expansion. See description of \code{cex} in \code{\link{points}}.
 
-tplot <- function(xx, sweLyr="Border", 
+tplot <- function(x, 
+                  sweLyr="Border", 
                   main,
                   coi = c("fatal", "error"), 
                   pch, cex) {
@@ -35,16 +37,16 @@ tplot <- function(xx, sweLyr="Border",
        border=ifelse(sweLyr == "Border", NA, 1)) #draw the base Sweden
   title(main=main)
   # degAxis(1); degAxis(2) #add on the axis
-  points(xx$longitude, xx$latitude, pch=pch, col="black")
+  points(x$longitude, x$latitude, pch=pch, col="black")
   if (is.null(coi)) {
     legend("bottomleft", legend="assumed good", pch=pch, col="black", bty="n", cex=cex)
   } else {
     legend.cols <- rainbow(length(coi)) #define the legend colors
     c2use <- NULL #define columns to keep because they had issues
     for (ii in 1:length(coi)) {
-      roi <- which(as.logical(xx[, coi[ii]])==TRUE) #define the points that have the issue
+      roi <- which(as.logical(x[, coi[ii]])==TRUE) #define the points that have the issue
       if (length(roi) > 0) {
-        points(xx$longitude[roi], xx$latitude[roi], pch=pch, col=legend.cols[ii])
+        points(x$longitude[roi], x$latitude[roi], pch=pch, col=legend.cols[ii])
         c2use <- c(c2use, ii)
       }				
     }
