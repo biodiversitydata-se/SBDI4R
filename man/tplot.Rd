@@ -16,7 +16,7 @@ tplot(x, sweLyr = "Border", main, coi = c("fatal", "error"), pch, cex)
 
 \item{coi}{string vector: list of record issues to be mapped; these can be assertion column names, 
 or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
-your dataset can be viewed using \code{check_assertions}.}
+your data set can be viewed using \code{check_assertions}.}
 
 \item{pch}{single number or character representing point type. See description of \code{pch} in \code{\link{points}}.}
 

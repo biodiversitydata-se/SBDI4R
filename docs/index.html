@@ -110,7 +110,7 @@
 library(remotes)
 install_github("biodiversitydata-se/SBDI4R")</a></code></pre>
 <p>If you see an error about a missing package, you will need to install it manually, e.g.:</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(c("stringr","sp"))</a></code></pre>
+<pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(c("stringr","sf"))</a></code></pre>
 <p>and then <code>install_github("biodiversitydata-se/SBDI4R")</code> again.</p>
 <p>If you see an error about “ERROR: lazy loading failed for package ‘SBDI4R’”, this may be due to you trying to install on a network location. Try instead to install on a local location: first create the local location you want to use, and then specify this location for installing, and later loading the package:</p>
 <pre class="{r}"><code>install_github("biodiversitydata-se/SBDI4R", lib = "C:/pathname/MyLibrary")
@@ -137,7 +137,7 @@ library(SBDI4R, lib.loc = "C:/pathname/MyLibrary")</code></pre>
 <p>Or the development version from GitHub:</p>
 <p><code>{r eval=FALSE} install.packages("remotes") library(remotes) install_github("biodiversitydata-se/SBDI4R")</code></p>
 <p>If you see an error about a missing package, you will need to install it manually, e.g.:</p>
-<pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(c("stringr","sp"))</a></code></pre>
+<pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages(c("stringr","fp"))</a></code></pre>
 <p>and then try installing SBDI4R again.</p>
 <p>If you wish to use the <code>data.table</code> package for potentially faster loading of data matrices (optional), also do:</p>
 <pre class="{r}"><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("data.table")</a></code></pre>

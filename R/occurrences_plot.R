@@ -29,6 +29,7 @@ tplot <- function(x,
     }
   }
   
+  utils::globalVariables("swe_wgs84")
   ## load swe map data
   ## note this should ideally be states        
   data("swe_wgs84", package="SBDI4R", envir=environment())

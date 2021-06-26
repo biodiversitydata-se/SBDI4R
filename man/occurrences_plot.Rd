@@ -21,11 +21,11 @@ occurrences_plot(
 
 \item{filename}{string: name of file to be created; defaults to RPlots.pdf}
 
-\item{qa}{string vector: list of record issues to be mapped; these can be assertion columnnames, 
+\item{qa}{string vector: list of record issues to be mapped; these can be assertion column names, 
 or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
-your dataset can be viewed using \code{check_assertions}.}
+your data set can be viewed using \code{check_assertions}.}
 
-\item{sweLyr}{string: layer of sweWGS84 to be plotted as background. Options are =\code{c("Border" [default],
+\item{sweLyr}{string: layer of swe_WGS84 to be plotted as background. Options are =\code{c("Border" [default],
 "Counties","LA_regions","FA_regions","Municipalities")}}
 
 \item{grouped}{logical: TRUE creates a single plot for all observations; FALSE plots individual 
