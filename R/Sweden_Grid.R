@@ -1,12 +1,12 @@
 #' The standard Swedish squared grid 
 #' 
-#' A 5, 10, 25 and 50 km wide grid dataset in SpatialPolygons (package sp) over Sweden.
+#' A 5, 10, 25 and 50 km wide grid data set in Simple Feature Collection (package sf) over Sweden.
 #' 
 #' @name Sweden_Grid
 #' @keywords datasets
 #' @docType data
 #' @source https://github.com/biodiversitydata-se/Sweden_Grids
-#' @format SpatialPolygons (package sp) CRS: EPSG:4326
+#' @format Simple Feature Collection (package sf) CRS: EPSG:4326
 
 NULL
 

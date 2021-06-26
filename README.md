@@ -49,7 +49,7 @@ If you see an error about a missing package, you will need to install it
 manually, e.g.:
 
 ```{r}
-install.packages(c("stringr","sp"))
+install.packages(c("stringr","sf"))
 ```
 
 and then `install_github("biodiversitydata-se/SBDI4R")` again.
@@ -113,7 +113,7 @@ If you see an error about a missing package, you will need to install it
 manually, e.g.:
 
 ```{r}
-install.packages(c("stringr","sp"))
+install.packages(c("stringr","fp"))
 ```
 
 and then try installing SBDI4R again.

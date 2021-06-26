@@ -10,11 +10,10 @@
 #' @name SDBI4R
 #' @docType package
 #' @references \url{https://api.biodiversitydata.se/}
-#' @import assertthat digest httr jsonlite plyr RCurl sp
+#' @import assertthat digest httr jsonlite plyr RCurl sf
 #' @importFrom jsonlite fromJSON
 #' @importFrom stringr regex str_c str_detect str_extract str_locate str_match str_match_all
 #' @importFrom stringr str_replace str_replace_all str_split str_trim
-#' @importFrom sf st_crs
 #' @importFrom wellknown lint
 #' @importFrom grDevices dev.off pdf rainbow
 #' @importFrom graphics image legend points title

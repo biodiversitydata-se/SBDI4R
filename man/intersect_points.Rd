@@ -32,8 +32,6 @@ Intersect environmental or contextual layers at a given a set of points (coordin
 \examples{
 \dontrun{
  # single point with multiple layers
- # i.e local environmental Records Centre boundaries UK &
- # watsonian vice counties:
  layers <- c('el10016','el10009')
  pnts <- c(51.5074,0.1278)
  intersect_points(pnts,layers) 
