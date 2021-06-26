@@ -12,7 +12,7 @@
 #' @param SPdata.frame logical: should the output should be returned as a SpatialPointsDataFrame of the sp package or simply as a data.frame?
 #' @param use_layer_names logical: if TRUE, layer names will be used as column names in the returned data frame (e.g. "radiationLowestPeriodBio22"). Otherwise, layer id value will be used for column names (e.g. "el871")
 #' @param verbose logical: show additional progress information? [default is set by \code{\link{sbdi_config}}]
-#' @importFrom sf sf_crs
+#' @importFrom sf st_crs
 #' @return A SpatialPointsDataFrame containing the intersecting data information. Missing data or incorrectly identified layer id values will result in NA data
 #' @seealso \code{\link{sbdi_config}}
 #' @examples
@@ -143,7 +143,7 @@ intersect_points <- function(pnts, layers, SPdata.frame = FALSE,
     ## coerce to SpatialPointsDataFrame class
     if (nrow(out)>0) {
       out <- sp::SpatialPointsDataFrame(coords=out[, c("longitude", "latitude")], 
-                                    proj4string=sp::CRS(sf::sf_crs(4326)$wkt), 
+                                    proj4string=sp::CRS(st_crs(4326)$wkt), 
                                     data=out)
     }
   }

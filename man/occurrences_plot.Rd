@@ -61,6 +61,3 @@ occurrences_plot(x,"obsPlot.pdf", qa="fatal",
 \references{
 \url{https://api.biodiversitydata.se/}
 }
-\seealso{
-\code{\link{swe_wgs84}}
-}

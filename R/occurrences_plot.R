@@ -1,12 +1,12 @@
 #' Plot function to be used in PDF
 #' 
 #' @param x list: a list object that has been downloaded using \code{\link{occurrences}}
-#' @param sweLyr string: layer of sweWGS84 to be plotted as background. Options are =\code{c("Border" [default],
+#' @param sweLyr string: layer of swe_WGS84 to be plotted as background. Options are =\code{c("Border" [default],
 #' "Counties","LA_regions","FA_regions","Municipalities")}
 #' @param main string: a title
-#' @param coi string vector: list of record issues to be mapped; these can be assertion columnnames, 
+#' @param coi string vector: list of record issues to be mapped; these can be assertion column names, 
 #' or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
-#' your dataset can be viewed using \code{check_assertions}. 
+#' your data set can be viewed using \code{check_assertions}. 
 #' @param pch single number or character representing point type. See description of \code{pch} in \code{\link{points}}.
 #' @param cex numeric: character (or symbol) expansion. See description of \code{cex} in \code{\link{points}}.
 
@@ -72,10 +72,10 @@ tplot <- function(x,
 #' 
 #' @param x list: a list object that has been downloaded using \code{\link{occurrences}}
 #' @param filename string: name of file to be created; defaults to RPlots.pdf
-#' @param qa string vector: list of record issues to be mapped; these can be assertion columnnames, 
+#' @param qa string vector: list of record issues to be mapped; these can be assertion column names, 
 #' or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
-#' your dataset can be viewed using \code{check_assertions}. 
-#' @param sweLyr string: layer of sweWGS84 to be plotted as background. Options are =\code{c("Border" [default],
+#' your data set can be viewed using \code{check_assertions}. 
+#' @param sweLyr string: layer of swe_WGS84 to be plotted as background. Options are =\code{c("Border" [default],
 #' "Counties","LA_regions","FA_regions","Municipalities")}
 #' @param grouped logical: TRUE creates a single plot for all observations; FALSE plots individual 
 #' maps for the taxon level defined.
@@ -85,7 +85,6 @@ tplot <- function(x,
 #' @param cex numeric: character (or symbol) expansion. See description of \code{cex} in \code{\link{points}}.
 #' @param \dots : other options passed to pdf()
 #' @return Generates a pdf that maps the distributions of the observations.
-#' @seealso \code{\link{swe_wgs84}} 
 #' 
 #' @examples
 #' \dontrun{ 
@@ -120,7 +119,7 @@ occurrences_plot <- function(x, filename = "Rplots.pdf",
   taxon_level <- match.arg(tolower(taxon_level), c("species", "genus", "family", "order"))
   assert_that(is.notempty.string(filename))
   if (substr(filename, nchar(filename)-2, nchar(filename))!="pdf") {
-    filename <- paste(filename, ".pdf", sep="") #append a pdf suffix to filename
+    filename <- paste(filename, ".pdf", sep="") #append a pdf suffix to file name
   }
   assert_that(is.flag(grouped))
   assert_that(is.character(qa))

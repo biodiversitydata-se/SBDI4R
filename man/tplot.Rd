@@ -9,12 +9,12 @@ tplot(x, sweLyr = "Border", main, coi = c("fatal", "error"), pch, cex)
 \arguments{
 \item{x}{list: a list object that has been downloaded using \code{\link{occurrences}}}
 
-\item{sweLyr}{string: layer of sweWGS84 to be plotted as background. Options are =\code{c("Border" [default],
+\item{sweLyr}{string: layer of swe_WGS84 to be plotted as background. Options are =\code{c("Border" [default],
 "Counties","LA_regions","FA_regions","Municipalities")}}
 
 \item{main}{string: a title}
 
-\item{coi}{string vector: list of record issues to be mapped; these can be assertion columnnames, 
+\item{coi}{string vector: list of record issues to be mapped; these can be assertion column names, 
 or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
 your dataset can be viewed using \code{check_assertions}.}
 
