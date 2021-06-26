@@ -1,3 +1,5 @@
+utils::globalVariables("swe_wgs84")
+
 #' Plot function to be used in PDF
 #' 
 #' @param x list: a list object that has been downloaded using \code{\link{occurrences}}
@@ -9,7 +11,6 @@
 #' your data set can be viewed using \code{check_assertions}. 
 #' @param pch single number or character representing point type. See description of \code{pch} in \code{\link{points}}.
 #' @param cex numeric: character (or symbol) expansion. See description of \code{cex} in \code{\link{points}}.
-
 tplot <- function(x, 
                   sweLyr="Border", 
                   main,
@@ -29,7 +30,6 @@ tplot <- function(x,
     }
   }
   
-  utils::globalVariables("swe_wgs84")
   ## load swe map data
   ## note this should ideally be states        
   data("swe_wgs84", package="SBDI4R", envir=environment())
