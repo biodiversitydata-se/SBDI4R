@@ -9,7 +9,7 @@
 \alias{Sweden_Grid_50km_Wgs84}
 \title{The standard Swedish squared grid}
 \format{
-SpatialPolygons (package sp) CRS: EPSG:4326
+Simple Feature Collection (package sf) CRS: EPSG:4326
 }
 \source{
 https://github.com/biodiversitydata-se/Sweden_Grids
@@ -24,6 +24,6 @@ data(Sweden_Grid_25km_Wgs84)
 data(Sweden_Grid_50km_Wgs84)
 }
 \description{
-A 5, 10, 25 and 50 km wide grid dataset in SpatialPolygons (package sp) over Sweden.
+A 5, 10, 25 and 50 km wide grid data set in Simple Feature Collection (package sf) over Sweden.
 }
 \keyword{datasets}

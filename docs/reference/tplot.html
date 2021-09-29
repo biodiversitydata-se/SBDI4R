@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • SBDI4R</title>
+<title>Plot function to be used in PDF — tplot • SBDI4R</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Plot function to be used in PDF — tplot" />
+<meta property="og:description" content="Plot function to be used in PDF" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -121,33 +122,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Plot function to be used in PDF</h1>
+    <small class="dont-index">Source: <a href='https://github.com/biodiversitydata-se/SBDI4R/blob/master/R/occurrences_plot.R'><code>R/occurrences_plot.R</code></a></small>
+    <div class="hidden name"><code>tplot.Rd</code></div>
     </div>
 
-    <div id="sbdi4r-100" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.0">
-<a href="#sbdi4r-100" class="anchor"></a>SBDI4R 1.0.0</h1>
-<ul>
-<li>Official launch of the SBDI and of this package.</li>
-<li>Migration to final URLs</li>
-</ul>
-</div>
-    <div id="sbdi4r-001" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.1">
-<a href="#sbdi4r-001" class="anchor"></a>SBDI4R 0.0.1</h1>
-<ul>
-<li>This is the first release of SBDI4R.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Plot function to be used in PDF</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>tplot</span><span class='op'>(</span><span class='va'>x</span>, sweLyr <span class='op'>=</span> <span class='st'>"Border"</span>, <span class='va'>main</span>, coi <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fatal"</span>, <span class='st'>"error"</span><span class='op'>)</span>, <span class='va'>pch</span>, <span class='va'>cex</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>list: a list object that has been downloaded using <code><a href='occurrences.html'>occurrences</a></code></p></td>
+    </tr>
+    <tr>
+      <th>sweLyr</th>
+      <td><p>string: layer of swe_WGS84 to be plotted as background. Options are =<code><a href='https://rdrr.io/r/base/c.html'>c("Border" [default],
+"Counties","LA_regions","FA_regions","Municipalities")</a></code></p></td>
+    </tr>
+    <tr>
+      <th>main</th>
+      <td><p>string: a title</p></td>
+    </tr>
+    <tr>
+      <th>coi</th>
+      <td><p>string vector: list of record issues to be mapped; these can be assertion column names, 
+or 'all' or 'none' or any combination of 'error', 'warning' or 'fatal'. Column or categories in 
+your dataset can be viewed using <code>check_assertions</code>.</p></td>
+    </tr>
+    <tr>
+      <th>pch</th>
+      <td><p>single number or character representing point type. See description of <code>pch</code> in <code><a href='https://rdrr.io/r/graphics/points.html'>points</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>cex</th>
+      <td><p>numeric: character (or symbol) expansion. See description of <code>cex</code> in <code><a href='https://rdrr.io/r/graphics/points.html'>points</a></code>.</p></td>
+    </tr>
+    </table>
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

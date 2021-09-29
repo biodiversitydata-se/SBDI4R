@@ -6,7 +6,7 @@
 \alias{swe_wgs84}
 \title{Basic Sweden polygons for visualization}
 \format{
-list of SpatialPolygons (package sp) CRS: EPSG:3006
+list of Simple Feature Collection (package sf) CRS: EPSG:3006
 }
 \source{
 Statistikmyndigheten SCB \url{https://www.scb.se/hitta-statistik/regional-statistik-och-kartor/regionala-indelningar/digitala-granser}
@@ -17,10 +17,11 @@ data(swe)
 data(swe_wgs84)
 }
 \description{
-A basic polygon dataset in SpatialPolygons (package sp) representing
+A basic polygon data set in Simple Feature Collection (package sf) representing
 Sweden.
 
-A basic polygon dataset in SpatialPolygons (package sp) representing
+A basic polygon data set in Simple Feature Collection (package sf) representing
 Sweden.
 }
-\keyword{datasets}
+\keyword{data}
+\keyword{sets}
