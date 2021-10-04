@@ -42,6 +42,7 @@ Or the development version from GitHub:
 ```{r}
 install.packages("remotes")
 library(remotes)
+install_github("AtlasOfLivingAustralia/ALA4R")
 install_github("biodiversitydata-se/SBDI4R")
 ```
 
@@ -106,6 +107,7 @@ Or the development version from GitHub:
 ```{r eval=FALSE}
 install.packages("remotes")
 library(remotes)
+install_github("AtlasOfLivingAustralia/ALA4R")
 install_github("biodiversitydata-se/SBDI4R")
 ```
 
