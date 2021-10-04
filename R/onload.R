@@ -2,6 +2,9 @@
   
   if (pkgname == "SBDI4R") {
   
+    if (!sapply("ALA4R", requireNamespace, quietly = TRUE)) {
+      remotes::install_github("AtlasOfLivingAustralia/ALA4R")
+    }
     ## get default server config from ALA4R package  
     temp <- getOption("ALA4R_server_config")
       
@@ -9,9 +12,9 @@
     sbdi_config() 
     version_string <- "version unknown"
     suppressWarnings(try(version_string <- utils::packageDescription('SBDI4R')[["Version"]], 
-                         silent=TRUE)) ## get the SBDI4R version, if we can
+                         silent = TRUE)) ## get the SBDI4R version, if we can
     user_agent_string <- paste0("SBDI4R ", version_string)
-    sbdi_config(user_agent=user_agent_string) 
+    sbdi_config(user_agent = user_agent_string) 
     ## Both APIs are the same (SBDI has recently based their API on ALA)  
     ## Therefore this package is simply a wrapper around ALA4R functions and updates in ALA4R can be
     ## incorporated in SBDI4R

@@ -40,7 +40,9 @@ Let's assume you have already installed the package as shown in the [main site](
 Load the SBDI4R package:
 ```{r, message=FALSE}
 library(SBDI4R)
-sbdi_config(caching="off")
+sbdi_config(caching = "off")
+sbdi_config(email = "sbdi4r-test@biodiversitydata.se", 
+            download_reason_id = 10)
 # sbdi_config(cache_directory="Z:/mydir/sbdi-cache")
 ```  
 
@@ -48,11 +50,10 @@ Then, check that we have some additional packages that we'll use in the examples
 and install them if necessary.
 ```{r, message=FALSE}
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
-                "maptools", "phytools", "sf", "rgeos", "tidyr", "vegan", 
-                "phytools", "BIRDS", "leaflet", "rgdal")
-to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
-if(length(to_install)>0)
-    install.packages(to_install, repos="http://cran.us.r-project.org")
+                "maptools", "phytools", "sf",  "tidyr", "vegan") #, "rgdal", "rgeos",
+to_install <- to_install[!sapply(to_install, requireNamespace, quietly = TRUE)]
+if (length(to_install) > 0)
+    install.packages(to_install, repos = "http://cran.us.r-project.org")
 ```
 
 
@@ -78,7 +79,8 @@ head(sx$data[,c( "name","species", "speciesGuid", "rank")])
 Now we can download the taxonomic data (note that the search is case-sensitive):
 ```{r, message=FALSE}
 tx <- taxinfo_download("family_s:Paridae", 
-                       fields = c("guid", "genus_s", "specificEpithet_s", "scientificName",  "canonicalName_s", "rank"), 
+                       fields = c("guid", "genus_s", "specificEpithet_s", 
+                                  "scientificName",  "canonicalName_s", "rank"), 
                        verbose = FALSE)
 tx <- tx[tx$rank == "species" & tx$genusS != "",] ## restrict to species and not hybrids
 ```
@@ -99,9 +101,7 @@ plotTree(ax, fsize=0.7, ftype="i") ## plot it
 
 Download occurrence data for the "Sommarlånke" and view top of the data table:
 ```{r, eval=FALSE}
-x <- occurrences(taxon="Callitriche cophocarpa",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+x <- occurrences(taxon="Callitriche cophocarpa")
 head(x$data)
 table(x$data$dataResourceName)
 table(x$data$dataResourceID)
@@ -109,9 +109,7 @@ table(x$data$dataResourceID)
 
 Similarly, we could search by common name
 ```{r, eval=FALSE }
-x <- occurrences(taxon="sommarlånke",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10, 
+x <- occurrences(taxon="sommarlånke", 
                  verbose = FALSE)
 head(x$data)
 table(x$data$dataResourceName)
@@ -124,10 +122,8 @@ You can also search for a set of species simultaneously (only scientific names s
 taxa <- c("Callitriche", "Anarrhinum")
 fq_str <- paste0("raw_name:&quot;", taxa, "&quot;")
 # fq_str <- paste0(fq_str, collapse = " OR ")
-xbatch <- occurrences(fq=fq_str, 
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10, 
-                 verbose = FALSE)
+xbatch <- occurrences(fq = fq_str,
+                      verbose = FALSE)
 table(xbatch$data$dataResourceName)
 table(xbatch$data$dataResourceID)
 table(xbatch$data$basisOfRecord)
@@ -181,9 +177,7 @@ For example, let's filter observations with coordinate uncertainty smaller than 
 
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq="coordinate_uncertainty:[0 TO 100]",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+                 fq="coordinate_uncertainty:[0 TO 100]")
 
 range(xf$data$coordinateUncertaintyInMetres)
 ```  
@@ -191,24 +185,18 @@ One could search for observations in specific years:
 ```{r, message=FALSE}
 # year = 2019
 x2019 <- occurrences(taxon="Callitriche cophocarpa", 
-                     fq="year:2019",
-                     email="sbdi4r-test@biodiversitydata.se", 
-                     download_reason_id=10)
+                     fq="year:2019")
 nrow(x2019$data)
 
 x2yr <- occurrences(taxon="Callitriche cophocarpa", 
-                    fq=c("year:2018 OR year:2019"),
-                    email="sbdi4r-test@biodiversitydata.se", 
-                    download_reason_id=10)
+                    fq=c("year:2018 OR year:2019"))
 nrow(x2yr$data)
 ```  
 
 In the same way, one could search for observations *between* two years:
 ```{r, message=FALSE, fig.width=8, fig.height=6}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq="year:[2010 TO 2020]",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+                 fq="year:[2010 TO 2020]")
 
 hist(xf$data$year, xlab = "Year", main = "")
 ``` 
@@ -216,9 +204,7 @@ hist(xf$data$year, xlab = "Year", main = "")
 Likewise, search conditions can be accumulated and will be treated as AND conditions:  
 ```{r, message=FALSE, fig.width=8, fig.height=6}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq=c("year:[2010 TO 2020]", "month:[06 TO 08]"),
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+                 fq=c("year:[2010 TO 2020]", "month:[06 TO 08]"))
 
 hist(xf$data$year, xlab = "Year", main = "")
 ```  
@@ -227,9 +213,7 @@ or, occurrences could be filtered by the basis of record (that is how was the ob
 
 ```{r, message=FALSE}
 xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq="basis_of_record:HumanObservation",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+                 fq="basis_of_record:HumanObservation")
 
 unique(xf$data$basisOfRecord)
 ```
@@ -239,8 +223,6 @@ Data quality assertions are a suite of fields that are the result of a set of te
 ```{r, message=FALSE}
 x <- occurrences(taxon="Callitriche cophocarpa",
                  fq = "data_resource_uid:dr5",
-                 email="sbdi4r-test@biodiversitydata.se",
-                 download_reason_id=10, 
                  verbose = FALSE)
 summary(x)
 ```  
@@ -249,7 +231,7 @@ You can see a list of all record issues using `sbdi_fields("assertions")` and se
 
 ```{r assertions}
 assert <- sbdi_fields("assertions")
-assertFatal <- assert[assert$isFatal==TRUE,"name"]
+assertFatal <- assert[assert$isFatal == TRUE,"name"]
 wAssertInX <- assertFatal %in% colnames(x$data)
 colSums(x$data[,assertFatal[wAssertInX]])
 ```  
