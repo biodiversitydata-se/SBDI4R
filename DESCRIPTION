@@ -44,7 +44,6 @@ Imports:
 Suggests: 
     ALA4R (>= 1.8.0),
     ape,
-    BIRDS,
     covr,
     data.table,
     dplyr,
