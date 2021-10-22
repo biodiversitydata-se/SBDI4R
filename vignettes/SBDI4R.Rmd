@@ -751,6 +751,7 @@ in further analysis.
 In the following examples you will learn to aggregate statistics over space and time. 
   
 ```{r BIRDSspatial, message=FALSE, warning=FALSE}
+remotes::install_github("Greensway/BIRDS")
 library(BIRDS)
 x <- occurrences(taxon="Callitriche cophocarpa",
                   fq = "data_resource_uid:dr2",
