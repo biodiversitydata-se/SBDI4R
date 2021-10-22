@@ -23,18 +23,12 @@ expected_property_names <- sort(c("creator","dataResourceUid","dateTaken","dateU
                                "sizeInBytes","success","tileUrlPattern","tileZoomLevels",
                                "title","width"))
 
-thischeck <- function() {
-  test_that("image retrieval throws an error when no image id is provided", {
+test_that("image retrieval throws an error when no image id is provided", {
     skip_on_cran()
     expect_error(images(download=TRUE))
     expect_error(images())
     
   })
-}
-
-
-check_caching(thischeck)
-
 
 ### TODO need real id to download
 # thischeck <- function() {
@@ -80,8 +74,7 @@ check_caching(thischeck)
 # }
 # check_caching(thischeck)
 
-thischeck <- function() {    
-    test_that("image_info works with un-matched records", {
+test_that("image_info works with un-matched records", {
         skip_on_cran()
         skip("problematic")
         mixed_image_info <- images(c("eeadbb65-5509-4e55-9b3d-bd9bfb99f76c","this-is-an-invalid-image-id","39836d30-0761-473d-bac2-9ed9494fd37e","this-is-also-an-invalid-image-id"))
@@ -92,33 +85,21 @@ thischeck <- function() {
         # expect_equal(sort(names(unmatched_image_info)),c("imageIdentifier","imageURL"))
         expect_equal(sort(names(unmatched_image_info)), expected_property_names)
     })
-}
-check_caching(thischeck)
 
-
-thischeck <- function() {
-    test_that("image_info handles embedded html in property value td block", {    
+test_that("image_info handles embedded html in property value td block", {    
         skip_on_cran()
       skip("problematic")
         expect_equal(sort(names(images("eeadbb65-5509-4e55-9b3d-bd9bfb99f76c"))), expected_property_names)
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("image_info gives error if id missing", {
+test_that("image_info gives error if id missing", {
       skip_on_cran()
         expect_error(images())
     })
-}
-check_caching(thischeck)
 
-thischeck  <-  function() {
-  test_that("images arguments in SBDI4R package match arguments in ALA4R package", {
+test_that("images arguments in SBDI4R package match arguments in ALA4R package", {
     skip_on_cran()
     skip("problematic")
      expect_named(formals(images),
                   names(formals(ALA4R::images)), ignore.order = TRUE)
     })
-}
-check_caching(thischeck)

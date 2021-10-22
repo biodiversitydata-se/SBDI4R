@@ -2,8 +2,7 @@ context("Test occurrence_details function")
 
 is_empty_list=function(z) is.list(z) && length(z)<1
 
-thischeck=function(){
-    test_that("empty list returned for null inputs", {
+test_that("empty list returned for null inputs", {
         skip_on_cran()
         ## null (empty string) input
         empty_result=occurrence_details("")
@@ -16,11 +15,8 @@ thischeck=function(){
         expect_false(is_empty_list(mixed_result[[1]]))
         expect_true(is_empty_list(mixed_result[[2]]))
     })
-}
-check_caching(thischeck)
 
-thischeck=function() {
-    test_that("occurrence_details result has the expected fields", {
+test_that("occurrence_details result has the expected fields", {
         skip_on_cran()
         ## names are a bit changeable, but expect to see at least "processed", "raw", "userAssertions", "systemAssertions", "consensus"
         # core_names=c("processed","raw","userAssertions","systemAssertions","consensus")
@@ -33,14 +29,9 @@ thischeck=function() {
         ## this one has images, so also images in the names
         expect_true(all(c("images",core_names) %in% names(occurrence_details("53f1691f-1db8-4555-9461-704a351dd207")[[1]])))
     })
-}
-check_caching(thischeck)
 
-thischeck = function() {
-  test_that("occurrence_details arguments in SBDI4R package match arguments in ALA4R package", {
+test_that("occurrence_details arguments in SBDI4R package match arguments in ALA4R package", {
     expect_named(formals(occurrence_details), 
                  names(formals(ALA4R::occurrence_details)),
                  ignore.order = TRUE)
   })
-}
-check_caching(thischeck)

@@ -1,7 +1,7 @@
 context("Test searching functions")
 
-thischeck=function() {
-    test_that("search_fulltext generally functions as expected", {
+
+test_that("search_fulltext generally functions as expected", {
         skip_on_cran()
         expect_that(search_fulltext("Vulpes vulpes"),
                     has_names(c("meta","data")))
@@ -18,11 +18,8 @@ thischeck=function() {
         expect_output(print(search_fulltext("Vulpes vulpes",output_format="complete")),
                       "nameFormatted") ## expect extra cols here
     })
-}
-check_caching(thischeck)
 
-thischeck=function() {
-    test_that("search_fulltext start parm works as expected", {
+test_that("search_fulltext start parm works as expected", {
         skip_on_cran()
         x1=search_fulltext("red",page_size=10)
         x2=search_fulltext("red",page_size=10,start=2)
@@ -34,12 +31,8 @@ thischeck=function() {
         rownames(x2)=""
         expect_equal(x1,x2)
     })
-}
-check_caching(thischeck)
 
-
-thischeck=function() {
-    test_that("search_fulltext sort_by parm works as expected", {
+test_that("search_fulltext sort_by parm works as expected", {
         skip_on_cran()
         expect_error(search_fulltext("red", page_size=10, sort_by="blurg"))
         ## sort by scientific name
@@ -56,13 +49,8 @@ thischeck=function() {
         # temp <- temp[grepl("^[A-Z]",temp)]
         # expect_equal(order(temp,decreasing = TRUE), length(temp):1)
     })
-}
-check_caching(thischeck)
 
-## not tested yet: S3method(print,search_fulltext)
-
-thischeck=function() {
-    test_that("search_layers generally works as expected", {
+test_that("search_layers generally works as expected", {
         skip_on_cran()
         expect_that(search_layers(type="all"),is_a('data.frame'))
         expect_that(search_layers(type="all",
@@ -78,54 +66,36 @@ thischeck=function() {
         skip("SBDI only has one type of layer 'Contextual' - but currently no warning if 'grids' type used")
         expect_warning(search_layers(type="grids"))
     })
-}
-check_caching(thischeck)
 
-## not tested yet: S3method(print,search_layers)
-
-thischeck=function() {
-    test_that("search_names can cope with factor inputs", {
+test_that("search_names can cope with factor inputs", {
         skip_on_cran()
         expect_equal(search_names(factor("Grevillea humilis")),
                      search_names("Grevillea humilis"))
     })
-}
-check_caching(thischeck)
 
-thischeck=function() {
-    test_that("search_names can cope with all-unrecogized names", {
+test_that("search_names can cope with all-unrecogized names", {
         skip_on_cran()
         expect_equal(nrow(search_names("fljkhdlsi")),1)
         expect_equal(nrow(search_names(c("fljkhdlsi","sdkhfowbiu"))),2)
         expect_true(all(is.na(search_names(c("fljkhdlsi","sdkhfowbiu"))$guid)))
     })
-}
-check_caching(thischeck)
 
-thischeck=function() {
-    test_that("unexpected case-related behaviour in search_names has not changed", {
+test_that("unexpected case-related behaviour in search_names has not changed", {
         skip_on_cran()
         expect_equal(search_names("Leuctra digitata")$name, "Leuctra digitata Kempny, 1899")
         expect_equal(search_names("Leuctra Digitata")$name, "Leuctra digitata Kempny, 1899")
         expect_equal(search_names("Leuctra digitat")$name, as.character(NA))
         expect_equal(search_names("Leuctra Digitat")$name, as.character(NA))
     })
-}
-check_caching(thischeck)
-    
-thischeck=function() {
-    test_that("nonbreaking spaces not present in names", {
+
+test_that("nonbreaking spaces not present in names", {
         skip_on_cran()
         expect_false(any(colSums(apply(search_fulltext("Gallirallus australis")$data,
                                        2,function(z)grepl("\ua0",z)))>0))
         expect_false(grepl("\ua0",search_names("Gallirallus australis")$name))
     })
-}
-check_caching(thischeck)
 
-
-thischeck=function() {
-    test_that("search_names returns occurrence counts when asked", {
+test_that("search_names returns occurrence counts when asked", {
         skip_on_cran()
         expect_false(is.na(search_names("Leuctra",occurrence_count=TRUE)$occurrenceCount))
         expect_equal(is.na(search_names(c("Leuctra geniculata","isdulfsadh"),occurrence_count=TRUE)$occurrenceCount),c(FALSE,TRUE))
@@ -141,17 +111,12 @@ thischeck=function() {
         expect_false(is.list(search_names(c("Leuctra geniculata","Grevillea"),occurrence_count=TRUE)$occurrenceCount))
         expect_false(is.list(search_names(c("Leutra"),occurrence_count=TRUE)$occurrenceCount))
     })
-}
-check_caching(thischeck)
 
-thischeck = function() {
-  test_that("search arguments in SBDI4R package match arguments in ALA4R package", {
+test_that("search arguments in SBDI4R package match arguments in ALA4R package", {
     expect_named(formals(search_names),names(formals(ALA4R::search_names)),ignore.order = TRUE)
     expect_named(formals(search_fulltext),names(formals(ALA4R::search_fulltext)),ignore.order = TRUE)
     expect_named(formals(search_layers),names(formals(ALA4R::search_layers)),ignore.order = TRUE)
   })
-}
-check_caching(thischeck)
 
 ## not tested yet: S3method(print,search_names)
           

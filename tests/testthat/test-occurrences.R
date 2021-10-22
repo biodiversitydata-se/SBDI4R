@@ -1,10 +1,10 @@
 context("Test occurrence-related functions")
 
 ## sbdi_reasons
-thischeck <- function() {
-    test_that("sbdi_reasons works as expected", {
+
+test_that("sbdi_reasons works as expected", {
         skip_on_cran()
-      skip("wont work on test but works directly on console")
+        skip("wont work on test but works directly on console")
         expect_named(sbdi_reasons(), c("rkey","name","id"))
         expect_equal(nrow(sbdi_reasons()),12)
         expect_equal(sort(sbdi_reasons()$id),c(0:8,10:12))
@@ -13,11 +13,8 @@ thischeck <- function() {
         expect_equal(SBDI4R:::convert_reason("testing"),tmp$id[tmp$name=="testing"])
         expect_error(SBDI4R:::convert_reason("bilbobaggins"))
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences summary works when no qa are present", {
+test_that("occurrences summary works when no qa are present", {
         skip_on_cran()
         skip("works on console")
         occ <- occurrences(taxon="Leuctra digitata", 
@@ -30,11 +27,8 @@ thischeck <- function() {
         }
         
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences summary gives something sensible", {
+test_that("occurrences summary gives something sensible", {
         skip_on_cran()
         skip("wont work on test but works directly on console")
         occ <- occurrences(taxon="Leuctra digitata",
@@ -49,11 +43,8 @@ thischeck <- function() {
         expect_true(all(c("scientificName","longitude","latitude",
                           "verbatimEventDate","month","year") %in% names(occ$data)))
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences retrieves the fields specified", {
+test_that("occurrences retrieves the fields specified", {
       skip("wont work on test but works directly on console")  
       skip_on_cran()
         expect_equal(sort(names(occurrences(taxon="Leuctra digitata",
@@ -68,12 +59,8 @@ thischeck <- function() {
                                  download_reason_id=10,
                                  email = "sbdi4r-test@biodiversitydata.se"))
     })
-}
-check_caching(thischeck)
 
-
-thischeck <- function() {
-    test_that("occurrences unique does something sensible", {
+test_that("occurrences unique does something sensible", {
       skip("wont work on test but works directly on console")
       skip_on_cran()
         x <- occurrences(taxon="Leuctra digitata",
@@ -88,11 +75,8 @@ thischeck <- function() {
         xu <- unique(x, spatial=0, temporal="yearmonth")
         expect_lt(nrow(xu$data),nrow(x$data))
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences subset does something sensible", {
+test_that("occurrences subset does something sensible", {
         skip_on_cran()
         x <- occurrences(taxon="Otis tarda",
                          download_reason_id=10,
@@ -103,11 +87,8 @@ thischeck <- function() {
         expect_is(xs$data,"data.frame")
         expect_lt(nrow(xs$data),nrow(x$data))
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences checks required inputs", {
+test_that("occurrences checks required inputs", {
         skip_on_cran()
         expect_error(occurrences(taxon="data_resource_uid:dr5",
                                  download_reason_id="testing",email=""))
@@ -117,22 +98,16 @@ thischeck <- function() {
                                  download_reason_id="testing",email=NULL))
         expect_error(occurrences(taxon="Leuctra digitata")) ## missing download_reason_id
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences warns for long URLs", {
+test_that("occurrences warns for long URLs", {
         skip_on_cran()
         expect_error(expect_warning(occurrences(taxon="data_resource_uid:dr5",
                                                 download_reason_id="testing",
                                                 email="sbdi4r-test@biodiversitydata.se",
                                                 fields="all"))) ## url string too long, 414 error and warning
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences gives same results for offline and indexed methods", {
+test_that("occurrences gives same results for offline and indexed methods", {
         skip_on_cran()
         skip("offline method not working on SBDI?")
         x1 <- occurrences(taxon="taxon_name:\"Leuctra digitata\"", #method="offline",
@@ -142,11 +117,8 @@ thischeck <- function() {
                           download_reason_id="testing")
         expect_identical(arrange(x1$data,id),arrange(x2$data,id))
     })
-}
-check_caching(thischeck)
 
-thischeck <- function() {
-    test_that("occurrences works with records_count_only", {
+test_that("occurrences works with records_count_only", {
         skip_on_cran()
         x1 <- occurrences(taxon="data_resource_uid:dr5",
                           email = "sbdi4r-test@biodiversitydata.se",
@@ -154,16 +126,10 @@ thischeck <- function() {
         expect_true(is.numeric(x1))
         expect_gt(x1,100)
     })
-}
-check_caching(thischeck)
 
-
-thischeck = function() {
-  test_that("occurrences arguments in SBDI4R package match arguments in ALA4R package", {
+test_that("occurrences arguments in SBDI4R package match arguments in ALA4R package", {
     # skip_on_cran()
     expect_named(formals(occurrences), 
                  names(formals(ALA4R::occurrences)), 
                  ignore.order = TRUE)
   })
-}
-check_caching(thischeck)

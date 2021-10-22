@@ -1,8 +1,8 @@
 context("Test taxonomic information functions")
 
 ## taxinfo_download
-thischeck=function() {
-    test_that("taxinfo_download generally works as expected", {
+
+test_that("taxinfo_download generally works as expected", {
         skip_on_cran()
         tx <- taxinfo_download("family_s:Baetidae", fields=c("guid","genus_s","scientificName","rank"))
         expect_equal(names(tx),c("guid","genusS","scientificName","rank"))
@@ -24,23 +24,15 @@ thischeck=function() {
                                "kingdom", "datasetName", "parentGuid", "acceptedConceptName", 
                                "acceptedConceptID")))
     })
-}
-check_caching(thischeck)
 
-thischeck=function() {
-    test_that("taxinfo_download fields thingies work", {
+test_that("taxinfo_download fields thingies work", {
         skip_on_cran()
         f <- sbdi_fields("general")
         t <- taxinfo_download("family_s:Baetidae",fields="all")
         expect_equal(ncol(t), nrow(f))
     })
-}
-check_caching(thischeck)
 
-thischeck = function() {
-  test_that("specieslist arguments in SBDI4R package match arguments in ALA4R package", {
+test_that("specieslist arguments in SBDI4R package match arguments in ALA4R package", {
     expect_named(formals(taxinfo_download),
                  names(formals(ALA4R::taxinfo_download)),ignore.order = TRUE)
   })
-}
-check_caching(thischeck)
