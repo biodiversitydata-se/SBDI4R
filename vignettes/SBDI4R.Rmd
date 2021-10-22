@@ -750,7 +750,7 @@ a set of species observation are fit-for-use and help take decisions upon its us
 in further analysis.  
 In the following examples you will learn to aggregate statistics over space and time. 
   
-```{r BIRDSspatial, message=FALSE, warning=FALSE}
+```{r BIRDSspatial, message=FALSE, warning=FALSE, eval=FALSE}
 remotes::install_github("Greensway/BIRDS")
 library(BIRDS)
 x <- occurrences(taxon="Callitriche cophocarpa",
@@ -774,7 +774,7 @@ OB <- organiseBirds(x$data[-wNAcoor,],
 SB <- summariseBirds(OB, grid = Sweden_Grid_25km_Wgs84)
 ```
 
-```{r plotBIRDSspatial, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
+```{r plotBIRDSspatial, message=FALSE, warning=FALSE, fig.width=8, fig.height=6, eval=FALSE}
 SBspatial <- SB$spatial
 maxC <- max(SBspatial$nObs, na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
@@ -821,7 +821,7 @@ write.csv(gridSummary, "Callitriche_grid_summary.csv")
 ```
   
 One could also think of aggregating the data temporally...  
-```{r BIRDStemporal, message=FALSE, warning=FALSE, fig.width=8, fig.height=6}
+```{r BIRDStemporal, message=FALSE, warning=FALSE, fig.width=8, fig.height=6, eval=FALSE}
 # But the function exportBIrds() offers planty of combinations
 yearlyXTS <- exportBirds(SB, 
                          dimension = "temporal", 
