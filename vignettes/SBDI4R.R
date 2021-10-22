@@ -8,32 +8,34 @@ opts_chunk$set(
 
 ## ---- message=FALSE-----------------------------------------------------------
 library(SBDI4R)
-sbdi_config(caching="off")
+sbdi_config(caching = "off")
+sbdi_config(email = "sbdi4r-test@biodiversitydata.se", 
+            download_reason_id = 10)
 # sbdi_config(cache_directory="Z:/mydir/sbdi-cache")
 
 ## ---- message=FALSE-----------------------------------------------------------
 to_install <- c("ape", "dplyr", "ggplot2", "jpeg", "leaflet","maps", "mapdata",
-                "maptools", "phytools", "sf", "rgeos", "tidyr", "vegan", 
-                "phytools", "BIRDS", "leaflet", "rgdal")
-to_install <- to_install[!sapply(to_install, requireNamespace, quietly=TRUE)]
-if(length(to_install)>0)
-    install.packages(to_install, repos="http://cran.us.r-project.org")
+                "maptools", "phytools", "sf",  "tidyr", "vegan") #, "rgdal", "rgeos",
+to_install <- to_install[!sapply(to_install, requireNamespace, quietly = TRUE)]
+if (length(to_install) > 0)
+    install.packages(to_install, repos = "http://cran.us.r-project.org")
 
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 sx <- search_fulltext("parus")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
 
 ## ---- message=FALSE-----------------------------------------------------------
-sx <- search_fulltext("parus", fq="family_s:Paridae")
+sx <- search_fulltext("parus", fq = "family_s:Paridae")
 sx$data[,c( "name","species", "speciesGuid", "rank")]
 
 ## ---- message=FALSE-----------------------------------------------------------
-sx <- search_fulltext("parus", fq="class_s:Aves", page_size=100)
+sx <- search_fulltext("parus", fq = "class_s:Aves", page_size=100)
 head(sx$data[,c( "name","species", "speciesGuid", "rank")])
 
 ## ---- message=FALSE-----------------------------------------------------------
 tx <- taxinfo_download("family_s:Paridae", 
-                       fields = c("guid", "genus_s", "specificEpithet_s", "scientificName",  "canonicalName_s", "rank"), 
+                       fields = c("guid", "genus_s", "specificEpithet_s", 
+                                  "scientificName",  "canonicalName_s", "rank"), 
                        verbose = FALSE)
 tx <- tx[tx$rank == "species" & tx$genusS != "",] ## restrict to species and not hybrids
 
@@ -44,21 +46,17 @@ tx$genusS <- as.factor(tx$genusS)
 tx$scientificName <- as.factor(tx$scientificName)
 tx$canonicalNameS <- as.factor(tx$canonicalNameS)
 ## create phylo object of canonical name nested within Genus
-ax <- as.phylo(~genusS/canonicalNameS, data=tx[1:50,])
-plotTree(ax, fsize=0.7, ftype="i") ## plot it
+ax <- as.phylo(~genusS/canonicalNameS, data = tx[1:50,])
+plotTree(ax, fsize = 0.7, ftype="i") ## plot it
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  x <- occurrences(taxon="Callitriche cophocarpa",
-#                   email="sbdi4r-test@biodiversitydata.se",
-#                   download_reason_id=10)
+#  x <- occurrences(taxon = "Callitriche cophocarpa")
 #  head(x$data)
 #  table(x$data$dataResourceName)
 #  table(x$data$dataResourceID)
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  x <- occurrences(taxon="sommarlånke",
-#                   email="sbdi4r-test@biodiversitydata.se",
-#                   download_reason_id=10,
+#  x <- occurrences(taxon = "sommarlånke",
 #                   verbose = FALSE)
 #  head(x$data)
 #  table(x$data$dataResourceName)
@@ -68,19 +66,16 @@ plotTree(ax, fsize=0.7, ftype="i") ## plot it
 taxa <- c("Callitriche", "Anarrhinum")
 fq_str <- paste0("raw_name:&quot;", taxa, "&quot;")
 # fq_str <- paste0(fq_str, collapse = " OR ")
-xbatch <- occurrences(fq=fq_str, 
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10, 
-                 verbose = FALSE)
+xbatch <- occurrences(fq = fq_str,
+                      verbose = FALSE)
 table(xbatch$data$dataResourceName)
 table(xbatch$data$dataResourceID)
 table(xbatch$data$basisOfRecord)
 
 ## ---- message=FALSE-----------------------------------------------------------
-xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq = "data_resource_uid:dr5",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10, verbose = FALSE)
+xf <- occurrences(taxon = "Callitriche cophocarpa", 
+                  fq = "data_resource_uid:dr2",
+                  verbose = FALSE)
 table(xf$data$dataResourceName)
 table(xf$data$dataResourceID)
 
@@ -88,85 +83,67 @@ table(xf$data$dataResourceID)
 #  fq_str <- pick_filter("resource")
 #  ## follow the instructions
 #  
-#  xf <- occurrences(taxon="Callitriche cophocarpa",
-#                   fq = fq_str,
-#                   email="sbdi4r-test@biodiversitydata.se",
-#                   download_reason_id=10)
+#  xf <- occurrences(taxon = "Callitriche cophocarpa",
+#                    fq = fq_str)
 
 ## ---- eval= FALSE-------------------------------------------------------------
 #  # fq_str <- pick_filter("layer")
 #  # Follow the instructions, but here we just use the county Uppsala
 #  fq_str <- "cl10097:Uppsala"
 #  
-#  xf <- occurrences(taxon="Callitriche cophocarpa",
-#                   fq = fq_str,
-#                   email="sbdi4r-test@biodiversitydata.se",
-#                   download_reason_id=10)
+#  xf <- occurrences(taxon = "Callitriche cophocarpa",
+#                    fq = fq_str)
 
 ## ---- message=FALSE-----------------------------------------------------------
-xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq="coordinate_uncertainty:[0 TO 100]",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+xf <- occurrences(taxon = "Callitriche cophocarpa", 
+                  fq = "coordinate_uncertainty:[0 TO 100]")
 
 range(xf$data$coordinateUncertaintyInMetres)
 
 ## ---- message=FALSE-----------------------------------------------------------
 # year = 2019
-x2019 <- occurrences(taxon="Callitriche cophocarpa", 
-                     fq="year:2019",
-                     email="sbdi4r-test@biodiversitydata.se", 
-                     download_reason_id=10)
-nrow(x2019$data)
+x2011 <- occurrences(taxon = "Callitriche cophocarpa", 
+                     fq = "year:2011")
+nrow(x2011$data)
 
-x2yr <- occurrences(taxon="Callitriche cophocarpa", 
-                    fq=c("year:2018 OR year:2019"),
-                    email="sbdi4r-test@biodiversitydata.se", 
-                    download_reason_id=10)
+x2yr <- occurrences(taxon = "Callitriche cophocarpa", 
+                    fq = c("year:2011 OR year:2014"))
 nrow(x2yr$data)
 
 ## ---- message=FALSE, fig.width=8, fig.height=6--------------------------------
-xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq="year:[2010 TO 2020]",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+xf <- occurrences(taxon = "Callitriche cophocarpa", 
+                  fq = "year:[2010 TO 2020]")
 
 hist(xf$data$year, xlab = "Year", main = "")
 
 ## ---- message=FALSE, fig.width=8, fig.height=6--------------------------------
-xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq=c("year:[2010 TO 2020]", "month:[06 TO 08]"),
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+xf <- occurrences(taxon = "Callitriche cophocarpa", 
+                 fq = c("year:[2010 TO 2020]", "month:[06 TO 08]"))
 
 hist(xf$data$year, xlab = "Year", main = "")
 
 ## ---- message=FALSE-----------------------------------------------------------
-xf <- occurrences(taxon="Callitriche cophocarpa", 
-                 fq="basis_of_record:HumanObservation",
-                 email="sbdi4r-test@biodiversitydata.se", 
-                 download_reason_id=10)
+xf <- occurrences(taxon = "Callitriche cophocarpa", 
+                  fq = "basis_of_record:PreservedSpecimen")
 
 unique(xf$data$basisOfRecord)
 
 ## ---- message=FALSE-----------------------------------------------------------
-x <- occurrences(taxon="Callitriche cophocarpa",
-                 fq = "data_resource_uid:dr5",
-                 email="sbdi4r-test@biodiversitydata.se",
-                 download_reason_id=10, 
+x <- occurrences(taxon = "Callitriche cophocarpa",
+                 fq = "data_resource_uid:dr2",
                  verbose = FALSE)
 summary(x)
 
 ## ----assertions---------------------------------------------------------------
 assert <- sbdi_fields("assertions")
-assertFatal <- assert[assert$isFatal==TRUE,"name"]
+assertFatal <- assert[assert$isFatal == TRUE,"name"]
 wAssertInX <- assertFatal %in% colnames(x$data)
 colSums(x$data[,assertFatal[wAssertInX]])
 
 ## ---- eval=FALSE--------------------------------------------------------------
-#  occurrences_plot(x, "obsPlot.pdf", qa="error",
-#                    grouped=FALSE, taxon_level="species",
-#                    pch='+')
+#  occurrences_plot(x, "obsPlot.pdf", qa = "error",
+#                   grouped = FALSE, taxon_level = "species",
+#                   pch = '+')
 
 ## ---- message=FALSE, fig.width=9, fig.height=9--------------------------------
 library(leaflet)
@@ -193,12 +170,12 @@ if(length(these_assertions)>0){
 }
 
 ## blank map, with imagery background
-m <- leaflet() %>% 
-  addProviderTiles("Esri.WorldImagery") %>% 
+m <- leaflet() |>  
+  addProviderTiles("Esri.WorldImagery") |>  
   ## add markers
   addCircleMarkers(x$data$longitude, x$data$latitude,  
-                   radius = 2, fillOpacity =.5, opacity = 1,
-                   col=marker_colour, popup=popup_link) %>% 
+                   radius = 2, fillOpacity = .5, opacity = 1,
+                   col = marker_colour, popup = popup_link) |> 
   addLegend(colors = pal, opacity = 1, labels = these_assertions)
 m
 
@@ -208,8 +185,8 @@ m
 #  
 #  # simplyfy data frame
 #  calli <- data.frame(Callitriche$scientificName,
-#                     Callitriche$latitude,
-#                     Callitriche$longitude)
+#                      Callitriche$latitude,
+#                      Callitriche$longitude)
 #  # simplify column names
 #  colnames(calli) <- c("species","latitude","longitude")
 #  # remove rows with missing values (NAs)
@@ -220,10 +197,8 @@ m
 
 ## ---- message=FALSE, warning=FALSE--------------------------------------------
 
-x <- occurrences(taxon="Callitriche cophocarpa",
-                 fq = "data_resource_uid:dr5",
-                 email="sbdi4r-test@biodiversitydata.se",
-                 download_reason_id=10, 
+x <- occurrences(taxon = "Callitriche cophocarpa",
+                 fq = "data_resource_uid:dr2", 
                  verbose = FALSE)
 
 library(sf)
@@ -239,8 +214,9 @@ grid <- st_transform(grid, crs = st_crs(3006))
 # make the observations spatial
 # NOTE: make sure there are no NAs on either column defining the coordinates 
 # see example 2 for cleaning your dataset.
+wNAcoor <- which(is.na(x$data$latitude))
 
-obs <- st_as_sf(x = x$data, 
+obs <- st_as_sf(x = x$data[-wNAcoor,], 
                 coords = c("longitude","latitude"))
 st_crs(obs) <- st_crs(4326)
 obs <- st_transform(obs, crs = st_crs(grid))
@@ -251,15 +227,15 @@ nObs <- nrow(obs)
 listGrid <- st_intersects(grid, obs)
 
 ObsInGridList <- list()
-for(i in seq(length(listGrid))){
-  if(length(listGrid[[i]]) == 0){
+for (i in seq(length(listGrid))) {
+  if (length(listGrid[[i]]) == 0) {
     ObsInGridList[[i]] <- NA
   } else {
     ObsInGridList[[i]] <- st_drop_geometry(obs[listGrid[[i]],])
   }
 }
 wNonEmpty <- which( unlist(lapply(ObsInGridList, function(x) !all(is.na(x)))) )
-if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
+if (length(wNonEmpty) == 0) message("Observations don't overlap any grid cell.")
 
 ## check nObs
 sum(unlist(lapply(ObsInGridList, nrow))) == nObs
@@ -299,12 +275,12 @@ palBW <- leaflet::colorNumeric(palette = c("white", "navyblue"),
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(1,1,0,0))
-plot(resSf$geometry, col=palBW(resSf$nObs), border = NA)
-plot(swe$Border, border=1, lwd=1, add=T)
+plot(resSf$geometry, col = palBW(resSf$nObs), border = NA)
+plot(swe$Border, border = 1, lwd = 1, add = T)
 legend("bottomleft", 
        legend = round(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
        col = palBW(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
-       title = "Number of \nobservations", pch = 15, bty="n")
+       title = "Number of \nobservations", pch = 15, bty = "n")
 suppressWarnings(par(oldpar))
 
 ## ---- message=FALSE, warning=FALSE--------------------------------------------
@@ -315,15 +291,15 @@ obs <- st_transform(obs, crs = st_crs(counties))
 listGrid <- st_intersects(counties, obs)
 
 ObsInCountyList <- list()
-for(i in seq(length(listGrid))){
-  if(length(listGrid[[i]]) == 0){
+for (i in seq(length(listGrid))) {
+  if (length(listGrid[[i]]) == 0) {
     ObsInCountyList[[i]] <- NA
   } else {
     ObsInCountyList[[i]] <- st_drop_geometry(obs[listGrid[[i]],])
   }
 }
 wNonEmpty <- which( unlist(lapply(ObsInCountyList, function(x) !all(is.na(x)))) )
-if(length(wNonEmpty)==0) message("Observations don't overlap any grid cell.")
+if (length(wNonEmpty) == 0) message("Observations don't overlap any grid cell.")
 
 ## check nObs
 sum(unlist(lapply(ObsInCountyList, nrow))) == nObs # some observations are not in the counties territory
@@ -361,14 +337,14 @@ palBW <- leaflet::colorNumeric(c("white", "navyblue"),
                                na.color = "transparent")
 oldpar <- par()
 par(mar = c(1,1,0,0))
-plot(resSf$geometry, col=palBW(resSf$nObs), border = NA)
-plot(swe_wgs84$Border, border=1, lwd=1, add=T)
+plot(resSf$geometry, col = palBW(resSf$nObs), border = NA)
+plot(swe_wgs84$Border, border = 1, lwd = 1, add = T)
 text(st_coordinates(st_centroid(counties)), 
-    labels = as.character(counties$LnNamn), font = 2, cex=.5 )
+    labels = as.character(counties$LnNamn), font = 2, cex = .5 )
 legend("bottomleft", 
        legend = round(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
        col = palBW(seq(0, max(resSf$nObs, na.rm = TRUE), length.out = 5)),
-       title = "Number of \nobservations", pch = 15, bty="n")
+       title = "Number of \nobservations", pch = 15, bty = "n")
 suppressWarnings(par(oldpar))
 
 ## ---- warning=FALSE, fig.width=8, fig.height=6--------------------------------
@@ -379,8 +355,8 @@ countiesLab <- as.character(counties$LnNamn)
 ## territory.
 obs$overId <- NA 
 
-for(c in 1:length(ObsInCountyList)){
-  if(nrow(ObsInCountyList[[c]]) > 0){
+for (c in 1:length(ObsInCountyList)) {
+  if (nrow(ObsInCountyList[[c]]) > 0) {
     idsC <- ObsInCountyList[[c]]$id
     wObs <- match(idsC, obs$id)
     obs$overId[wObs] <- rep(countiesLab[c], length(wObs))
@@ -389,9 +365,9 @@ for(c in 1:length(ObsInCountyList)){
 
 oldpar <- par()
 par(mar = c(1,1,0,0))
-plot(counties$geometry, border=1, lwd=1)
+plot(counties$geometry, border = 1, lwd = 1)
 plot(obs$geometry[which(is.na(obs$overId))], 
-     pch=19, cex=.5, col="red", add=T)
+     pch = 19, cex = .5, col = "red", add = T)
 suppressWarnings(par(oldpar))
 
 ## ---- eval=FALSE--------------------------------------------------------------
@@ -400,7 +376,7 @@ suppressWarnings(par(oldpar))
 ## -----------------------------------------------------------------------------
 shape <- swe$Municipalities
 ## extract just the Municipality of Örebro
-shape <- shape[shape$KnNamn=="Örebro", ]
+shape <- shape[shape$KnNamn == "Örebro", ]
 
 ## ---- eval=FALSE--------------------------------------------------------------
 #  library(rgeos)
@@ -409,17 +385,18 @@ shape <- shape[shape$KnNamn=="Örebro", ]
 ## ---- warning=FALSE-----------------------------------------------------------
 shape <- st_transform(shape,
                       crs = st_crs(4326))
-lonlat <- st_coordinates(shape)[,c("X", "Y")] ## extract the polygon coordinates
+shape <- st_union(shape)
 
 ## extract the convex hull of the polygon to reduce the length of the WKT string
-chullXY <- chull(lonlat)
-## reorder
-lonlat <- lonlat[c(chullXY, chullXY[1]), ]
-## create WKT string
-## first join each lon-lat coordinate pair
-chullCollapse <- apply(lonlat, 1, function(z) paste(round(z,4), collapse=" "))
-## now build the WKT string
-wkt <- paste("MULTIPOLYGON(((", paste(chullCollapse, collapse=","), ")))", sep="")
+shape_ch <- st_convex_hull(shape)
+
+# cast it as MULTIPOLYGON as this is what SBDIs API need
+# NOTE: as of today, the SBDI APIs will only work properly if the polygon is 
+# submitted as a MULTIPOLYGON
+shape_ch <- st_cast(shape_ch, to = "MULTIPOLYGON")
+
+# create WKT string
+wkt <- st_as_text(shape_ch)
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  species_list(wkt=wkt, fq="rank:species") %>%
@@ -563,18 +540,16 @@ suppressWarnings(par(oldpar))
 
 ## ----Datahandling, message=FALSE, fig.width=8, fig.height=6-------------------
 x <- occurrences(taxon="Callitriche cophocarpa",
-                  fq = "data_resource_uid:dr5",
-                  email="sbdi4r-test@biodiversitydata.se",
-                  download_reason_id=10, 
+                  fq = "data_resource_uid:dr2",
                   verbose = FALSE)
 #keep spatially unique data at 0.01 degrees (latitude and longitude)
-ll001 <- unique(x, spatial=0.01)
+ll001 <- unique(x, spatial = 0.01)
 
 # #keep only information for which fatal or "error" assertions do not exist
 nofat <- subset(x, remove.fatal = TRUE)
 
 #keep only observations with a maximum spatial uncertainty of 50m
-SpatCert <- subset(x, max.spatial.uncertainty=50)
+SpatCert <- subset(x, max.spatial.uncertainty = 50)
 
 # quickly get some more info about the data:
 # no. observations (records)
@@ -584,7 +559,7 @@ nrow(x$data)
 freq_year <- table(x$data$year)
 
 # no. obs across years:
-plot(freq_year, bty="n", ylab="Frequency")
+plot(freq_year, bty = "n", ylab="Frequency")
 # or
 hist(x$data$year, 20, main = "", xlab = "Year")
 
@@ -595,13 +570,18 @@ table(x10yr$year)
 ## ----BIRDSspatial, message=FALSE, warning=FALSE-------------------------------
 library(BIRDS)
 x <- occurrences(taxon="Callitriche cophocarpa",
-                  fq = "data_resource_uid:dr5",
-                  email="sbdi4r-test@biodiversitydata.se",
-                  download_reason_id=10, 
+                  fq = "data_resource_uid:dr2",
                   verbose = FALSE)
+wNAcoor <- which(is.na(x$data$latitude))
+x$data <- x$data[-wNAcoor,]
+
+### fill in NAs
+x$data <- x$data[-which(is.na(x$data$year)),]
+x$data$month <- ifelse(is.na(x$data$month), 1, x$data$month)
+x$data$day <- ifelse(is.na(x$data$day), 1, x$data$day)
 
 ## Define the visit
-OB <- organiseBirds(x$data, 
+OB <- organiseBirds(x$data[-wNAcoor,], 
                     sppCol = "scientificName", 
                     idCols = c("locality"), 
                     timeCols = c("year", "month","day"),
@@ -631,35 +611,24 @@ yearlySf <- exportBirds(SB,
                         variable = "nObs", 
                         method = "sum")
 
-maxC <- max(yearlySf$'2005', na.rm = TRUE)
+maxC <- max(st_drop_geometry(yearlySf), na.rm = TRUE)
 palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
                                c(0, maxC), 
                                na.color = "transparent")
 
-plot(yearlySf$geometry, col=palBW(yearlySf$'2005'), 
-     border = "grey", main="2005")
+plot(yearlySf$geometry, col = palBW(yearlySf$'1987'), 
+     border = "grey", main = "1987")
 legend("topleft", inset = c(0,0.05),
        legend = round(seq(0, maxC, length.out = 5)),
        col = palBW(seq(0, maxC, length.out = 5)),
-       border = "grey",
-       title = "Number of \nobservations", pch = 15, bty="n")
+       title = "Number of \nobservations", pch = 15, bty = "n")
 
-maxC <- max(yearlySf$'2020', na.rm = TRUE)
-palBW <- leaflet::colorNumeric(c("white", "navyblue"), 
-                               c(0, maxC), 
-                               na.color = "transparent")
-
-plot(yearlySf$geometry, col=palBW(yearlySf$'2020'), 
-     border = "grey",main="2020")
-legend("topleft", inset = c(0,0.05),
-       legend = round(seq(0, maxC, length.out = 5)),
-       col = palBW(seq(0, maxC, length.out = 5)),
-       border = "grey",
-       title = "Number of \nobservations", pch = 15, bty="n")
+plot(yearlySf$geometry, col = palBW(yearlySf$'2017'), 
+     border = "grey", main = "2017")
 suppressWarnings(par(oldpar))
 
 ## ----BIRDSsave, message=FALSE, warning=FALSE, eval=FALSE----------------------
-#  gridSummary <- SB$spatial@data
+#  gridSummary <- st_drop_geometry(SB$spatial)
 #  write.csv(gridSummary, "Callitriche_grid_summary.csv")
 #  
 

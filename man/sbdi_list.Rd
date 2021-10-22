@@ -34,5 +34,5 @@ he similarly-named but different function \code{\link{species_list}} provides a 
 \url{https://lists.biodiversitydata.se} and the associated web services at \url{https://lists.biodiversitydata.se/ws}
 }
 \seealso{
-\code{\link{specieslist}} \code{\link{sbdi_lists}}
+\code{\link{sbdi_lists}}
 }

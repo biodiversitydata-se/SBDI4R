@@ -138,13 +138,13 @@ intersect_points <- function(pnts, layers, SPdata.frame = FALSE,
     out <- data.frame(latitude=pnts[1], longitude=pnts[2], tt, stringsAsFactors=FALSE) # define the output the same as the bulk output
   }
   
-  ##deal with SpatialPointsDataFrame
+  ## deal with SpatialPointsDataFrame
   if (SPdata.frame) { #if output is requested as a SpatialPointsDataFrame
     ## coerce to SpatialPointsDataFrame class
     if (nrow(out)>0) {
       out <- sp::SpatialPointsDataFrame(coords=out[, c("longitude", "latitude")], 
-                                    proj4string=sp::CRS(st_crs(4326)$wkt), 
-                                    data=out)
+                                        proj4string=sp::CRS(st_crs(4326)$wkt), 
+                                        data=out)
     }
   }
   

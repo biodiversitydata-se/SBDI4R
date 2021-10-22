@@ -10,7 +10,7 @@
 #'
 #' @return data.frame
 #'
-#' @seealso \code{\link{specieslist}} \code{\link{sbdi_lists}}
+#' @seealso \code{\link{sbdi_lists}}
 #'
 #' @examples
 #' \dontrun{

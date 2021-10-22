@@ -34,6 +34,7 @@ Imports:
     plyr,
     plotly,
     qpdf,
+    remotes,
     RCurl,
     rgdal,
     sf,
@@ -61,3 +62,4 @@ Suggests:
     tidyr,
     vegan
 VignetteBuilder: knitr
+RoxygenNote: 7.1.2
