@@ -35,8 +35,7 @@ test_that("caching messages change as expected ", {
     expect_output(species_info("Diatoma tenuis",verbose=TRUE),"Using cached file")
 })
 
-thischeck <- function() {
-    test_that("check_fq extracts field names correctly", {
+test_that("check_fq extracts field names correctly", {
         skip_on_cran()
         expect_equal(SBDI4R:::extract_fq_fieldnames("occurrence_year:[2000-01-01T00:00:00Z TO 2020-01-01T23:59:59Z]"),
                      c("occurrence_year"))
@@ -56,13 +55,9 @@ thischeck <- function() {
         expect_equal(SBDI4R:::extract_fq_fieldnames(" notafield:something "),"notafield")
         expect_warning(SBDI4R:::check_fq(" notafield:something ","occurrence"))
     })
-}
-check_caching(thischeck)
-
 ## not tested yet: sbdi_config
 
-thischeck = function() {
-  test_that("arguments in SBDI4R package match arguments in ALA4R package", {
+test_that("arguments in SBDI4R package match arguments in ALA4R package", {
     expect_named(formals(SBDI4R:::build_url_from_parts),
                  names(formals(ALA4R:::build_url_from_parts)),ignore.order = TRUE)
     expect_named(formals(SBDI4R:::check_fq),
@@ -72,6 +67,3 @@ thischeck = function() {
     expect_named(formals(sbdi_cache_filename),
                  names(formals(ALA4R::ala_cache_filename)),ignore.order = TRUE)
   })
-}
-check_caching(thischeck)
-

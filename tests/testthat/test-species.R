@@ -2,8 +2,7 @@ context("Test species information functions")
 
 ## Not tested yet: species_by_site
 
-thischeck=function() {
-    test_that("species_info generally works as expected", {
+test_that("species_info generally works as expected", {
         skip_on_cran()
         expect_is(species_info("Diatoma tenuis"),"list")
         expect_error(species_info("Diatoma tenuis",verbose="yes"))
@@ -35,12 +34,8 @@ thischeck=function() {
                      "Hübner, 1819") 
         
     })
-}
-check_caching(thischeck)
 
-
-thischeck=function() {
-    test_that("species_info gives resolvable guids for known species", {
+test_that("species_info gives resolvable guids for known species", {
         skip_on_cran()
         
         rsp <- httr::GET(paste0("https://species.biodiversitydata.se/species/", 
@@ -50,13 +45,7 @@ thischeck=function() {
         rsp <- httr::GET("https://species.biodiversitydata.se/species/tombombadil")
         expect_equal(rsp$status_code,404)
     })
-}
-check_caching(thischeck)
 
-thischeck = function() {
-  test_that("species_info arguments in SBDI4R package match arguments in ALA4R package", {
+test_that("species_info arguments in SBDI4R package match arguments in ALA4R package", {
     expect_named(formals(species_info),names(formals(ALA4R::species_info)),ignore.order = TRUE)
   })
-}
-check_caching(thischeck)
-
