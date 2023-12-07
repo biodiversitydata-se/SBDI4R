@@ -36,9 +36,7 @@ Imports:
     qpdf,
     remotes,
     RCurl,
-    rgdal,
     sf,
-    sp,
     stringr (>= 1.0.0),
     wellknown
 Suggests: 
@@ -56,7 +54,6 @@ Suggests:
     maptools,
     phytools,
     rmarkdown,
-    rgeos,
     testthat,
     tidyr,
     vegan

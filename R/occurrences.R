@@ -132,6 +132,16 @@ occurrences <- function(taxon, wkt, fq, fields, extra, qa,
                         use_layer_names = TRUE, 
                         use_data_table = TRUE) {
   
+  # atlas_occurrences <- function(request = NULL,
+  #                               identify = NULL,
+  #                               filter = NULL,
+  #                               geolocate = NULL,
+  #                               data_profile = NULL,
+  #                               select = NULL,
+  #                               mint_doi = FALSE,
+  #                               doi = NULL,
+  #                               file = NULL
+  
   assert_that(is.flag(record_count_only))
   
   # if (missing(email) || !is.notempty.string(email)) {
