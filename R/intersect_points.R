@@ -9,7 +9,7 @@
 #' NOTE: batch requests (multiple points) are currently processed in a *single queue* on the SBDI servers. Processing times may be slow if there are many requests in the queue. Note also that the actual processing of batch requests is inherently slow: a large number of points may take quite some time. Be warned.
 #' @param pnts numeric: vector of latitude/longitude pairs, or a 2 column data.frame or matrix of lat,lons. NOTE: the number of locations must be less than 1000.
 #' @param layers string vector: ids of layers to be intersected. The list of possible layers is available from \code{sbdi_fields("layers")}. Names can be passed as full layer names (e.g. "Radiation - lowest period (Bio22)") rather than id ("el871"). Note: if more than one location has been provided in \code{pnts}, the number of layers must be less than 700. 
-#' @param SPdata.frame logical: should the output should be returned as a SpatialPointsDataFrame of the sp package or simply as a data.frame?
+#' @param SPdata.frame [deprecated] logical: should the output should be returned as a SpatialPointsDataFrame of the sp package or simply as a data.frame?
 #' @param use_layer_names logical: if TRUE, layer names will be used as column names in the returned data frame (e.g. "radiationLowestPeriodBio22"). Otherwise, layer id value will be used for column names (e.g. "el871")
 #' @param verbose logical: show additional progress information? [default is set by \code{\link{sbdi_config}}]
 #' @importFrom sf st_crs
@@ -35,7 +35,7 @@
 ## version does not seem to suffer 414s, even with 300 layers.
 
 #' @export
-intersect_points <- function(pnts, layers, SPdata.frame = FALSE, 
+intersect_points <- function(pnts, layers, #SPdata.frame = FALSE, 
                              use_layer_names = TRUE,
                              verbose = sbdi_config()$verbose) {
   
@@ -138,15 +138,15 @@ intersect_points <- function(pnts, layers, SPdata.frame = FALSE,
     out <- data.frame(latitude=pnts[1], longitude=pnts[2], tt, stringsAsFactors=FALSE) # define the output the same as the bulk output
   }
   
-  ## deal with SpatialPointsDataFrame
-  if (SPdata.frame) { #if output is requested as a SpatialPointsDataFrame
-    ## coerce to SpatialPointsDataFrame class
-    if (nrow(out)>0) {
-      out <- sp::SpatialPointsDataFrame(coords=out[, c("longitude", "latitude")], 
-                                        proj4string=sp::CRS(st_crs(4326)$wkt), 
-                                        data=out)
-    }
-  }
+  # ## deal with SpatialPointsDataFrame
+  # if (SPdata.frame) { #if output is requested as a SpatialPointsDataFrame
+  #   ## coerce to SpatialPointsDataFrame class
+  #   if (nrow(out)>0) {
+  #     out <- sp::SpatialPointsDataFrame(coords=out[, c("longitude", "latitude")], 
+  #                                       proj4string  = sf::st_crs(4326)), 
+  #                                       data=out)
+  #   }
+  # }
   
   ##final formatting before return
   if (use_layer_names) {
