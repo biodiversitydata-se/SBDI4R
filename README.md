@@ -7,6 +7,8 @@ experimental](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https:/
 [![R-CMD-check](https://github.com/biodiversitydata-se/SBDI4R/workflows/R-CMD-check/badge.svg)](https://github.com/biodiversitydata-se/SBDI4R/actions)
 
 
+## `SBDI4R` is deprecated; we suggest you use either `sbdi4r2` (soon available) or `galah` instead. Both packages provide an improved interface to ALA data, while providing the same core functionality as `SBDI4R`. For an introduction to galah, visit the [GitHub page](https://github.com/AtlasOfLivingAustralia/galah).
+
 ### R functionality for the SBDI data portal
 
 The Swedish Biodiversity Data Infrastructure (SBDI) provides tools to
